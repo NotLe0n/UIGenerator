@@ -72,7 +72,7 @@ namespace UIGenerator.UI
 
         private void ResetState()
         {
-            MousePosition = new Vector2(Main.mouseX, Main.mouseY);
+            MousePosition = new Vector2(Main.mouse.X, Main.mouse.Y);
             _wasMouseDown = Main.mouseLeft;
             _wasMouseRightDown = Main.mouseRight;
             _wasMouseMiddleDown = Main.mouseMiddle;
@@ -99,9 +99,9 @@ namespace UIGenerator.UI
                 return;
             }
 
-            MousePosition = new Vector2(Main.mouseX, Main.mouseY);
-            bool mouseLeftDown = Main.mouseLeft && Main.hasFocus;
-            bool mouseRightDown = Main.mouseRight && Main.hasFocus;
+            MousePosition = new Vector2(Main.mouse.X, Main.mouse.Y);
+            bool mouseLeftDown = Main.LeftHeld && Main.hasFocus;
+            bool mouseRightDown = Main.RightHeld && Main.hasFocus;
             bool mouseMiddleDown = Main.mouseMiddle && Main.hasFocus;
             bool mouseXButton1Down = Main.mouseXButton1 && Main.hasFocus;
             bool mouseXButton2Down = Main.mouseXButton2 && Main.hasFocus;

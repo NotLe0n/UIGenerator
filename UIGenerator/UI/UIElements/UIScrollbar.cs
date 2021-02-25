@@ -24,8 +24,8 @@ namespace UIGenerator.UI
         {
             Width.Set(20f, 0f);
             MaxWidth.Set(20f, 0f);
-            _texture = Main.instance.Content.Load<Texture2D>("Images/UI/Scrollbar");
-            _innerTexture = Main.instance.Content.Load<Texture2D>("Images/UI/ScrollbarInner");
+            _texture = Main.instance.Content.Load<Texture2D>("Scrollbar");
+            _innerTexture = Main.instance.Content.Load<Texture2D>("ScrollbarInner");
             PaddingTop = 5f;
             PaddingBottom = 5f;
         }

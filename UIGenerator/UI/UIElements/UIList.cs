@@ -7,6 +7,12 @@ namespace UIGenerator.UI
 {
     public class UIList : UIElement
     {
+        public List<UIElement> _items = new List<UIElement>();
+        protected UIScrollbar _scrollbar;
+        internal UIElement _innerList = new UIInnerList();
+        private float _innerListHeight;
+        public float ListPadding = 5f;
+        public delegate bool ElementSearchMethod(UIElement element);
         public int Count => _items.Count;
 
         public UIList()
@@ -149,13 +155,6 @@ namespace UIGenerator.UI
             }
             Recalculate();
         }
-
-        public List<UIElement> _items = new List<UIElement>();
-        protected UIScrollbar _scrollbar;
-        internal UIElement _innerList = new UIInnerList();
-        private float _innerListHeight;
-        public float ListPadding = 5f;
-        public delegate bool ElementSearchMethod(UIElement element);
 
         private class UIInnerList : UIElement
         {

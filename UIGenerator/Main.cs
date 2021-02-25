@@ -54,8 +54,6 @@ namespace UIGenerator
         public static bool mouseMiddle;
         public static bool mouseXButton1;
         public static bool mouseXButton2;
-        public static float mouseX;
-        public static float mouseY;
         public static bool hasFocus;
         /// <summary>
         /// How much the mouse has moved since the last frame
@@ -63,6 +61,7 @@ namespace UIGenerator
         public static bool mouseMoved;
 
         public static UserInterface MainUI = new UserInterface();
+        public static UserInterface Sidebar = new UserInterface();
 
         public Main()
         {
@@ -87,6 +86,7 @@ namespace UIGenerator
               * Matrix.CreateScale(GameScale);
 
             MainUI.SetState(new MainUIState());
+            Sidebar.SetState(new SidebarUIState());
         }
 
         public static FontSystem fontSystem;
@@ -139,17 +139,18 @@ namespace UIGenerator
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: GameScreenMatrix);
 
             spriteBatch.Draw(MagicPixel, ViewPort.Bounds, new Color(88, 88, 88));
-            UserInterface.ActiveInstance.Draw(spriteBatch, gameTime);
+            MainUI.Draw(spriteBatch, gameTime);
 
             spriteBatch.End();
 
-            UserInterface.ActiveInstance.Recalculate();
+            MainUI.Recalculate();
 
             Rectangle SidebarArea = new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
             UIScaleMatrix = Matrix.CreateScale(UIScale);
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: UIScaleMatrix);
 
             spriteBatch.Draw(MagicPixel, SidebarArea, sexyGray);
+            Sidebar.Draw(spriteBatch, gameTime);
 
             spriteBatch.End();
 
@@ -168,9 +169,6 @@ namespace UIGenerator
             keyboard = Keyboard.GetState();
 
             mouseMoved = mouse.Position != lastmouse.Position;
-            mouseX = mouse.X;
-            mouseX = mouse.Y;
-
             scrollwheel = (lastmouse.ScrollWheelValue - mouse.ScrollWheelValue) / 8000f;
 
             LeftHeld = mouse.LeftButton == ButtonState.Pressed;
