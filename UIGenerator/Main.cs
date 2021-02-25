@@ -81,6 +81,11 @@ namespace UIGenerator
         protected override void Initialize()
         {
             base.Initialize();
+
+            GameScreenMatrix = Matrix.Identity
+              * Matrix.CreateTranslation(1920 / 2, 1080 / 4, 0)
+              * Matrix.CreateScale(GameScale);
+
             MainUI.SetState(new MainUIState());
         }
 
@@ -90,7 +95,7 @@ namespace UIGenerator
             spriteBatch = new SpriteBatch(GraphicsDevice);
             MagicPixel = Content.Load<Texture2D>("solid");
 
-            fontSystem = FontSystemFactory.Create(GraphicsDevice, 1024, 1024);
+            fontSystem = FontSystemFactory.Create(GraphicsDevice);
             fontSystem.AddFont(File.ReadAllBytes(CurrentDirectory + @"/Fonts/Andy Bold.ttf"));
 
             fontMouseText = fontSystem.GetFont(20);
@@ -110,11 +115,14 @@ namespace UIGenerator
             // Update Mouse variables
             UpdateInput();
 
-            GameScreenMatrix = Matrix.CreateScale(GameScale);
-            GameScreenMatrix.Translation = new Vector3(ViewPort.Width / 3, ViewPort.Height / 4, 0);
             if (scrollwheel != 0)
             {
                 GameScale -= scrollwheel;
+                GameScreenMatrix = Matrix.Identity
+                  * Matrix.CreateTranslation(ViewPort.Width / 3, ViewPort.Height / 4, 0)
+                  * Matrix.CreateTranslation(new Vector3(-mouse.X - ViewPort.Width / 3, -mouse.Y - ViewPort.Height / 4, 0))
+                  * Matrix.CreateScale(GameScale)
+                  * Matrix.CreateTranslation(new Vector3(ViewPort.Width / 2, ViewPort.Height / 2, 0));
             }
             GameScale = Math.Clamp(GameScale, 0.2f, 10);
 
@@ -128,14 +136,6 @@ namespace UIGenerator
         {
             GraphicsDevice.Clear(new Color(55, 55, 55));
 
-            Rectangle SidebarArea = new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
-            UIScaleMatrix = Matrix.CreateScale(UIScale);
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: UIScaleMatrix);
-
-            spriteBatch.Draw(MagicPixel, SidebarArea, sexyGray);
-
-            spriteBatch.End();
-
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: GameScreenMatrix);
 
             spriteBatch.Draw(MagicPixel, ViewPort.Bounds, new Color(88, 88, 88));
@@ -144,6 +144,14 @@ namespace UIGenerator
             spriteBatch.End();
 
             UserInterface.ActiveInstance.Recalculate();
+
+            Rectangle SidebarArea = new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
+            UIScaleMatrix = Matrix.CreateScale(UIScale);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: UIScaleMatrix);
+
+            spriteBatch.Draw(MagicPixel, SidebarArea, sexyGray);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
@@ -155,23 +163,30 @@ namespace UIGenerator
         {
             lastmouse = mouse;
             mouse = Mouse.GetState();
+
             lastKeyboard = keyboard;
             keyboard = Keyboard.GetState();
+
             mouseMoved = mouse.Position != lastmouse.Position;
+            mouseX = mouse.X;
+            mouseX = mouse.Y;
+
             scrollwheel = (lastmouse.ScrollWheelValue - mouse.ScrollWheelValue) / 8000f;
 
             LeftHeld = mouse.LeftButton == ButtonState.Pressed;
             RightHeld = mouse.RightButton == ButtonState.Pressed;
+
             LeftReleased = mouse.LeftButton == ButtonState.Released;
             RightReleased = mouse.RightButton == ButtonState.Released;
+
             mouseLeft = LeftReleased && lastmouse.LeftButton == ButtonState.Pressed;
             mouseRight = RightReleased && lastmouse.RightButton == ButtonState.Pressed;
             mouseMiddle = mouse.MiddleButton == ButtonState.Pressed;
+
             mouseXButton1 = mouse.XButton1 == ButtonState.Pressed;
             mouseXButton2 = mouse.XButton2 == ButtonState.Pressed;
+
             hasFocus = IsActive;
-            mouseX = mouse.X;
-            mouseX = mouse.Y;
         }
     }
 }
