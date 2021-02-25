@@ -7,14 +7,8 @@ namespace UIGenerator.UI
     {
         public float ViewPosition
         {
-            get
-            {
-                return _viewPosition;
-            }
-            set
-            {
-                _viewPosition = MathHelper.Clamp(value, 0f, _maxViewSize - _viewSize);
-            }
+            get => _viewPosition;
+            set => _viewPosition = MathHelper.Clamp(value, 0f, _maxViewSize - _viewSize);
         }
 
         private float _viewPosition;

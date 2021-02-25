@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FontStashSharp;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -11,11 +12,12 @@ namespace UIGenerator
     public class Main : Game
     {
         // Engine Stuff
-        public static Main instance { get; private set; }
+        public static Main instance;
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
-        public static Texture2D solid;
-        public static SpriteFont font;
+        public static Texture2D MagicPixel;
+        public static SpriteFontBase fontMouseText;
+        public static SpriteFontBase fontDeathText;
 
         public static Vector2 WindowPos => System.Windows.Forms.Control.FromHandle(instance.Window.Handle).Location.ToVector2();
         public static Viewport ViewPort => graphics.GraphicsDevice.Viewport;
@@ -78,15 +80,21 @@ namespace UIGenerator
 
         protected override void Initialize()
         {
-            MainUI.SetState(new MainUIState());
             base.Initialize();
+            MainUI.SetState(new MainUIState());
         }
 
+        public static FontSystem fontSystem;
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            solid = Content.Load<Texture2D>("solid");
-            font = Content.Load<SpriteFont>("font");
+            MagicPixel = Content.Load<Texture2D>("solid");
+
+            fontSystem = FontSystemFactory.Create(GraphicsDevice, 1024, 1024);
+            fontSystem.AddFont(File.ReadAllBytes(CurrentDirectory + @"/Fonts/Andy Bold.ttf"));
+
+            fontMouseText = fontSystem.GetFont(20);
+            fontDeathText = fontSystem.GetFont(40);
         }
 
         protected override void Update(GameTime gameTime)
@@ -102,6 +110,14 @@ namespace UIGenerator
             // Update Mouse variables
             UpdateInput();
 
+            GameScreenMatrix = Matrix.CreateScale(GameScale);
+            GameScreenMatrix.Translation = new Vector3(ViewPort.Width / 3, ViewPort.Height / 4, 0);
+            if (scrollwheel != 0)
+            {
+                GameScale -= scrollwheel;
+            }
+            GameScale = Math.Clamp(GameScale, 0.2f, 10);
+
             UserInterface.ActiveInstance.Update(gameTime);
 
             base.Update(gameTime);
@@ -116,15 +132,13 @@ namespace UIGenerator
             UIScaleMatrix = Matrix.CreateScale(UIScale);
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: UIScaleMatrix);
 
-            spriteBatch.Draw(solid, SidebarArea, sexyGray);
+            spriteBatch.Draw(MagicPixel, SidebarArea, sexyGray);
 
             spriteBatch.End();
 
-            GameScreenMatrix = Matrix.CreateScale(GameScale);
-            GameScreenMatrix.Translation = new Vector3(ViewPort.Width / 3, ViewPort.Height / 4, 0);
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: GameScreenMatrix);
 
-            spriteBatch.Draw(solid, ViewPort.Bounds, new Color(88, 88, 88));
+            spriteBatch.Draw(MagicPixel, ViewPort.Bounds, new Color(88, 88, 88));
             UserInterface.ActiveInstance.Draw(spriteBatch, gameTime);
 
             spriteBatch.End();
@@ -156,6 +170,8 @@ namespace UIGenerator
             mouseXButton1 = mouse.XButton1 == ButtonState.Pressed;
             mouseXButton2 = mouse.XButton2 == ButtonState.Pressed;
             hasFocus = IsActive;
+            mouseX = mouse.X;
+            mouseX = mouse.Y;
         }
     }
 }

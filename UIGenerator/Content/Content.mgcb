@@ -20,7 +20,7 @@
 /processorParam:TextureFormat=Compressed
 /build:font.spritefont
 
-#begin minecraft.png
+#begin LETSFUCKINGGOOOOO.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -30,7 +30,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:minecraft.png;test.png
+/build:LETSFUCKINGGOOOOO.png
 
 #begin PanelBackground.png
 /importer:TextureImporter

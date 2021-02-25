@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Linq;
 
 namespace UIGenerator
 {
@@ -47,22 +46,6 @@ namespace UIGenerator
     }
     static class Helper
     {
-        /// <summary>
-        /// Checks if a Clamp would occur
-        /// </summary>
-        /// <returns><b>true</b> if a clamp has occured</returns>
-        public static bool IsClamp(Vector2 value, Vector2 min, Vector2 max)
-        {
-            if (value.X < min.X || value.Y < min.Y)
-            {
-                return true;
-            }
-            if (value.X > max.X || value.Y > max.Y)
-            {
-                return true;
-            }
-            return false;
-        }
         public static bool CheckAABBvAABBCollision(Vector2 position1, Vector2 dimensions1, Vector2 position2, Vector2 dimensions2)
         {
             return position1.X < position2.X + dimensions2.X && position1.Y < position2.Y + dimensions2.Y && position1.X + dimensions1.X > position2.X && position1.Y + dimensions1.Y > position2.Y;
