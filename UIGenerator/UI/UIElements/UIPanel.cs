@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace UIGenerator.UI
+namespace UIGenerator.UI.UIElements
 {
     public class UIPanel : UIElement
     {

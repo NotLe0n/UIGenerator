@@ -1,8 +1,8 @@
+using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using FontStashSharp;
 
-namespace UIGenerator.UI
+namespace UIGenerator.UI.UIElements
 {
     public class UITextPanel<T> : UIPanel
     {

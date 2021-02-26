@@ -99,7 +99,7 @@ namespace UIGenerator.UI
                 return;
             }
 
-            MousePosition = new Vector2(Main.mouse.X, Main.mouse.Y);
+            MousePosition = Main.MouseOverSidebar ? new Vector2(Main.mouse.X, Main.mouse.Y) : Main.MouseWorld;
             bool mouseLeftDown = Main.LeftHeld && Main.hasFocus;
             bool mouseRightDown = Main.RightHeld && Main.hasFocus;
             bool mouseMiddleDown = Main.mouseMiddle && Main.hasFocus;

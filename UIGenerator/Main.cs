@@ -30,10 +30,12 @@ namespace UIGenerator
         public static float GameScale = 0.5f;
         public static Matrix GameScreenMatrix;
 
-        public static long globalTimer;
+        public static Rectangle SidebarArea => new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
+        public static bool MouseOverSidebar => SidebarArea.Contains(mouse.Position);
+
         public static bool UIActive = true;
 
-        // input stuff
+        #region input
         /// <summary>
         /// The mouse relative to the screen
         /// </summary>
@@ -59,6 +61,9 @@ namespace UIGenerator
         /// How much the mouse has moved since the last frame
         /// </summary>
         public static bool mouseMoved;
+        public static Vector2 mousedelta;
+        public static Vector2 MouseWorld => InvertTranslate(mouse.Position);
+        #endregion
 
         public static UserInterface MainUI = new UserInterface();
         public static UserInterface Sidebar = new UserInterface();
@@ -85,7 +90,7 @@ namespace UIGenerator
               * Matrix.CreateTranslation(1920 / 2, 1080 / 4, 0)
               * Matrix.CreateScale(GameScale);
 
-            MainUI.SetState(new MainUIState());
+            MainUI.SetState(new ScreenUIState());
             Sidebar.SetState(new SidebarUIState());
         }
 
@@ -107,26 +112,33 @@ namespace UIGenerator
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            globalTimer++;
-
             // Update deltaTime
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // Update Mouse variables
             UpdateInput();
 
-            if (scrollwheel != 0)
+            if (scrollwheel != 0 && !SidebarArea.Contains(mouse.Position))
             {
                 GameScale -= scrollwheel;
+ 
+                Vector2 pos = new Vector2(ViewPort.Width / 3, ViewPort.Height / 4);
                 GameScreenMatrix = Matrix.Identity
-                  * Matrix.CreateTranslation(ViewPort.Width / 3, ViewPort.Height / 4, 0)
-                  * Matrix.CreateTranslation(new Vector3(-mouse.X - ViewPort.Width / 3, -mouse.Y - ViewPort.Height / 4, 0))
+                  * Matrix.CreateTranslation(pos.X, pos.Y, 0)
+                  * Matrix.CreateTranslation(-new Vector3(mouse.Position.ToVector2() + pos / GameScale, 0))
                   * Matrix.CreateScale(GameScale)
                   * Matrix.CreateTranslation(new Vector3(ViewPort.Width / 2, ViewPort.Height / 2, 0));
             }
             GameScale = Math.Clamp(GameScale, 0.2f, 10);
 
-            UserInterface.ActiveInstance.Update(gameTime);
+            // Update Camera Position
+            if (mouse.MiddleButton == ButtonState.Pressed)
+            {
+                GameScreenMatrix.Translation -= new Vector3(mousedelta, 0);
+            }
+
+            Sidebar.Update(gameTime);
+            MainUI.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -143,9 +155,6 @@ namespace UIGenerator
 
             spriteBatch.End();
 
-            MainUI.Recalculate();
-
-            Rectangle SidebarArea = new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
             UIScaleMatrix = Matrix.CreateScale(UIScale);
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: UIScaleMatrix);
 
@@ -168,6 +177,7 @@ namespace UIGenerator
             lastKeyboard = keyboard;
             keyboard = Keyboard.GetState();
 
+            mousedelta = (lastmouse.Position - mouse.Position).ToVector2();
             mouseMoved = mouse.Position != lastmouse.Position;
             scrollwheel = (lastmouse.ScrollWheelValue - mouse.ScrollWheelValue) / 8000f;
 
@@ -185,6 +195,17 @@ namespace UIGenerator
             mouseXButton2 = mouse.XButton2 == ButtonState.Pressed;
 
             hasFocus = IsActive;
+        }
+
+        public static Vector2 InvertTranslate(Vector2 vector)
+        {
+            Matrix invMatrix = Matrix.Invert(GameScreenMatrix);
+            return Vector2.Transform(vector / GameScale, invMatrix);
+        }
+        public static Vector2 InvertTranslate(Point point)
+        {
+            Matrix invMatrix = Matrix.Invert(GameScreenMatrix);
+            return Vector2.Transform(point.ToVector2(), invMatrix);
         }
     }
 }

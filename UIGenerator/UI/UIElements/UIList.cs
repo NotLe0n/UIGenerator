@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace UIGenerator.UI
+namespace UIGenerator.UI.UIElements
 {
     public class UIList : UIElement
     {

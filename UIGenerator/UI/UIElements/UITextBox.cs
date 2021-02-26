@@ -1,16 +1,16 @@
+using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using FontStashSharp;
 
-namespace UIGenerator.UI
+namespace UIGenerator.UI.UIElements
 {
     public class UITextBox : UITextPanel<string>
     {
         public UITextBox(string text, float textScale = 1f, bool large = false) : base(text, textScale, large)
         {
         }
-        
+
         public void Write(string text)
         {
             SetText(Text.Insert(_cursor, text));

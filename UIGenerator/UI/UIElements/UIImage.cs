@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace UIGenerator.UI
+namespace UIGenerator.UI.UIElements
 {
-    // Token: 0x02000297 RID: 663
     public class UIImage : UIElement
     {
         private Texture2D _texture;

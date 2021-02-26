@@ -2,10 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using UIGenerator.UI.UIElements;
 
 namespace UIGenerator.UI
 {
-    // Token: 0x0200006B RID: 107
     public class UIElement : IComparable
     {
         public string Id = "";
@@ -199,13 +199,14 @@ namespace UIGenerator.UI
                 spriteBatch.GraphicsDevice.ScissorRectangle = scissorRectangle;
                 spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, anisotropicClamp, DepthStencilState.None, rasterizerState, null, Main.UIScaleMatrix);
             }
+            //spriteBatch.Draw(Main.MagicPixel, _dimensions.ToRectangle(), Color.Blue * 0.05f);
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            foreach (UIElement uielement in Elements)
+            foreach (UIElement element in Elements)
             {
-                uielement.Update(gameTime);
+                element.Update(gameTime);
             }
         }
 
@@ -247,48 +248,48 @@ namespace UIGenerator.UI
 
         public virtual void Recalculate()
         {
-            CalculatedStyle calculatedStyle = (Parent == null) ? UserInterface.ActiveInstance.GetDimensions() : Parent.GetInnerDimensions();
+            CalculatedStyle parent = (Parent == null) ? UserInterface.ActiveInstance.GetDimensions() : Parent.GetInnerDimensions();
 
             if (Parent != null && Parent is UIList)
             {
-                calculatedStyle.Height = float.MaxValue;
+                parent.Height = float.MaxValue;
             }
 
-            CalculatedStyle calculatedStyle2 = default;
+            CalculatedStyle style = default;
 
-            calculatedStyle2.X = Left.GetValue(calculatedStyle.Width) + calculatedStyle.X;
-            calculatedStyle2.Y = Top.GetValue(calculatedStyle.Height) + calculatedStyle.Y;
+            style.X = Left.GetValue(parent.Width) + parent.X;
+            style.Y = Top.GetValue(parent.Height) + parent.Y;
 
-            float value = MinWidth.GetValue(calculatedStyle.Width);
-            float value2 = MaxWidth.GetValue(calculatedStyle.Width);
-            float value3 = MinHeight.GetValue(calculatedStyle.Height);
-            float value4 = MaxHeight.GetValue(calculatedStyle.Height);
+            float minWidth = MinWidth.GetValue(parent.Width);
+            float maxWidth = MaxWidth.GetValue(parent.Width);
+            float minHeight = MinHeight.GetValue(parent.Height);
+            float maxHeight = MaxHeight.GetValue(parent.Height);
 
-            calculatedStyle2.Width = MathHelper.Clamp(Width.GetValue(calculatedStyle.Width), value, value2);
-            calculatedStyle2.Height = MathHelper.Clamp(Height.GetValue(calculatedStyle.Height), value3, value4);
+            style.Width = MathHelper.Clamp(Width.GetValue(parent.Width), minWidth, maxWidth);
+            style.Height = MathHelper.Clamp(Height.GetValue(parent.Height), minHeight, maxHeight);
 
-            calculatedStyle2.Width += MarginLeft + MarginRight;
-            calculatedStyle2.Height += MarginTop + MarginBottom;
+            style.Width += MarginLeft + MarginRight;
+            style.Height += MarginTop + MarginBottom;
 
-            calculatedStyle2.X += calculatedStyle.Width * HAlign - calculatedStyle2.Width * HAlign;
-            calculatedStyle2.Y += calculatedStyle.Height * VAlign - calculatedStyle2.Height * VAlign;
+            style.X += parent.Width * HAlign - style.Width * HAlign;
+            style.Y += parent.Height * VAlign - style.Height * VAlign;
 
-            _outerDimensions = calculatedStyle2;
+            _outerDimensions = style;
 
-            calculatedStyle2.X += MarginLeft;
-            calculatedStyle2.Y += MarginTop;
+            style.X += MarginLeft;
+            style.Y += MarginTop;
 
-            calculatedStyle2.Width -= MarginLeft + MarginRight;
-            calculatedStyle2.Height -= MarginTop + MarginBottom;
+            style.Width -= MarginLeft + MarginRight;
+            style.Height -= MarginTop + MarginBottom;
 
-            _dimensions = calculatedStyle2;
+            _dimensions = style;
 
-            calculatedStyle2.X += PaddingLeft;
-            calculatedStyle2.Y += PaddingTop;
+            style.X += PaddingLeft;
+            style.Y += PaddingTop;
 
-            calculatedStyle2.Width -= PaddingLeft + PaddingRight;
-            calculatedStyle2.Height -= PaddingTop + PaddingBottom;
-            _innerDimensions = calculatedStyle2;
+            style.Width -= PaddingLeft + PaddingRight;
+            style.Height -= PaddingTop + PaddingBottom;
+            _innerDimensions = style;
             RecalculateChildren();
         }
 
