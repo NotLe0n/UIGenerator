@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
@@ -99,7 +100,11 @@ namespace UIGenerator.UI
                 return;
             }
 
-            MousePosition = Main.MouseOverSidebar ? new Vector2(Main.mouse.X, Main.mouse.Y) : Main.MouseWorld;
+            MousePosition = new Vector2(Main.mouse.X, Main.mouse.Y);
+            if(this == Main.SceneUI)
+            {
+                MousePosition = Main.MouseWorld;
+            }
             bool mouseLeftDown = Main.LeftHeld && Main.hasFocus;
             bool mouseRightDown = Main.RightHeld && Main.hasFocus;
             bool mouseMiddleDown = Main.mouseMiddle && Main.hasFocus;
@@ -242,6 +247,7 @@ namespace UIGenerator.UI
             {
                 uIElement.ScrollWheel(new UIScrollWheelEvent(uIElement, MousePosition, Main.scrollwheel));
             }
+
             _wasMouseDown = mouseLeftDown;
             _wasMouseRightDown = mouseRightDown;
             _wasMouseMiddleDown = mouseMiddleDown;

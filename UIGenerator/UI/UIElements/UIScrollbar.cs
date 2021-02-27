@@ -65,15 +65,22 @@ namespace UIGenerator.UI.UIElements
         {
             CalculatedStyle dimensions = GetDimensions();
             CalculatedStyle innerDimensions = GetInnerDimensions();
+
             if (_isDragging)
             {
                 float num = UserInterface.ActiveInstance.MousePosition.Y - innerDimensions.Y - _dragYOffset;
                 _viewPosition = MathHelper.Clamp(num / innerDimensions.Height * _maxViewSize, 0f, _maxViewSize - _viewSize);
             }
+
             Rectangle handleRectangle = GetHandleRectangle();
             Vector2 mousePosition = UserInterface.ActiveInstance.MousePosition;
+
             _isHoveringOverHandle = handleRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y));
+
+            // Draw scrollbar
             DrawBar(spriteBatch, _texture, dimensions.ToRectangle(), Color.White);
+
+            // Draw handle
             DrawBar(spriteBatch, _innerTexture, handleRectangle, Color.White * ((_isDragging || _isHoveringOverHandle) ? 1f : 0.85f));
         }
 

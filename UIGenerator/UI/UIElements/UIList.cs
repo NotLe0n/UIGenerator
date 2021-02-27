@@ -90,7 +90,7 @@ namespace UIGenerator.UI.UIElements
             base.ScrollWheel(evt);
             if (_scrollbar != null)
             {
-                _scrollbar.ViewPosition -= evt.ScrollWheelValue * 1000;
+                _scrollbar.ViewPosition += evt.ScrollWheelValue * 1000;
             }
         }
 
@@ -124,7 +124,7 @@ namespace UIGenerator.UI.UIElements
 
         public void UpdateOrder()
         {
-            _items.Sort(new Comparison<UIElement>(SortMethod));
+            //_items.Sort(new Comparison<UIElement>(SortMethod));
             UpdateScrollbar();
         }
 

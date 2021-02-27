@@ -27,8 +27,8 @@ namespace UIGenerator
         public static string? MouseText;
         public static float UIScale = 1f;
         public static Matrix UIScaleMatrix;
-        public static float GameScale = 0.5f;
-        public static Matrix GameScreenMatrix;
+        public static float SceneScale = 0.5f;
+        public static Matrix SceneMatrix;
         public static Rectangle SidebarArea => new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
         public static bool MouseOverSidebar => SidebarArea.Contains(mouse.Position);
         public static bool MouseOverUI => SceneUI.CurrentState.Elements.Exists(x => x.IsMouseHovering) || SidebarUI.CurrentState.Elements.Exists(x => x.IsMouseHovering);
@@ -86,9 +86,9 @@ namespace UIGenerator
         {
             base.Initialize();
 
-            GameScreenMatrix = Matrix.Identity
+            SceneMatrix = Matrix.Identity
               * Matrix.CreateTranslation(1920 / 2, 1080 / 4, 0)
-              * Matrix.CreateScale(GameScale);
+              * Matrix.CreateScale(SceneScale);
 
             SceneUI.SetState(new ScreenUIState());
             SidebarUI.SetState(new AddElements());
@@ -121,30 +121,28 @@ namespace UIGenerator
             // Zooming and Moving the scene
             if (scrollwheel != 0 && !SidebarArea.Contains(mouse.Position))
             {
-                GameScale -= scrollwheel;
+                SceneScale -= scrollwheel;
  
                 Vector2 pos = new Vector2(ViewPort.Width / 3, ViewPort.Height / 4);
-                GameScreenMatrix = Matrix.Identity
+                SceneMatrix = Matrix.Identity
                   * Matrix.CreateTranslation(pos.X, pos.Y, 0)
-                  * Matrix.CreateTranslation(-new Vector3(mouse.Position.ToVector2() + pos / GameScale, 0))
-                  * Matrix.CreateScale(GameScale)
+                  * Matrix.CreateTranslation(-new Vector3(mouse.Position.ToVector2() + pos / SceneScale, 0))
+                  * Matrix.CreateScale(SceneScale)
                   * Matrix.CreateTranslation(new Vector3(ViewPort.Width / 2, ViewPort.Height / 2, 0));
             }
-            GameScale = Math.Clamp(GameScale, 0.2f, 10);
+            SceneScale = Math.Clamp(SceneScale, 0.2f, 10);
 
             // Update Camera Position
             if (mouse.MiddleButton == ButtonState.Pressed)
             {
-                GameScreenMatrix.Translation -= new Vector3(mousedelta, 0);
+                SceneMatrix.Translation -= new Vector3(mousedelta, 0);
             }
 
-            // hacky fix
-            if (MouseOverSidebar)
-                SidebarUI.Update(gameTime);
-
+            SidebarUI.Update(gameTime);
             SceneUI.Update(gameTime);
+
             // toggle selected Element
-            if (mouseLeft)
+            if (mouseLeft && !MouseOverSidebar)
             {
                 if (!MouseOverUI)
                 {
@@ -170,7 +168,7 @@ namespace UIGenerator
             GraphicsDevice.Clear(new Color(55, 55, 55));
 
             // Draw Scene
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: GameScreenMatrix);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: SceneMatrix);
 
             spriteBatch.Draw(MagicPixel, ViewPort.Bounds, new Color(88, 88, 88));
             SceneUI.Draw(spriteBatch, gameTime);
@@ -232,12 +230,12 @@ namespace UIGenerator
 
         public static Vector2 InvertTranslate(Vector2 vector)
         {
-            Matrix invMatrix = Matrix.Invert(GameScreenMatrix);
-            return Vector2.Transform(vector / GameScale, invMatrix);
+            Matrix invMatrix = Matrix.Invert(SceneMatrix);
+            return Vector2.Transform(vector / SceneScale, invMatrix);
         }
         public static Vector2 InvertTranslate(Point point)
         {
-            Matrix invMatrix = Matrix.Invert(GameScreenMatrix);
+            Matrix invMatrix = Matrix.Invert(SceneMatrix);
             return Vector2.Transform(point.ToVector2(), invMatrix);
         }
     }

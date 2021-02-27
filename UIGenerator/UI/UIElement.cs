@@ -50,8 +50,8 @@ namespace UIGenerator.UI
         private bool _isMouseHovering;
 
         public delegate void MouseEvent(UIMouseEvent evt, UIElement listeningElement);
-
         public delegate void ScrollWheelEvent(UIScrollWheelEvent evt, UIElement listeningElement);
+        public delegate void KeyboardEvent(TextInputEventArgs evt, UIElement listeningElement);
 
         public bool IsMouseHovering => _isMouseHovering;
 
@@ -79,6 +79,7 @@ namespace UIGenerator.UI
         public event MouseEvent OnXButton2Click;
         public event MouseEvent OnXButton2DoubleClick;
         public event ScrollWheelEvent OnScrollWheel;
+        public event Action<TextInputEventArgs, object> OnKeyTyped;
         #endregion
 
         // Token: 0x06000A2D RID: 2605 RVA: 0x003C02AC File Offset: 0x003BE4AC
@@ -92,6 +93,7 @@ namespace UIGenerator.UI
                     ScissorTestEnable = true
                 };
             }
+            Main.instance.Window.TextInput += KeyTyped;
         }
 
         public void SetSnapPoint(string name, int id, Vector2? anchor = null, Vector2? offset = null)
@@ -577,6 +579,15 @@ namespace UIGenerator.UI
             if (Parent != null)
             {
                 Parent.ScrollWheel(evt);
+            }
+        }
+
+        public virtual void KeyTyped(object sender, TextInputEventArgs args)
+        {
+            OnKeyTyped?.Invoke(args, sender);
+            if (Parent != null)
+            {
+                Parent.KeyTyped(sender, args);
             }
         }
         #endregion

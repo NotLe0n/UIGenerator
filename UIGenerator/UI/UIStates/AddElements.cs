@@ -20,7 +20,6 @@ namespace UIGenerator.UI.UIStates
             scrollbar.Top.Set(0, 0.1f);
             scrollbar.Width.Set(20, 0);
             scrollbar.Height.Set(0, 0.8f);
-
             list.SetScrollbar(scrollbar);
             Append(scrollbar);
 
@@ -57,10 +56,10 @@ namespace UIGenerator.UI.UIStates
             textBox.HAlign = 0.5f;
             textBox.OnClick += (evt, elm) =>
             {
-                var proto = new UITextBox("UITextBox", 1, true);
+                var proto = new UIInput("UITextBox", 1, true);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.CurrentState.Append(new ProtoElement<UITextBox>(proto));
+                Main.SceneUI.CurrentState.Append(new ProtoElement<UIInput>(proto));
             };
             textBox.OnMouseOver += (evt, elm) => Main.MouseText = "Create UITextBox element";
             textBox.OnMouseOut += (evt, elm) => Main.MouseText = null;
