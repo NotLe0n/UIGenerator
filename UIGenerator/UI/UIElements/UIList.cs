@@ -90,7 +90,7 @@ namespace UIGenerator.UI.UIElements
             base.ScrollWheel(evt);
             if (_scrollbar != null)
             {
-                _scrollbar.ViewPosition -= evt.ScrollWheelValue;
+                _scrollbar.ViewPosition -= evt.ScrollWheelValue * 1000;
             }
         }
 

@@ -3,7 +3,7 @@ using UIGenerator.UI.UIElements;
 
 namespace UIGenerator.UI.UIStates
 {
-    class SidebarUIState : UIState
+    class AddElements : UIState
     {
         public UIList list;
         public override void OnInitialize()
@@ -33,8 +33,10 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIPanel();
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.MainUI.CurrentState.Append(new ProtoElement<UIPanel>(proto));
+                Main.SceneUI.CurrentState.Append(new ProtoElement<UIPanel>(proto));
             };
+            panel.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIPanel element";
+            panel.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(panel);
 
             UIText text = new UIText("UIText", 1, true);
@@ -44,8 +46,10 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIText("UIText", 1, true);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.MainUI.CurrentState.Append(new ProtoElement<UIText>(proto));
+                Main.SceneUI.CurrentState.Append(new ProtoElement<UIText>(proto));
             };
+            text.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIText element";
+            text.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(text);
 
             UITextBox textBox = new UITextBox("UITextBox", 1, true);
@@ -56,8 +60,10 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UITextBox("UITextBox", 1, true);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.MainUI.CurrentState.Append(new ProtoElement<UITextBox>(proto));
+                Main.SceneUI.CurrentState.Append(new ProtoElement<UITextBox>(proto));
             };
+            textBox.OnMouseOver += (evt, elm) => Main.MouseText = "Create UITextBox element";
+            textBox.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(textBox);
 
             UITextPanel<string> textPanel = new UITextPanel<string>("UITextPanel", 1, true);
@@ -68,8 +74,10 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UITextPanel<string>("UITextPanel", 1, true);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.MainUI.CurrentState.Append(new ProtoElement<UITextPanel<string>>(proto));
+                Main.SceneUI.CurrentState.Append(new ProtoElement<UITextPanel<string>>(proto));
             };
+            textPanel.OnMouseOver += (evt, elm) => Main.MouseText = "Create UITextPanel element";
+            textPanel.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(textPanel);
 
             Texture2D lets = Main.instance.Content.Load<Texture2D>("LETSFUCKINGGOOOOO");
@@ -80,8 +88,10 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIImage(lets);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.MainUI.CurrentState.Append(new ProtoElement<UIImage>(proto));
+                Main.SceneUI.CurrentState.Append(new ProtoElement<UIImage>(proto));
             };
+            image.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIImage element";
+            image.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(image);
 
             UIImageButton imageBtn = new UIImageButton(lets);
@@ -91,8 +101,10 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIImageButton(lets);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.MainUI.CurrentState.Append(new ProtoElement<UIImageButton>(proto));
+                Main.SceneUI.CurrentState.Append(new ProtoElement<UIImageButton>(proto));
             };
+            imageBtn.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIImageButton element";
+            imageBtn.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(imageBtn);
 
             UIImageFramed imageFramed = new UIImageFramed(lets, new Microsoft.Xna.Framework.Rectangle(5, 20, 70, 70));
@@ -102,10 +114,12 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIImageFramed(lets, new Microsoft.Xna.Framework.Rectangle(5, 20, 70, 70));
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.MainUI.CurrentState.Append(new ProtoElement<UIImageFramed>(proto));
+                Main.SceneUI.CurrentState.Append(new ProtoElement<UIImageFramed>(proto));
             };
+            imageFramed.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIImageFramed element";
+            imageFramed.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(imageFramed);
-
+            
             base.OnInitialize();
         }
         public override void Recalculate()

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UIGenerator.UI.UIStates;
 
 namespace UIGenerator.UI.UIElements
 {
@@ -22,8 +23,14 @@ namespace UIGenerator.UI.UIElements
             Append(element);
         }
 
+        public override void Click(UIMouseEvent evt)
+        {
+            base.Click(evt);
+            Main.SelectedElement = element;
+        }
+
         private Vector2 offset;
-        public bool dragging;
+        private bool dragging;
         public override void MouseDown(UIMouseEvent evt)
         {
             base.MouseDown(evt);

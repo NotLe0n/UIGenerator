@@ -11,29 +11,30 @@ namespace UIGenerator
 {
     public class Main : Game
     {
-        // Engine Stuff
+        // Game Stuff
         public static Main instance;
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
         public static Texture2D MagicPixel;
         public static SpriteFontBase fontMouseText;
         public static SpriteFontBase fontDeathText;
-
         public static Vector2 WindowPos => System.Windows.Forms.Control.FromHandle(instance.Window.Handle).Location.ToVector2();
         public static Viewport ViewPort => graphics.GraphicsDevice.Viewport;
         public static float DeltaTime { get; private set; }
         public static string CurrentDirectory => Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-        public static string? MouseText;
 
+        // UI
+        public static string? MouseText;
         public static float UIScale = 1f;
         public static Matrix UIScaleMatrix;
         public static float GameScale = 0.5f;
         public static Matrix GameScreenMatrix;
-
         public static Rectangle SidebarArea => new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
         public static bool MouseOverSidebar => SidebarArea.Contains(mouse.Position);
-
+        public static bool MouseOverUI => SceneUI.CurrentState.Elements.Exists(x => x.IsMouseHovering) || SidebarUI.CurrentState.Elements.Exists(x => x.IsMouseHovering);
         public static bool UIActive = true;
+        public static UserInterface SceneUI = new UserInterface();
+        public static UserInterface SidebarUI = new UserInterface();
 
         #region input
         /// <summary>
@@ -65,8 +66,7 @@ namespace UIGenerator
         public static Vector2 MouseWorld => InvertTranslate(mouse.Position);
         #endregion
 
-        public static UserInterface MainUI = new UserInterface();
-        public static UserInterface Sidebar = new UserInterface();
+        public static UIElement? SelectedElement = null;
 
         public Main()
         {
@@ -90,8 +90,8 @@ namespace UIGenerator
               * Matrix.CreateTranslation(1920 / 2, 1080 / 4, 0)
               * Matrix.CreateScale(GameScale);
 
-            MainUI.SetState(new ScreenUIState());
-            Sidebar.SetState(new SidebarUIState());
+            SceneUI.SetState(new ScreenUIState());
+            SidebarUI.SetState(new AddElements());
         }
 
         public static FontSystem fontSystem;
@@ -118,6 +118,7 @@ namespace UIGenerator
             // Update Mouse variables
             UpdateInput();
 
+            // Zooming and Moving the scene
             if (scrollwheel != 0 && !SidebarArea.Contains(mouse.Position))
             {
                 GameScale -= scrollwheel;
@@ -137,8 +138,28 @@ namespace UIGenerator
                 GameScreenMatrix.Translation -= new Vector3(mousedelta, 0);
             }
 
-            Sidebar.Update(gameTime);
-            MainUI.Update(gameTime);
+            // hacky fix
+            if (MouseOverSidebar)
+                SidebarUI.Update(gameTime);
+
+            SceneUI.Update(gameTime);
+            // toggle selected Element
+            if (mouseLeft)
+            {
+                if (!MouseOverUI)
+                {
+                    SelectedElement = null;
+                }
+
+                if (SelectedElement == null)
+                {
+                    SidebarUI.SetState(new AddElements());
+                }
+                else
+                {
+                    SidebarUI.SetState(new SelectElement());
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -148,18 +169,30 @@ namespace UIGenerator
         {
             GraphicsDevice.Clear(new Color(55, 55, 55));
 
+            // Draw Scene
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: GameScreenMatrix);
 
             spriteBatch.Draw(MagicPixel, ViewPort.Bounds, new Color(88, 88, 88));
-            MainUI.Draw(spriteBatch, gameTime);
+            SceneUI.Draw(spriteBatch, gameTime);
 
             spriteBatch.End();
 
+            // Draw UI
             UIScaleMatrix = Matrix.CreateScale(UIScale);
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: UIScaleMatrix);
 
             spriteBatch.Draw(MagicPixel, SidebarArea, sexyGray);
-            Sidebar.Draw(spriteBatch, gameTime);
+            SidebarUI.Draw(spriteBatch, gameTime);
+
+            // Draw Mousetext
+            if (MouseText != null)
+            {
+                spriteBatch.DrawString(fontMouseText, MouseText, mouse.Position.ToVector2() + new Vector2(10), Color.White);
+            }
+            if (!MouseOverUI)
+            {
+                MouseText = null;
+            }
 
             spriteBatch.End();
 

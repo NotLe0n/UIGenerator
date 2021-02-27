@@ -10,7 +10,7 @@ namespace UIGenerator.UI
     {
         public string Id = "";
         public UIElement Parent;
-        protected List<UIElement> Elements = new List<UIElement>();
+        internal List<UIElement> Elements = new List<UIElement>();
 
         public StyleDimension Top;
         public StyleDimension Left;
