@@ -22,6 +22,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Background\" />
     <Folder Include="Fonts\" />
   </ItemGroup>
 </Project>

@@ -1,22 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace UIGenerator.UI.UIElements
 {
-    class UIInput : UITextBox
+    class UIInput<T> : UITextBox
     {
         private bool first = true;
         public bool Focused { get; set; }
         private string _previewText;
 
-        public UIInput(string text, float textScale = 1, bool large = false) : base(text, textScale, large)
+        public UIInput(string previewText, float textScale = 1, bool large = false) : base(previewText, textScale, large)
         {
-            _previewText = text;
+            _previewText = previewText;
         }
 
         public override void Click(UIMouseEvent evt)
@@ -49,7 +45,46 @@ namespace UIGenerator.UI.UIElements
                 }
                 else if (Text.Length < maxLength)
                 {
-                    Write(args.Character.ToString());
+                    if (typeof(T) == typeof(byte))
+                    {
+                        if (byte.TryParse(Text + args.Character.ToString(), out _)) {
+                            Write(args.Character.ToString());
+                        }
+                    }
+                    else if (typeof(T) == typeof(short))
+                    {
+                        if (short.TryParse(Text + args.Character.ToString(), out _)) {
+                            Write(args.Character.ToString());
+                        }
+                    }
+                    else if (typeof(T) == typeof(int))
+                    {
+                        if (int.TryParse(Text + args.Character.ToString(), out _)) {
+                            Write(args.Character.ToString());
+                        }
+                    }
+                    else if (typeof(T) == typeof(long))
+                    {
+                        if (long.TryParse(Text + args.Character.ToString(), out _)) {
+                            Write(args.Character.ToString());
+                        }
+                    }
+                    else if (typeof(T) == typeof(float))
+                    {
+                        if (float.TryParse(Text + args.Character.ToString(), out _)) {
+                            Write(args.Character.ToString());
+                        }
+                    }
+                    else if (typeof(T) == typeof(double))
+                    {
+                        if (float.TryParse(Text + args.Character.ToString(), out _)) {
+                            Write(args.Character.ToString());
+                        }
+                    }
+                    else
+                    {
+                        Write(args.Character.ToString());
+                    }
                 }
             }
             base.KeyTyped(sender, args);

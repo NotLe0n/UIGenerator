@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Reflection;
 using UIGenerator.UI.UIElements;
-using System.Reflection;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace UIGenerator.UI.UIStates
 {
@@ -41,7 +37,7 @@ namespace UIGenerator.UI.UIStates
                 fieldText.HAlign = 0.3f;
                 list.Add(fieldText);
 
-                var fieldInput = new UIInput(fields[i].GetValue(Main.SelectedElement).ToString());
+                var fieldInput = new UIInput<string>(fields[i].GetValue(Main.SelectedElement).ToString());
                 fieldInput.HAlign = 0.3f;
                 fieldInput.Width.Set(0, 0.5f);
                 //input.OnTextChange += (evt, elm) => fields[i].SetValue(Main.SelectedElement, value);
@@ -53,7 +49,7 @@ namespace UIGenerator.UI.UIStates
                 propertyText.HAlign = 0.3f;
                 list.Add(propertyText);
 
-                var propertyInput = new UIInput(properties[i].GetValue(Main.SelectedElement).ToString());
+                var propertyInput = new UIInput<string>(properties[i].GetValue(Main.SelectedElement).ToString());
                 propertyInput.HAlign = 0.3f;
                 propertyInput.Width.Set(0, 0.5f);
                 list.Add(propertyInput);

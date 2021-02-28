@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UIGenerator.UI;
 using UIGenerator.UI.UIStates;
@@ -16,6 +17,7 @@ namespace UIGenerator
         public static GraphicsDeviceManager graphics;
         public static SpriteBatch spriteBatch;
         public static Texture2D MagicPixel;
+        public static Texture2D toggle;
         public static SpriteFontBase fontMouseText;
         public static SpriteFontBase fontDeathText;
         public static Vector2 WindowPos => System.Windows.Forms.Control.FromHandle(instance.Window.Handle).Location.ToVector2();
@@ -35,6 +37,18 @@ namespace UIGenerator
         public static bool UIActive = true;
         public static UserInterface SceneUI = new UserInterface();
         public static UserInterface SidebarUI = new UserInterface();
+        public static UserInterface Options = new UserInterface();
+
+        public static Texture2D[] Backgrounds;
+        public static BackgroundID[] currentBackground = {
+            BackgroundID.Default,
+            BackgroundID.Hotbar,
+            BackgroundID.Minimap,
+            BackgroundID.Inventory,
+            BackgroundID.None,
+            BackgroundID.None,
+            BackgroundID.None
+        };
 
         #region input
         /// <summary>
@@ -68,6 +82,18 @@ namespace UIGenerator
 
         public static UIElement? SelectedElement = null;
 
+        public enum BackgroundID
+        {
+            None = 0,
+            Default = 1,
+            Hotbar = 2,
+            Minimap = 3,
+            Inventory = 4,
+            NPC = 5,
+            Angler = 6,
+            Shop = 7
+        }
+
         public Main()
         {
             instance = this;
@@ -90,8 +116,9 @@ namespace UIGenerator
               * Matrix.CreateTranslation(1920 / 2, 1080 / 4, 0)
               * Matrix.CreateScale(SceneScale);
 
-            SceneUI.SetState(new ScreenUIState());
+            SceneUI.SetState(new SceneUIState());
             SidebarUI.SetState(new AddElements());
+            Options.SetState(new Options());
         }
 
         public static FontSystem fontSystem;
@@ -99,12 +126,25 @@ namespace UIGenerator
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             MagicPixel = Content.Load<Texture2D>("solid");
+            toggle = Content.Load<Texture2D>("Settings_Toggle");
 
             fontSystem = FontSystemFactory.Create(GraphicsDevice);
             fontSystem.AddFont(File.ReadAllBytes(CurrentDirectory + @"/Fonts/Andy Bold.ttf"));
 
             fontMouseText = fontSystem.GetFont(20);
             fontDeathText = fontSystem.GetFont(40);
+
+            Backgrounds = new Texture2D[]
+            {
+                Content.Load<Texture2D>("Background/Idle"),
+                Content.Load<Texture2D>("Background/Hotbar"),
+                Content.Load<Texture2D>("Background/Minimap"),
+                Content.Load<Texture2D>("Background/InventoryMinimap"),
+                Content.Load<Texture2D>("Background/InventoryNoMinimap"),
+                Content.Load<Texture2D>("Background/NPC"),
+                Content.Load<Texture2D>("Background/Angler"),
+                Content.Load<Texture2D>("Background/Shop")
+            };
         }
 
         protected override void Update(GameTime gameTime)
@@ -122,7 +162,7 @@ namespace UIGenerator
             if (scrollwheel != 0 && !SidebarArea.Contains(mouse.Position))
             {
                 SceneScale -= scrollwheel;
- 
+
                 Vector2 pos = new Vector2(ViewPort.Width / 3, ViewPort.Height / 4);
                 SceneMatrix = Matrix.Identity
                   * Matrix.CreateTranslation(pos.X, pos.Y, 0)
@@ -140,6 +180,7 @@ namespace UIGenerator
 
             SidebarUI.Update(gameTime);
             SceneUI.Update(gameTime);
+            Options.Update(gameTime);
 
             // toggle selected Element
             if (mouseLeft && !MouseOverSidebar)
@@ -170,7 +211,44 @@ namespace UIGenerator
             // Draw Scene
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: SceneMatrix);
 
+            // Draw Background elements
             spriteBatch.Draw(MagicPixel, ViewPort.Bounds, new Color(88, 88, 88));
+            for (int i = 0; i < currentBackground.Length; i++)
+            {
+                switch (currentBackground[i])
+                {
+                    case BackgroundID.Default:
+                        spriteBatch.Draw(Backgrounds[0], ViewPort.Bounds, Color.White);
+                        break;
+                    case BackgroundID.Hotbar:
+                        spriteBatch.Draw(Backgrounds[1], ViewPort.Bounds, Color.White);
+                        break;
+                    case BackgroundID.Minimap:
+                        spriteBatch.Draw(Backgrounds[2], ViewPort.Bounds, Color.White);
+                        break;
+                    case BackgroundID.Inventory:
+                        if (currentBackground[2] == BackgroundID.Minimap)
+                        {
+                            spriteBatch.Draw(Backgrounds[3], ViewPort.Bounds, Color.White);
+                        }
+                        else
+                        {
+                            spriteBatch.Draw(Backgrounds[4], ViewPort.Bounds, Color.White);
+                        }
+                        break;
+                    case BackgroundID.NPC:
+                        spriteBatch.Draw(Backgrounds[5], ViewPort.Bounds, Color.White);
+                        break;
+                    case BackgroundID.Angler:
+                        spriteBatch.Draw(Backgrounds[6], ViewPort.Bounds, Color.White);
+                        break;
+                    case BackgroundID.Shop:
+                        spriteBatch.Draw(Backgrounds[7], ViewPort.Bounds, Color.White);
+                        break;
+                }
+            }
+
+            // Draw Scene elements
             SceneUI.Draw(spriteBatch, gameTime);
 
             spriteBatch.End();
@@ -181,6 +259,7 @@ namespace UIGenerator
 
             spriteBatch.Draw(MagicPixel, SidebarArea, sexyGray);
             SidebarUI.Draw(spriteBatch, gameTime);
+            Options.Draw(spriteBatch, gameTime);
 
             // Draw Mousetext
             if (MouseText != null)

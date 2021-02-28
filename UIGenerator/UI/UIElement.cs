@@ -82,7 +82,6 @@ namespace UIGenerator.UI
         public event Action<TextInputEventArgs, object> OnKeyTyped;
         #endregion
 
-        // Token: 0x06000A2D RID: 2605 RVA: 0x003C02AC File Offset: 0x003BE4AC
         public UIElement()
         {
             if (_overflowHiddenRasterizerState == null)

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
@@ -101,7 +100,7 @@ namespace UIGenerator.UI
             }
 
             MousePosition = new Vector2(Main.mouse.X, Main.mouse.Y);
-            if(this == Main.SceneUI)
+            if (this == Main.SceneUI)
             {
                 MousePosition = Main.MouseWorld;
             }
