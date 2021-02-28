@@ -29,6 +29,7 @@ namespace UIGenerator
         public static string? MouseText;
         public static float UIScale = 1f;
         public static Matrix UIScaleMatrix;
+        public static Vector2 ScenePos;
         public static float SceneScale = 0.5f;
         public static Matrix SceneMatrix;
         public static Rectangle SidebarArea => new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
@@ -112,8 +113,10 @@ namespace UIGenerator
         {
             base.Initialize();
 
+            ScenePos = new Vector2(ViewPort.Width / 3, ViewPort.Height / 4);
+
             SceneMatrix = Matrix.Identity
-              * Matrix.CreateTranslation(1920 / 2, 1080 / 4, 0)
+              * Matrix.CreateTranslation(ScenePos.X, ScenePos.Y, 0)
               * Matrix.CreateScale(SceneScale);
 
             SceneUI.SetState(new SceneUIState());
@@ -158,25 +161,27 @@ namespace UIGenerator
             // Update Mouse variables
             UpdateInput();
 
-            // Zooming and Moving the scene
+            // Zooming
             if (scrollwheel != 0 && !SidebarArea.Contains(mouse.Position))
             {
                 SceneScale -= scrollwheel;
-
-                Vector2 pos = new Vector2(ViewPort.Width / 3, ViewPort.Height / 4);
-                SceneMatrix = Matrix.Identity
-                  * Matrix.CreateTranslation(pos.X, pos.Y, 0)
-                  * Matrix.CreateTranslation(-new Vector3(mouse.Position.ToVector2() + pos / SceneScale, 0))
-                  * Matrix.CreateScale(SceneScale)
-                  * Matrix.CreateTranslation(new Vector3(ViewPort.Width / 2, ViewPort.Height / 2, 0));
             }
             SceneScale = Math.Clamp(SceneScale, 0.2f, 10);
 
-            // Update Camera Position
+            // Moving the scene
             if (mouse.MiddleButton == ButtonState.Pressed)
             {
-                SceneMatrix.Translation -= new Vector3(mousedelta, 0);
+                ScenePos -= mousedelta / SceneScale;
             }
+            ScenePos = Vector2.Clamp(ScenePos,
+                ViewPort.Bounds.VectorSize() / -4 * SceneScale,
+                ViewPort.Bounds.VectorSize() / 2 / SceneScale);
+
+            // Update Camera
+            SceneMatrix = Matrix.Identity
+                  * Matrix.CreateTranslation(ScenePos.X, ScenePos.Y, 0)
+                  * Matrix.CreateScale(SceneScale);
+
 
             SidebarUI.Update(gameTime);
             SceneUI.Update(gameTime);
