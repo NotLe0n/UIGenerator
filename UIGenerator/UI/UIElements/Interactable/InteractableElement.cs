@@ -1,27 +1,19 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace UIGenerator.UI.UIElements
+namespace UIGenerator.UI.UIElements.Interactable
 {
-    public class ProtoElement<T> : UIElement where T : UIElement
+    public class InteractableElement : UIElement
     {
-        public T element;
-        public ProtoElement(T t)
-        {
-            element = t;
-            CopyStyle(t);
-            Append(t);
-        }
-        public ProtoElement(UIElement elm)
-        {
-            element = elm as T;
-            CopyStyle(element);
-            Append(element);
-        }
+        protected Action ValueChanged;
+        internal string Name => GetType().Name.Replace("Interactable", "");
 
         public override void Click(UIMouseEvent evt)
         {
             base.Click(evt);
-            Main.SelectedElement = element;
+            Main.SelectedElement = this;
         }
 
         private Vector2 offset;
@@ -53,6 +45,7 @@ namespace UIGenerator.UI.UIElements
                 Left.Set(Main.MouseWorld.X - offset.X, 0f);
                 Top.Set(Main.MouseWorld.Y - offset.Y, 0f);
                 Recalculate();
+                ValueChanged?.Invoke();
             }
         }
     }

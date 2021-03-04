@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UIGenerator.UI;
+using UIGenerator.UI.UIElements.Interactable;
 using UIGenerator.UI.UIStates;
 
 namespace UIGenerator
@@ -81,7 +82,7 @@ namespace UIGenerator
         public static Vector2 MouseWorld => InvertTranslate(mouse.Position);
         #endregion
 
-        public static UIElement? SelectedElement = null;
+        public static InteractableElement? SelectedElement = null;
 
         public enum BackgroundID
         {
@@ -113,7 +114,7 @@ namespace UIGenerator
         {
             base.Initialize();
 
-            ScenePos = new Vector2(ViewPort.Width / 3, ViewPort.Height / 4);
+            ScenePos = new Vector2(ViewPort.Width, ViewPort.Height);
 
             SceneMatrix = Matrix.Identity
               * Matrix.CreateTranslation(ScenePos.X, ScenePos.Y, 0)

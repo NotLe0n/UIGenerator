@@ -2,15 +2,15 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace UIGenerator.UI.UIElements
+namespace UIGenerator.UI.UIElements.Interactable
 {
-    class UIInput<T> : UITextBox
+    class UIInteractableInput<T> : UIInteractableTextBox
     {
         private bool first = true;
         public bool Focused { get; set; }
         private string _previewText;
 
-        public UIInput(T previewText, float textScale = 1, bool large = false) : base(previewText.ToString(), textScale, large)
+        public UIInteractableInput(T previewText, float textScale = 1, bool large = false) : base(previewText.ToString(), textScale, large)
         {
             _previewText = previewText.ToString();
         }

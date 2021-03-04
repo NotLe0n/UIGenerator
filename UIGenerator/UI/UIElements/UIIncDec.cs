@@ -1,40 +1,222 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace UIGenerator.UI.UIElements
 {
-    class UIIncDec : UIPanel
+    class UIIncDecBYTE : UIElement
     {
-        public int Value { get; private set; }
+        public byte Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+        private byte _value;
         public Action ValueChanged;
 
 
-        public UIIncDec(int value)
+        public UIIncDecBYTE(byte value)
         {
-            Value = value;
+            _value = value;
+            Width.Set(40, 0);
+            Height.Set(60, 0);
 
-            Width.Set(20, 0);
-            Height.Set(100, 0);
-
-            var down = new UIText("v");
-            down.HAlign = 0.5f;
-            down.Top.Set(0, 0.5f);
-            down.Height.Set(20, 0f);
-            down.OnClick += (evt, elm) =>
-            {
-                Value--;
-                ValueChanged.Invoke();
-            };
-            Append(down);
-
-            var up = new UIText("^", 1, true);
-            up.HAlign = 0.5f;
-            up.Height.Set(20, 0f);
+            UIImageButton up = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowUp"));
+            up.Top.Set(0, -0.4f);
             up.OnClick += (evt, elm) =>
             {
-                Value++;
+                _value++;
                 ValueChanged.Invoke();
             };
             Append(up);
+
+            UIImageButton down = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowDown"));
+            down.Top.Set(0, 0.4f);
+            down.OnClick += (evt, elm) =>
+            {
+                _value--;
+                ValueChanged.Invoke();
+            };
+            Append(down);
+        }
+    }
+    class UIIncDecSHORT : UIElement
+    {
+        public short Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+        private short _value;
+        public Action ValueChanged;
+
+
+        public UIIncDecSHORT(short value)
+        {
+            _value = value;
+            Width.Set(40, 0);
+            Height.Set(60, 0);
+
+            UIImageButton up = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowUp"));
+            up.Top.Set(0, -0.4f);
+            up.OnClick += (evt, elm) =>
+            {
+                _value++;
+                ValueChanged.Invoke();
+            };
+            Append(up);
+
+            UIImageButton down = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowDown"));
+            down.Top.Set(0, 0.4f);
+            down.OnClick += (evt, elm) =>
+            {
+                _value--;
+                ValueChanged.Invoke();
+            };
+            Append(down);
+        }
+    }
+    class UIIncDecINT : UIElement
+    {
+        public int Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+        private int _value;
+        public Action ValueChanged;
+
+
+        public UIIncDecINT(int value)
+        {
+            _value = value;
+            Width.Set(40, 0);
+            Height.Set(60, 0);
+
+            UIImageButton up = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowUp"));
+            up.Top.Set(0, -0.4f);
+            up.OnClick += (evt, elm) =>
+            {
+                _value++;
+                ValueChanged.Invoke();
+            };
+            Append(up);
+
+            UIImageButton down = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowDown"));
+            down.Top.Set(0, 0.4f);
+            down.OnClick += (evt, elm) =>
+            {
+                _value--;
+                ValueChanged.Invoke();
+            };
+            Append(down);
+        }
+    }
+    class UIIncDecLONG : UIElement
+    {
+        public long Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+        private long _value;
+        public Action ValueChanged;
+
+
+        public UIIncDecLONG(long value)
+        {
+            _value = value;
+            Width.Set(40, 0);
+            Height.Set(60, 0);
+
+            UIImageButton up = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowUp"));
+            up.Top.Set(0, -0.4f);
+            up.OnClick += (evt, elm) =>
+            {
+                _value++;
+                ValueChanged.Invoke();
+            };
+            Append(up);
+
+            UIImageButton down = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowDown"));
+            down.Top.Set(0, 0.4f);
+            down.OnClick += (evt, elm) =>
+            {
+                _value--;
+                ValueChanged.Invoke();
+            };
+            Append(down);
+        }
+    }
+    class UIIncDecFLOAT : UIElement
+    {
+        public float Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+        private float _value;
+        public Action ValueChanged;
+
+        public UIIncDecFLOAT(float value)
+        {
+            _value = value;
+            Width.Set(100, 0);
+            Height.Set(60, 0);
+
+            UIImageButton up = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowUp"));
+            up.Top.Set(0, -0.4f);
+            up.OnClick += (evt, elm) =>
+            {
+                _value++;
+                ValueChanged.Invoke();
+            };
+            Append(up);
+
+            UIImageButton down = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowDown"));
+            down.Top.Set(0, 0.4f);
+            down.OnClick += (evt, elm) =>
+            {
+                _value--;
+                ValueChanged.Invoke();
+            };
+            Append(down);
+        }
+    }
+    class UIIncDecDOUBLE : UIElement
+    {
+        public double Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+        private double _value;
+        public Action ValueChanged;
+
+
+        public UIIncDecDOUBLE(double value)
+        {
+            _value = value;
+            Width.Set(40, 0);
+            Height.Set(60, 0);
+
+            UIImageButton up = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowUp"));
+            up.Top.Set(0, -0.4f);
+            up.OnClick += (evt, elm) =>
+            {
+                _value++;
+                ValueChanged.Invoke();
+            };
+            Append(up);
+
+            UIImageButton down = new UIImageButton(Main.instance.Content.Load<Texture2D>("ArrowDown"));
+            down.Top.Set(0, 0.4f);
+            down.OnClick += (evt, elm) =>
+            {
+                _value--;
+                ValueChanged.Invoke();
+            };
+            Append(down);
         }
     }
 }

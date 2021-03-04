@@ -584,10 +584,6 @@ namespace UIGenerator.UI
         public virtual void KeyTyped(object sender, TextInputEventArgs args)
         {
             OnKeyTyped?.Invoke(args, sender);
-            if (Parent != null)
-            {
-                Parent.KeyTyped(sender, args);
-            }
         }
         #endregion
 
