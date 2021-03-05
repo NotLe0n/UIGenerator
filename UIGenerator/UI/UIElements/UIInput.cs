@@ -47,25 +47,29 @@ namespace UIGenerator.UI.UIElements
                 {
                     if (typeof(T) == typeof(byte))
                     {
-                        if (byte.TryParse(Text + args.Character.ToString(), out _)) {
+                        if (byte.TryParse(Text + args.Character.ToString(), out _))
+                        {
                             Write(args.Character.ToString());
                         }
                     }
                     else if (typeof(T) == typeof(short))
                     {
-                        if (short.TryParse(Text + args.Character.ToString(), out _)) {
+                        if (short.TryParse(Text + args.Character.ToString(), out _))
+                        {
                             Write(args.Character.ToString());
                         }
                     }
                     else if (typeof(T) == typeof(int))
                     {
-                        if (int.TryParse(Text + args.Character.ToString(), out _)) {
+                        if (int.TryParse(Text + args.Character.ToString(), out _))
+                        {
                             Write(args.Character.ToString());
                         }
                     }
                     else if (typeof(T) == typeof(long))
                     {
-                        if (long.TryParse(Text + args.Character.ToString(), out _)) {
+                        if (long.TryParse(Text + args.Character.ToString(), out _))
+                        {
                             Write(args.Character.ToString());
                         }
                     }
@@ -74,13 +78,15 @@ namespace UIGenerator.UI.UIElements
                         if (Text.Contains('.') && args.Character == '.' || Text.Contains(',') && args.Character == ',')
                             return;
 
-                        if (float.TryParse(Text + args.Character.ToString(), out _)) {
+                        if (float.TryParse(Text + args.Character.ToString(), out _))
+                        {
                             Write(args.Character.ToString());
                         }
                     }
                     else if (typeof(T) == typeof(double))
                     {
-                        if (float.TryParse(Text + args.Character.ToString(), out _)) {
+                        if (float.TryParse(Text + args.Character.ToString(), out _))
+                        {
                             Write(args.Character.ToString());
                         }
                     }

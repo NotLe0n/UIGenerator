@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using UIGenerator.UI;
 using UIGenerator.UI.UIElements.Interactable;
@@ -34,6 +33,9 @@ namespace UIGenerator
         public static float SceneScale = 0.5f;
         public static Matrix SceneMatrix;
         public static Rectangle SidebarArea => new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
+        public static int SceneWidth;
+        public static int SceneHeight;
+        public static Rectangle SceneRect;
         public static bool MouseOverSidebar => SidebarArea.Contains(mouse.Position);
         public static bool MouseOverUI => SceneUI.CurrentState.Elements.Exists(x => x.IsMouseHovering) || SidebarUI.CurrentState.Elements.Exists(x => x.IsMouseHovering);
         public static bool UIActive = true;
@@ -115,6 +117,8 @@ namespace UIGenerator
             base.Initialize();
 
             ScenePos = new Vector2(ViewPort.Width, ViewPort.Height);
+            SceneWidth = 1920;
+            SceneHeight = 1080;
 
             SceneMatrix = Matrix.Identity
               * Matrix.CreateTranslation(ScenePos.X, ScenePos.Y, 0)
@@ -183,7 +187,6 @@ namespace UIGenerator
                   * Matrix.CreateTranslation(ScenePos.X, ScenePos.Y, 0)
                   * Matrix.CreateScale(SceneScale);
 
-
             SidebarUI.Update(gameTime);
             SceneUI.Update(gameTime);
             Options.Update(gameTime);
@@ -216,40 +219,41 @@ namespace UIGenerator
 
             // Draw Scene
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: SceneMatrix);
+            SceneRect = new Rectangle(0, 0, SceneWidth, SceneHeight);
 
             // Draw Background elements
-            spriteBatch.Draw(MagicPixel, ViewPort.Bounds, new Color(88, 88, 88));
+            spriteBatch.Draw(MagicPixel, SceneRect, new Color(88, 88, 88));
             for (int i = 0; i < currentBackground.Length; i++)
             {
                 switch (currentBackground[i])
                 {
                     case BackgroundID.Default:
-                        spriteBatch.Draw(Backgrounds[0], ViewPort.Bounds, Color.White);
+                        spriteBatch.Draw(Backgrounds[0], SceneRect, Color.White);
                         break;
                     case BackgroundID.Hotbar:
-                        spriteBatch.Draw(Backgrounds[1], ViewPort.Bounds, Color.White);
+                        spriteBatch.Draw(Backgrounds[1], SceneRect, Color.White);
                         break;
                     case BackgroundID.Minimap:
-                        spriteBatch.Draw(Backgrounds[2], ViewPort.Bounds, Color.White);
+                        spriteBatch.Draw(Backgrounds[2], SceneRect, Color.White);
                         break;
                     case BackgroundID.Inventory:
                         if (currentBackground[2] == BackgroundID.Minimap)
                         {
-                            spriteBatch.Draw(Backgrounds[3], ViewPort.Bounds, Color.White);
+                            spriteBatch.Draw(Backgrounds[3], SceneRect, Color.White);
                         }
                         else
                         {
-                            spriteBatch.Draw(Backgrounds[4], ViewPort.Bounds, Color.White);
+                            spriteBatch.Draw(Backgrounds[4], SceneRect, Color.White);
                         }
                         break;
                     case BackgroundID.NPC:
-                        spriteBatch.Draw(Backgrounds[5], ViewPort.Bounds, Color.White);
+                        spriteBatch.Draw(Backgrounds[5], SceneRect, Color.White);
                         break;
                     case BackgroundID.Angler:
-                        spriteBatch.Draw(Backgrounds[6], ViewPort.Bounds, Color.White);
+                        spriteBatch.Draw(Backgrounds[6], SceneRect, Color.White);
                         break;
                     case BackgroundID.Shop:
-                        spriteBatch.Draw(Backgrounds[7], ViewPort.Bounds, Color.White);
+                        spriteBatch.Draw(Backgrounds[7], SceneRect, Color.White);
                         break;
                 }
             }

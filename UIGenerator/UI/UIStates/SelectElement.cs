@@ -77,6 +77,8 @@ namespace UIGenerator.UI.UIStates
         }
         private void CreateList()
         {
+            list.Clear();
+
             var type = Main.SelectedElement.GetType();
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
             var properties = type.GetProperties(BindingFlags.SetProperty);
@@ -90,7 +92,6 @@ namespace UIGenerator.UI.UIStates
                 UIDynamicInput fieldInput = MakeElements(fields[i].FieldType, fields[i].GetValue(Main.SelectedElement));
                 fieldInput.HAlign = 0.3f;
                 fieldInput.Width.Set(0, 0.5f);
-                fieldInput.MinHeight.Set(40, 0);
                 fieldInput.field = fields[i];
                 list.Add(fieldInput);
             }

@@ -37,7 +37,7 @@ namespace UIGenerator.UI.UIElements
             }
             Color color = IsMouseHovering ? Color.White : Color.Silver;
 
-            spriteBatch.Draw(texture, 
+            spriteBatch.Draw(texture,
                 new Rectangle((int)dimensions.X, (int)dimensions.Y, _drawWidth, _drawHeight),
                 new Rectangle?(new Rectangle(point.X, point.Y, _drawWidth, _drawHeight)),
                 color);

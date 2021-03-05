@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 using UIGenerator.UI.UIElements;
 
 namespace UIGenerator.UI.UIStates
@@ -23,8 +21,27 @@ namespace UIGenerator.UI.UIStates
             var panel = new UIPanel();
             panel.Left.Set(0, 0.8f);
             panel.Width.Set(0, 0.2f);
-            panel.Height.Set(0, 0.2f);
+            panel.Height.Set(0, 0.4f);
             Append(panel);
+
+            var sizeTitle = new UIText("Scene size", 1, true);
+            sizeTitle.Top.Set(0, 0.7f);
+            sizeTitle.HAlign = 0.5f;
+            panel.Append(sizeTitle);
+
+            var widthInput = new UIDynamicInput(1920);
+            widthInput.Top.Set(0, 0.8f);
+            widthInput.HAlign = 0.1f;
+            widthInput.Width.Set(0, 0.44f);
+            widthInput.OnValueChanged += (val, elm) => Main.SceneWidth = (int)val;
+            panel.Append(widthInput);
+
+            var heightInput = new UIDynamicInput(1080);
+            heightInput.Top.Set(0, 0.8f);
+            heightInput.HAlign = 0.9f;
+            heightInput.Width.Set(0, 0.44f);
+            heightInput.OnValueChanged += (val, elm) => Main.SceneHeight = (int)val;
+            panel.Append(heightInput);
 
             var headerText = new UIText("Backgrounds: ", 1.2f);
             headerText.HAlign = 0.5f;
@@ -33,7 +50,7 @@ namespace UIGenerator.UI.UIStates
 
             var textList = new UIList();
             textList.Width.Set(0, 0.4f);
-            textList.Height.Set(0, 1f);
+            textList.Height.Set(0, 0.5f);
             textList.Top.Set(0, 0.2f);
             textList.Left.Set(0, 0.25f);
             textList.ListPadding = 2f;
@@ -44,7 +61,7 @@ namespace UIGenerator.UI.UIStates
             toggleList.Height.Set(0, 1f);
             toggleList.Top.Set(0, 0.2f);
             toggleList.Left.Set(0, 0.75f);
-            toggleList.ListPadding = 7f;
+            toggleList.ListPadding = 6f;
             panel.Append(toggleList);
 
             // Toggles

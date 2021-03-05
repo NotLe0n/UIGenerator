@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using System.Reflection;
 
 namespace UIGenerator.UI.UIElements
@@ -13,6 +12,8 @@ namespace UIGenerator.UI.UIElements
 
         public UIInput<T> MakeInput<T>(T value)
         {
+            MinHeight.Set(40, 0);
+
             var input = new UIInput<T>(value);
             input.Width.Set(0, 1);
             input.Height.Set(0, 1);
@@ -41,7 +42,8 @@ namespace UIGenerator.UI.UIElements
 
             var text = new UIText(input.IsOn.ToString());
             text.Left.Set(0, 0.3f);
-            input.OnClick += (evt, elm) => {
+            input.OnClick += (evt, elm) =>
+            {
                 text.SetText(input.IsOn.ToString());
                 ValueChanged(Value, this);
             };
@@ -82,7 +84,8 @@ namespace UIGenerator.UI.UIElements
                 ValueChanged(Value, this);
             };
             input.Append(incDec);
-            input.OnKeyTyped += (evt, elm) => {
+            input.OnKeyTyped += (evt, elm) =>
+            {
                 incDec.Value = short.TryParse(input.Text, out short e) ? e : value;
                 Value = incDec.Value;
                 ValueChanged(Value, this);
@@ -102,7 +105,9 @@ namespace UIGenerator.UI.UIElements
                 ValueChanged(Value, this);
             };
             input.Append(incDec);
-            input.OnKeyTyped += (evt, elm) => {
+
+            input.OnKeyTyped += (evt, elm) =>
+            {
                 incDec.Value = int.TryParse(input.Text, out int e) ? e : value;
                 Value = incDec.Value;
                 ValueChanged(Value, this);
@@ -122,7 +127,8 @@ namespace UIGenerator.UI.UIElements
                 ValueChanged(Value, this);
             };
             input.Append(incDec);
-            input.OnKeyTyped += (evt, elm) => {
+            input.OnKeyTyped += (evt, elm) =>
+            {
                 incDec.Value = long.TryParse(input.Text, out long e) ? e : value;
                 Value = incDec.Value;
                 ValueChanged(Value, this);
@@ -143,7 +149,8 @@ namespace UIGenerator.UI.UIElements
                 ValueChanged(Value, this);
             };
             input.Append(incDec);
-            input.OnKeyTyped += (evt, elm) => {
+            input.OnKeyTyped += (evt, elm) =>
+            {
                 incDec.Value = float.TryParse(input.Text, out float e) ? e : value;
                 Value = incDec.Value;
                 ValueChanged(Value, this);
@@ -163,7 +170,8 @@ namespace UIGenerator.UI.UIElements
                 ValueChanged(Value, this);
             };
             input.Append(incDec);
-            input.OnKeyTyped += (evt, elm) => {
+            input.OnKeyTyped += (evt, elm) =>
+            {
                 incDec.Value = double.TryParse(input.Text, out double e) ? e : value;
                 Value = incDec.Value;
                 ValueChanged(Value, this);
@@ -193,7 +201,7 @@ namespace UIGenerator.UI.UIElements
             var yInput = new UIDynamicInput(value.Y);
             yInput.Width.Set(0, 1);
             yInput.Height.Set(size, 0f);
-            yInput.Top.Set(size - 2,0f);
+            yInput.Top.Set(size - 2, 0f);
             yInput.Left.Set(leftOffset, 0f);
             Append(yInput);
 
