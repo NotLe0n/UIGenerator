@@ -34,7 +34,7 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIInteractablePanel();
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.CurrentState.Append(proto);
+                Main.SceneUI.Append(proto);
             };
             panel.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIPanel element";
             panel.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -47,7 +47,7 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIInteractableText("UIText", 1, true);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.CurrentState.Append(proto);
+                Main.SceneUI.Append(proto);
             };
             text.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIText element";
             text.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -61,7 +61,7 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIInteractableInput<string>("UITextBox", 1, true);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.CurrentState.Append(proto);
+                Main.SceneUI.Append(proto);
             };
             textBox.OnMouseOver += (evt, elm) => Main.MouseText = "Create UITextBox element";
             textBox.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -75,7 +75,7 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIInteractableTextPanel<string>("UITextPanel", 1, true);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.CurrentState.Append(proto);
+                Main.SceneUI.Append(proto);
             };
             textPanel.OnMouseOver += (evt, elm) => Main.MouseText = "Create UITextPanel element";
             textPanel.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -89,7 +89,7 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIInteractableImage(lets);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.CurrentState.Append(proto);
+                Main.SceneUI.Append(proto);
             };
             image.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIImage element";
             image.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -102,7 +102,7 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIInteractableImageButton(lets);
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.CurrentState.Append(proto);
+                Main.SceneUI.Append(proto);
             };
             imageBtn.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIImageButton element";
             imageBtn.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -115,7 +115,7 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIInteractableImageFramed(lets, new Rectangle(5, 20, 70, 70));
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.CurrentState.Append(proto);
+                Main.SceneUI.Append(proto);
             };
             imageFramed.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIImageFramed element";
             imageFramed.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -128,7 +128,7 @@ namespace UIGenerator.UI.UIStates
                 var proto = new UIInteractableToggleImage(Main.toggle, 13, 13, new Point(17, 1), new Point(1, 1));
                 proto.Width.Set(elm.GetDimensions().Width, 0);
                 proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.CurrentState.Append(proto);
+                Main.SceneUI.Append(proto);
             };
             toggle.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIToggleImage element";
             toggle.OnMouseOut += (evt, elm) => Main.MouseText = null;

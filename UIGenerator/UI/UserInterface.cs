@@ -100,7 +100,7 @@ namespace UIGenerator.UI
             }
 
             MousePosition = new Vector2(Main.mouse.X, Main.mouse.Y);
-            if (this == Main.SceneUI)
+            if (this == Main.SceneUserinterface)
             {
                 MousePosition = Main.MouseWorld;
             }

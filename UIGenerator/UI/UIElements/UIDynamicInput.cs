@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace UIGenerator.UI.UIElements
@@ -24,13 +26,22 @@ namespace UIGenerator.UI.UIElements
         public void ValueChanged(object value, UIElement elm)
         {
             OnValueChanged?.Invoke(value, elm);
-            if (field != null)
+            if (field != null && Main.SelectedElement != null)
                 field.SetValue(Main.SelectedElement, value);
+        }
+        public UIDynamicInput(object value)
+        {
+            Value = value;
+            var input = MakeInput(value);
+            input.OnKeyTyped += (evt, elm) =>
+            {
+                ValueChanged(Value, this);
+            };
         }
         public UIDynamicInput(string value)
         {
             Value = value;
-            MakeInput(value);
+            var input = MakeInput(value);
         }
         public UIDynamicInput(bool value)
         {
@@ -462,6 +473,36 @@ namespace UIGenerator.UI.UIElements
             {
                 ValueChanged(new Rectangle((byte)xInput.Value, (byte)yInput.Value, (byte)widthInput.Value, (byte)value), this);
             };
+        }
+        public UIDynamicInput(Array value)
+        {
+            var scrollbar = new UIScrollbar();
+            scrollbar.Left.Set(0, 0.9f);
+            scrollbar.Top.Set(0, 0.1f);
+            scrollbar.Width.Set(20, 0);
+            scrollbar.Height.Set(0, 0.8f);
+            Append(scrollbar);
+
+            var list = new UIList();
+            list.Width.Set(0, 1f);
+            list.Height.Set(0, 1f);
+            list.ListPadding = 2f;
+            list.SetScrollbar(scrollbar);
+            Append(list);
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                var input = new UIDynamicInput(value.GetValue(i));
+                input.Width.Set(0, 0.9f);
+                input.Height.Set(20, 0);
+                //input.OnValueChanged += (val, elm) =>
+                //{
+                //    int index = list._items.IndexOf(input);
+                //    value.SetValue(0.3f, index);
+                //    ValueChanged(value, this);
+                //};
+                list.Add(input);
+            }
         }
     }
 }
