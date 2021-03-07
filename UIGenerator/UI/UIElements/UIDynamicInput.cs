@@ -438,9 +438,9 @@ namespace UIGenerator.UI.UIElements
                 input.Height.Set(20, 0);
                 input.OnValueChanged += (val, elm) =>
                 {
-                    int index = list._items.IndexOf(input);
+                    int index = list._items.IndexOf(elm);
                     value.SetValue(val, index);
-                    ValueChanged(value, this);
+                    ValueChanged(value, elm);
                 };
                 list.Add(input);
             }

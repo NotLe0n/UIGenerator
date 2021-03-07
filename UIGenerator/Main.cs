@@ -77,7 +77,6 @@ namespace UIGenerator
             Content.RootDirectory = "Content";
             Window.Title = "UI Generator"; // title
             IsMouseVisible = true; // mouse is visible
-            Window.AllowUserResizing = true; // user can resize window
 
             // Maximize Window
             graphics.IsFullScreen = false;

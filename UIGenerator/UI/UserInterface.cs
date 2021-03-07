@@ -316,7 +316,7 @@ namespace UIGenerator.UI
 
         public CalculatedStyle GetDimensions()
         {
-            return new CalculatedStyle(0f, 0f, Main.ViewPort.Width, Main.ViewPort.Height);
+            return new CalculatedStyle(0f, 0f, Main.ViewPort.Width, Main.ViewPort.Height + 30);
         }
 
         internal void RefreshState()

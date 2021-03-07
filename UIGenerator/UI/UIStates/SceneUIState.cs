@@ -47,7 +47,7 @@ namespace UIGenerator.UI.UIStates
         {
             ScenePos = new Vector2(Main.ViewPort.Width / 2, Main.ViewPort.Height / 2);
             SceneWidth = Main.ViewPort.Width;
-            SceneHeight = Main.ViewPort.Height;
+            SceneHeight = Main.ViewPort.Height + 30;
 
             SceneMatrix = Matrix.Identity
               * Matrix.CreateTranslation(ScenePos.X, ScenePos.Y, 0)
