@@ -130,11 +130,18 @@ namespace UIGenerator.UI.UIStates
             {
                 for (int i = 0; i < snapIntervals.Length; i++) 
                 {
-                    spriteBatch.Draw(Main.MagicPixel, new Rectangle(0, (int)(SceneHeight * snapIntervals[i]), SceneWidth, 2), Color.MediumPurple);
-                    spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(SceneWidth * snapIntervals[i]), 0, 2, SceneHeight), Color.MediumPurple);
+                    if (snapElements.Item1 == true)
+                    {
+                        spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(SceneWidth * snapIntervals[i]), 0, 2, SceneHeight), Color.MediumPurple);
+                        spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(SceneWidth * snapIntervals[i]), 0, snapRange, SceneHeight), Color.Purple * 0.1f);
+                    }
+                    if (snapElements.Item2 == true)
+                    {
+                        spriteBatch.Draw(Main.MagicPixel, new Rectangle(0, (int)(SceneHeight * snapIntervals[i]), SceneWidth, 2), Color.MediumPurple);
+                        spriteBatch.Draw(Main.MagicPixel, new Rectangle(0, (int)(SceneHeight * snapIntervals[i]), SceneWidth, snapRange), Color.Purple * 0.1f);
+                    }
                 }
             }
-
             base.Draw(spriteBatch);
         }
     }

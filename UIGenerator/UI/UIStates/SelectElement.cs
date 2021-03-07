@@ -92,7 +92,25 @@ namespace UIGenerator.UI.UIStates
                 UIDynamicInput fieldInput = MakeElements(fields[i].FieldType, fields[i].GetValue(Main.SelectedElement));
                 fieldInput.HAlign = 0.3f;
                 fieldInput.Width.Set(0, 0.5f);
-                fieldInput.field = fields[i];
+                fieldInput.OnValueChanged += (val, elm) =>
+                {
+                    if (Main.SelectedElement != null)
+                    {
+                        var type = Main.SelectedElement.GetType();
+                        var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+                        for (int i = 0; i < list._items.Count; i++)
+                        {
+                            for (int k = 0; k < fields.Length; k++)
+                            {
+                                if (list._items[i] is UIText e && list._items[i + 1] == elm && fields[k].Name == e.Text)
+                                {
+                                    fields[k].SetValue(Main.SelectedElement, val);
+                                }
+                            }
+                        }
+                    }
+                };
                 list.Add(fieldInput);
             }
             for (int i = 0; i < properties.Length; i++)

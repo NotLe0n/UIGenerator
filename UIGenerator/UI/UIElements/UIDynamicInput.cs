@@ -26,8 +26,6 @@ namespace UIGenerator.UI.UIElements
         public void ValueChanged(object value, UIElement elm)
         {
             OnValueChanged?.Invoke(value, elm);
-            if (field != null && Main.SelectedElement != null)
-                field.SetValue(Main.SelectedElement, value);
         }
         public UIDynamicInput(object value)
         {
@@ -78,7 +76,7 @@ namespace UIGenerator.UI.UIElements
             {
                 incDec.Value = byte.TryParse(input.Text, out byte e) ? e : value;
                 Value = incDec.Value;
-                ValueChanged(Value, this);
+                ValueChanged((byte)Value, this);
             };
         }
         public UIDynamicInput(short value)
@@ -99,7 +97,7 @@ namespace UIGenerator.UI.UIElements
             {
                 incDec.Value = short.TryParse(input.Text, out short e) ? e : value;
                 Value = incDec.Value;
-                ValueChanged(Value, this);
+                ValueChanged((short)Value, this);
             };
         }
         public UIDynamicInput(int value)
@@ -121,7 +119,7 @@ namespace UIGenerator.UI.UIElements
             {
                 incDec.Value = int.TryParse(input.Text, out int e) ? e : value;
                 Value = incDec.Value;
-                ValueChanged(Value, this);
+                ValueChanged((int)Value, this);
             };
         }
         public UIDynamicInput(long value)
@@ -142,7 +140,7 @@ namespace UIGenerator.UI.UIElements
             {
                 incDec.Value = long.TryParse(input.Text, out long e) ? e : value;
                 Value = incDec.Value;
-                ValueChanged(Value, this);
+                ValueChanged((long)Value, this);
             };
         }
         public UIDynamicInput(float value)
@@ -164,7 +162,7 @@ namespace UIGenerator.UI.UIElements
             {
                 incDec.Value = float.TryParse(input.Text, out float e) ? e : value;
                 Value = incDec.Value;
-                ValueChanged(Value, this);
+                ValueChanged((float)Value, this);
             };
         }
         public UIDynamicInput(double value)
@@ -185,7 +183,7 @@ namespace UIGenerator.UI.UIElements
             {
                 incDec.Value = double.TryParse(input.Text, out double e) ? e : value;
                 Value = incDec.Value;
-                ValueChanged(Value, this);
+                ValueChanged((double)Value, this);
             };
         }
         public UIDynamicInput(Vector2 value)
@@ -216,15 +214,8 @@ namespace UIGenerator.UI.UIElements
             yInput.Left.Set(leftOffset, 0f);
             Append(yInput);
 
-            xInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Vector2((float)value, (float)yInput.Value), this);
-            };
-
-            yInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Vector2((float)yInput.Value, (float)value), this);
-            };
+            xInput.OnValueChanged += (value, elm) => ValueChanged(new Vector2((float)value, (float)yInput.Value), this);
+            yInput.OnValueChanged += (value, elm) => ValueChanged(new Vector2((float)yInput.Value, (float)value), this);
         }
         public UIDynamicInput(StyleDimension value)
         {
@@ -254,15 +245,8 @@ namespace UIGenerator.UI.UIElements
             precentInput.Left.Set(leftOffset, 0);
             Append(precentInput);
 
-            pixelInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new StyleDimension((float)value, (float)precentInput.Value), this);
-            };
-
-            precentInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new StyleDimension((float)pixelInput.Value, (float)value), this);
-            };
+            pixelInput.OnValueChanged += (value, elm) => ValueChanged(new StyleDimension((float)value, (float)precentInput.Value), this);
+            precentInput.OnValueChanged += (value, elm) => ValueChanged(new StyleDimension((float)pixelInput.Value, (float)value), this);
         }
         public UIDynamicInput(Color value)
         {
@@ -314,25 +298,10 @@ namespace UIGenerator.UI.UIElements
             aInput.Left.Set(leftOffset, 0);
             Append(aInput);
 
-            rInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Color((byte)value, (byte)gInput.Value, (byte)bInput.Value, (byte)aInput.Value), this);
-            };
-
-            gInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Color((byte)rInput.Value, (byte)value, (byte)bInput.Value, (byte)aInput.Value), this);
-            };
-
-            bInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Color((byte)rInput.Value, (byte)gInput.Value, (byte)value, (byte)aInput.Value), this);
-            };
-
-            aInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Color((byte)rInput.Value, (byte)gInput.Value, (byte)bInput.Value, (byte)value), this);
-            };
+            rInput.OnValueChanged += (value, elm) => ValueChanged(new Color((byte)value, (byte)gInput.Value, (byte)bInput.Value, (byte)aInput.Value), this);
+            gInput.OnValueChanged += (value, elm) => ValueChanged(new Color((byte)rInput.Value, (byte)value, (byte)bInput.Value, (byte)aInput.Value), this);
+            bInput.OnValueChanged += (value, elm) => ValueChanged(new Color((byte)rInput.Value, (byte)gInput.Value, (byte)value, (byte)aInput.Value), this);
+            aInput.OnValueChanged += (value, elm) => ValueChanged(new Color((byte)rInput.Value, (byte)gInput.Value, (byte)bInput.Value, (byte)value), this);
         }
         public UIDynamicInput(CalculatedStyle value)
         {
@@ -384,25 +353,11 @@ namespace UIGenerator.UI.UIElements
             heightInput.Left.Set(leftOffset, 0);
             Append(heightInput);
 
-            xInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new CalculatedStyle((byte)value, (byte)yInput.Value, (byte)widthInput.Value, (byte)heightInput.Value), this);
-            };
+            xInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((byte)value, (byte)yInput.Value, (byte)widthInput.Value, (byte)heightInput.Value), this);
+            yInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((byte)xInput.Value, (byte)value, (byte)widthInput.Value, (byte)heightInput.Value), this);
 
-            yInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new CalculatedStyle((byte)xInput.Value, (byte)value, (byte)widthInput.Value, (byte)heightInput.Value), this);
-            };
-
-            widthInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new CalculatedStyle((byte)xInput.Value, (byte)yInput.Value, (byte)value, (byte)heightInput.Value), this);
-            };
-
-            heightInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new CalculatedStyle((byte)xInput.Value, (byte)yInput.Value, (byte)widthInput.Value, (byte)value), this);
-            };
+            widthInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((byte)xInput.Value, (byte)yInput.Value, (byte)value, (byte)heightInput.Value), this);
+            heightInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((byte)xInput.Value, (byte)yInput.Value, (byte)widthInput.Value, (byte)value), this);
         }
         public UIDynamicInput(Rectangle value)
         {
@@ -454,25 +409,11 @@ namespace UIGenerator.UI.UIElements
             heightInput.Left.Set(leftOffset, 0);
             Append(heightInput);
 
-            xInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Rectangle((byte)value, (byte)yInput.Value, (byte)widthInput.Value, (byte)heightInput.Value), this);
-            };
+            xInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((byte)value, (byte)yInput.Value, (byte)widthInput.Value, (byte)heightInput.Value), this);
+            yInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((byte)xInput.Value, (byte)value, (byte)widthInput.Value, (byte)heightInput.Value), this);
 
-            yInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Rectangle((byte)xInput.Value, (byte)value, (byte)widthInput.Value, (byte)heightInput.Value), this);
-            };
-
-            widthInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Rectangle((byte)xInput.Value, (byte)yInput.Value, (byte)value, (byte)heightInput.Value), this);
-            };
-
-            heightInput.OnValueChanged += (value, elm) =>
-            {
-                ValueChanged(new Rectangle((byte)xInput.Value, (byte)yInput.Value, (byte)widthInput.Value, (byte)value), this);
-            };
+            widthInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((byte)xInput.Value, (byte)yInput.Value, (byte)value, (byte)heightInput.Value), this);
+            heightInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((byte)xInput.Value, (byte)yInput.Value, (byte)widthInput.Value, (byte)value), this);
         }
         public UIDynamicInput(Array value)
         {
@@ -495,12 +436,12 @@ namespace UIGenerator.UI.UIElements
                 var input = new UIDynamicInput(value.GetValue(i));
                 input.Width.Set(0, 0.9f);
                 input.Height.Set(20, 0);
-                //input.OnValueChanged += (val, elm) =>
-                //{
-                //    int index = list._items.IndexOf(input);
-                //    value.SetValue(0.3f, index);
-                //    ValueChanged(value, this);
-                //};
+                input.OnValueChanged += (val, elm) =>
+                {
+                    int index = list._items.IndexOf(input);
+                    value.SetValue(val, index);
+                    ValueChanged(value, this);
+                };
                 list.Add(input);
             }
         }
