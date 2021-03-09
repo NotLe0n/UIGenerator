@@ -7,16 +7,18 @@ namespace UIGenerator.UI.UIElements.Interactable
     {
         public bool IsOn => _isOn;
 
-        public UIInteractableToggleImage(Texture2D texture, int width, int height, Point onTextureOffset, Point offTextureOffset)
+        public UIInteractableToggleImage(Texture2D texture)
         {
-            _onTexture = texture;
-            _offTexture = texture;
-            _offTextureOffset = offTextureOffset;
-            _onTextureOffset = onTextureOffset;
-            _drawWidth = width;
-            _drawHeight = height;
-            Width.Set(width, 0f);
-            Height.Set(height, 0f);
+            _onTexture = texture ?? Main.MagicPixel;
+            _offTexture = texture ?? Main.MagicPixel;
+            _offTextureOffset = new Point(17, 1);
+            _onTextureOffset = new Point(0, 0);
+            _drawWidth = 13;
+            _drawHeight = 13;
+            Width.Set(13, 0f);
+            Height.Set(13, 0f);
+
+            constructor = $"(ModContent.GetTexture(\"{(texture ?? Main.MagicPixel).Name}\"), 13, 13, new Point(17, 1), new Point(0, 0))";
         }
 
         protected override void DrawSelf(SpriteBatch spriteBatch)

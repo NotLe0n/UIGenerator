@@ -6,10 +6,6 @@ namespace UIGenerator.UI.UIElements.Interactable
 {
     class UIInteractableTextPanel<T> : UIInteractablePanel
     {
-        public UIInteractableTextPanel()
-        {
-            int e = 0;
-        }
         public bool IsLarge => _isLarge;
 
         public bool DrawPanel
@@ -47,6 +43,8 @@ namespace UIGenerator.UI.UIElements.Interactable
         public UIInteractableTextPanel(T text, float textScale = 1f, bool large = false)
         {
             SetText(text, textScale, large);
+
+            constructor = $"(\"{text}\", {textScale}, {large})";
         }
 
         public override void Recalculate()

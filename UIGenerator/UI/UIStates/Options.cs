@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Windows.Forms;
 using UIGenerator.UI.UIElements;
 
 namespace UIGenerator.UI.UIStates
@@ -167,6 +168,16 @@ namespace UIGenerator.UI.UIStates
             };
             panel.Append(gridToggle);
             #endregion
+
+            UITextPanel<string> makeCodeBtn = new UITextPanel<string>("Generate Code", 1, true);
+            makeCodeBtn.Left.Set(0, 0.8f);
+            makeCodeBtn.Top.Set(0, 0.9f);
+            makeCodeBtn.OnClick += (evt, elm) =>
+            {
+                string str = CodeGenerator.Generate();
+                Clipboard.SetText(str);
+            };
+            Append(makeCodeBtn);
 
             base.OnInitialize();
         }

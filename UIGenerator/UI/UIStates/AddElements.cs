@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using UIGenerator.UI.UIElements;
 using UIGenerator.UI.UIElements.Interactable;
 
@@ -31,10 +32,7 @@ namespace UIGenerator.UI.UIStates
             panel.HAlign = 0.5f;
             panel.OnClick += (evt, elm) =>
             {
-                var proto = new UIInteractablePanel();
-                proto.Width.Set(elm.GetDimensions().Width, 0);
-                proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.Append(proto);
+                AddElement(elm, new UIInteractablePanel());
             };
             panel.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIPanel element";
             panel.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -44,52 +42,40 @@ namespace UIGenerator.UI.UIStates
             text.HAlign = 0.5f;
             text.OnClick += (evt, elm) =>
             {
-                var proto = new UIInteractableText("UIText", 1, true);
-                proto.Width.Set(elm.GetDimensions().Width, 0);
-                proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.Append(proto);
+                AddElement(elm, new UIInteractableText("UIText", 1, true));
             };
             text.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIText element";
             text.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(text);
-
-            UITextBox textBox = new UITextBox("UITextBox", 1, true);
-            textBox.Width.Set(0, 0.8f);
-            textBox.HAlign = 0.5f;
-            textBox.OnClick += (evt, elm) =>
-            {
-                var proto = new UIInteractableInput<string>("UITextBox", 1, true);
-                proto.Width.Set(elm.GetDimensions().Width, 0);
-                proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.Append(proto);
-            };
-            textBox.OnMouseOver += (evt, elm) => Main.MouseText = "Create UITextBox element";
-            textBox.OnMouseOut += (evt, elm) => Main.MouseText = null;
-            list.Add(textBox);
 
             UITextPanel<string> textPanel = new UITextPanel<string>("UITextPanel", 1, true);
             textPanel.Width.Set(0, 0.8f);
             textPanel.HAlign = 0.5f;
             textPanel.OnClick += (evt, elm) =>
             {
-                var proto = new UIInteractableTextPanel<string>("UITextPanel", 1, true);
-                proto.Width.Set(elm.GetDimensions().Width, 0);
-                proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.Append(proto);
+                AddElement(elm, new UIInteractableTextPanel<string>("UITextPanel", 1, true));
             };
             textPanel.OnMouseOver += (evt, elm) => Main.MouseText = "Create UITextPanel element";
             textPanel.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(textPanel);
+
+            UITextBox textBox = new UITextBox("UITextBox", 1, true);
+            textBox.Width.Set(0, 0.8f);
+            textBox.HAlign = 0.5f;
+            textBox.OnClick += (evt, elm) =>
+            {
+                AddElement(elm, new UIInteractableInput<string>("UITextBox", 1, true));
+            };
+            textBox.OnMouseOver += (evt, elm) => Main.MouseText = "Create UITextBox element";
+            textBox.OnMouseOut += (evt, elm) => Main.MouseText = null;
+            list.Add(textBox);
 
             Texture2D lets = Main.instance.Content.Load<Texture2D>("LETSFUCKINGGOOOOO");
             UIImage image = new UIImage(lets);
             image.HAlign = 0.5f;
             image.OnClick += (evt, elm) =>
             {
-                var proto = new UIInteractableImage(lets);
-                proto.Width.Set(elm.GetDimensions().Width, 0);
-                proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.Append(proto);
+                AddElement(elm, new UIInteractableImage(lets));
             };
             image.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIImage element";
             image.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -99,10 +85,7 @@ namespace UIGenerator.UI.UIStates
             imageBtn.HAlign = 0.5f;
             imageBtn.OnClick += (evt, elm) =>
             {
-                var proto = new UIInteractableImageButton(lets);
-                proto.Width.Set(elm.GetDimensions().Width, 0);
-                proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.Append(proto);
+                AddElement(elm, new UIInteractableImageButton(lets));
             };
             imageBtn.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIImageButton element";
             imageBtn.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -112,10 +95,7 @@ namespace UIGenerator.UI.UIStates
             imageFramed.HAlign = 0.5f;
             imageFramed.OnClick += (evt, elm) =>
             {
-                var proto = new UIInteractableImageFramed(lets, new Rectangle(5, 20, 70, 70));
-                proto.Width.Set(elm.GetDimensions().Width, 0);
-                proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.Append(proto);
+                AddElement(elm, new UIInteractableImageFramed(lets, new Rectangle(5, 20, 70, 70)));
             };
             imageFramed.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIImageFramed element";
             imageFramed.OnMouseOut += (evt, elm) => Main.MouseText = null;
@@ -125,16 +105,22 @@ namespace UIGenerator.UI.UIStates
             toggle.HAlign = 0.5f;
             toggle.OnClick += (evt, elm) =>
             {
-                var proto = new UIInteractableToggleImage(Main.toggle, 13, 13, new Point(17, 1), new Point(1, 1));
-                proto.Width.Set(elm.GetDimensions().Width, 0);
-                proto.Height.Set(elm.GetDimensions().Height, 0);
-                Main.SceneUI.Append(proto);
+                AddElement(elm, new UIInteractableToggleImage(Main.toggle));
             };
             toggle.OnMouseOver += (evt, elm) => Main.MouseText = "Create UIToggleImage element";
             toggle.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(toggle);
 
             base.OnInitialize();
+        }
+        private void AddElement<T>(UIElement elm, T element) where T : InteractableElement
+        {
+            element.Width.Set(elm.GetDimensions().Width, 0);
+            element.Height.Set(elm.GetDimensions().Height, 0);
+
+            element.clone = element.Clone();
+            element.Id = "element" + Main.SceneUI.Elements.Count;
+            Main.SceneUI.Append(element);
         }
         public override void Recalculate()
         {

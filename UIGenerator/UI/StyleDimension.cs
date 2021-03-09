@@ -29,5 +29,25 @@
         {
             return Pixels + Precent * containerSize;
         }
+        public override string ToString()
+        {
+            return $"{Pixels}, {Precent}";
+        }
+        public static bool operator ==(StyleDimension s1, StyleDimension s2)
+        {
+            if (s1.Pixels == s2.Pixels && s1.Precent == s2.Precent)
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool operator !=(StyleDimension s1, StyleDimension s2)
+        {
+            if (s1.Pixels != s2.Pixels && s1.Precent != s2.Precent)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

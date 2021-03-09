@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Newtonsoft.Json;
 using System;
 
 namespace UIGenerator
@@ -8,6 +9,12 @@ namespace UIGenerator
     static class Extentions
     {
         // for extention or helper methods
+
+        public static T Clone<T>(this T source)
+        {
+            var serialized = JsonConvert.SerializeObject(source);
+            return JsonConvert.DeserializeObject<T>(serialized);
+        }
 
         /// <returns><b>true</b> if the key has just been pressed</returns>
         public static bool JustPressed(this KeyboardState s, Keys key)

@@ -22,6 +22,8 @@ namespace UIGenerator.UI.UIElements.Interactable
         public UIInteractableText(string text, float textScale = 1f, bool large = false)
         {
             InternalSetText(text, textScale, large);
+
+            constructor = $"(\"{text}\", {textScale}, {large})";
         }
 
         public override void Recalculate()

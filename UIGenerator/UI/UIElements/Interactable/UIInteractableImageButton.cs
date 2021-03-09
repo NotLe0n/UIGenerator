@@ -11,9 +11,11 @@ namespace UIGenerator.UI.UIElements.Interactable
 
         public UIInteractableImageButton(Texture2D texture)
         {
-            _texture = texture;
+            _texture = texture ?? Main.MagicPixel;
             Width.Set(_texture.Width, 0f);
             Height.Set(_texture.Height, 0f);
+
+            constructor = $"(ModContent.GetTexture(\"{_texture.Name}\"))";
         }
 
         public void SetImage(Texture2D texture)

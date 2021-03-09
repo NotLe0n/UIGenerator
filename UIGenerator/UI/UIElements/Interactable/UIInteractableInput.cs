@@ -10,9 +10,9 @@ namespace UIGenerator.UI.UIElements.Interactable
         public bool Focused { get; set; }
         private string _previewText;
 
-        public UIInteractableInput(T previewText, float textScale = 1, bool large = false) : base(previewText.ToString(), textScale, large)
+        public UIInteractableInput(T previewText, float textScale = 1, bool large = false) : base(((object)previewText ?? "").ToString(), textScale, large)
         {
-            _previewText = previewText.ToString();
+            _previewText = ((object)previewText ?? "").ToString();
         }
 
         public override void Click(UIMouseEvent evt)

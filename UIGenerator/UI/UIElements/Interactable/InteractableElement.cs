@@ -6,7 +6,19 @@ namespace UIGenerator.UI.UIElements.Interactable
     public class InteractableElement : UIElement
     {
         protected Action ValueChanged;
-        internal string Name => GetType().Name.Replace("Interactable", "");
+        internal string Name {
+            get
+            {
+                var type = GetType();
+                var count = type.GenericTypeArguments.Length;
+                return count > 0
+                    ? type.Name.Replace("Interactable", "").Replace($"`{count}",$"<{type.GenericTypeArguments[count - 1].Name}>")
+                    : type.Name.Replace("Interactable", "");
+            }
+        }
+
+        internal object clone;
+        internal string constructor = "()";
 
         public override void Click(UIMouseEvent evt)
         {
