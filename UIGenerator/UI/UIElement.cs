@@ -205,9 +205,9 @@ namespace UIGenerator.UI
 
         public virtual void Update(GameTime gameTime)
         {
-            foreach (UIElement element in Elements)
+            for (int i = 0; i < Elements.Count; i++)
             {
-                element.Update(gameTime);
+                Elements[i].Update(gameTime);
             }
         }
 
@@ -331,8 +331,9 @@ namespace UIGenerator.UI
 
         public virtual void RecalculateChildren()
         {
-            foreach (UIElement uielement in Elements)
+            for (int i = 0; i < Elements.Count; i++)
             {
+                var uielement = Elements[i];
                 uielement.Recalculate();
             }
         }

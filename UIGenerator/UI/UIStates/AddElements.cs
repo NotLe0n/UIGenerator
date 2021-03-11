@@ -111,6 +111,11 @@ namespace UIGenerator.UI.UIStates
             toggle.OnMouseOut += (evt, elm) => Main.MouseText = null;
             list.Add(toggle);
 
+            UIText branding = new UIText("made by NotLe0n#7696", 1, true);
+            branding.Left.Set(30, 0f);
+            branding.Top.Set(0, 0.92f);
+            Append(branding);
+
             base.OnInitialize();
         }
         private void AddElement<T>(UIElement elm, T element) where T : InteractableElement

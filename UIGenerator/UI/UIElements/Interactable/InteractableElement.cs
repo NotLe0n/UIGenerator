@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
+using Microsoft.Xna.Framework.Input;
 
 namespace UIGenerator.UI.UIElements.Interactable
 {
@@ -30,22 +32,34 @@ namespace UIGenerator.UI.UIElements.Interactable
         private bool dragging;
         public override void MouseDown(UIMouseEvent evt)
         {
-            base.MouseDown(evt);
-
             offset = evt.MousePosition - GetDimensions().Position();
             dragging = true;
 
-            //Parent = Main.SceneUI.Elements.Find(x => x.ContainsPoint(GetDimensions().Position()));
+            if (Parent != Main.SceneUI)
+            {
+                Main.SceneUI.Append(this);
+            }
         }
 
         public override void MouseUp(UIMouseEvent evt)
         {
             base.MouseUp(evt);
             dragging = false;
-
             Left.Set(evt.MousePosition.X - offset.X, 0f);
             Top.Set(evt.MousePosition.Y - offset.Y, 0f);
             Recalculate();
+
+            if (Parent == Main.SceneUI)
+            {
+                var parents = Main.SceneUI.Elements.Where(x => x.ContainsPoint(GetDimensions().Position())).ToList();
+                if (parents.Count > 0)
+                {
+                    parents[0].Append(this);
+                    Left.Set(Left.Pixels - parents[0].Left.Pixels - 10, 0f);
+                    Top.Set(Top.Pixels - parents[0].Top.Pixels - 10, 0f);
+                }
+            }
+            dragging = false;
         }
 
         public override void Update(GameTime gameTime)
@@ -77,6 +91,15 @@ namespace UIGenerator.UI.UIElements.Interactable
                         Top.Set(0, Main.SceneUI.snapIntervals[i]);
                     }
                 }
+            }
+            if (Main.SelectedElement == this && (Main.keyboard.IsKeyDown(Keys.Delete) || Main.keyboard.IsKeyDown(Keys.Back)))
+            {
+                if (Main.keyboard.IsKeyDown(Keys.Back) && Main.typing)
+                    return;
+
+                Remove();
+                Main.SelectedElement = null;
+                Main.SidebarUserinterface.SetState(new UIStates.AddElements());
             }
         }
     }

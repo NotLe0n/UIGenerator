@@ -28,6 +28,10 @@ namespace UIGenerator
             for (int i = 0; i < values.Count; i++)
             {
                 s.Append((values[i] as InteractableElement).BetterToString() + seperator);
+                for (int k = 0; k < values[i].Elements.Count; k++) 
+                {
+                    s.Append((values[i].Elements[k] as InteractableElement).BetterToString() + seperator);
+                }
             }
             return s;
         }
@@ -70,7 +74,8 @@ namespace UIGenerator
                     }
                 }
             }
-            s.AppendLine($"\t\t{(elm.Parent.GetType().Name == "SceneUIState" ? "MyUIState" : elm.Parent.GetType().Name)}.Append({elm.Id});");
+            var parent = elm.Parent.GetType().Name == "SceneUIState" ? "MyUIState" : elm.Parent.Id;
+            s.AppendLine($"\t\t{parent}.Append({elm.Id});");
             return s.ToString();
         }
     }

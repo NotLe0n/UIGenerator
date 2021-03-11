@@ -45,6 +45,8 @@ namespace UIGenerator.UI.UIElements.Interactable
                 }
                 else if (Text.Length < maxLength)
                 {
+                    Main.typing = true;
+
                     if (typeof(T) == typeof(byte))
                     {
                         if (byte.TryParse(Text + args.Character.ToString(), out _))

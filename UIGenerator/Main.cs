@@ -60,6 +60,7 @@ namespace UIGenerator
         public static bool mouseXButton1;
         public static bool mouseXButton2;
         public static bool hasFocus;
+        public static bool typing;
         /// <summary>
         /// How much the mouse has moved since the last frame
         /// </summary>
@@ -141,6 +142,7 @@ namespace UIGenerator
                 if (!MouseOverUI)
                 {
                     SelectedElement = null;
+                    typing = false;
                 }
 
                 if (SelectedElement == null)

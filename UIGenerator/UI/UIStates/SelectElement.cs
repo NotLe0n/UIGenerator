@@ -38,8 +38,11 @@ namespace UIGenerator.UI.UIStates
             }
             else if (type == typeof(UIElement))
             {
-                if (((UIElement)value) != null)
-                    return new UIDynamicInput(((UIElement)value).GetType().Name);
+                var elm = (UIElement)value;
+                if (elm != null)
+                {
+                    return elm == Main.SceneUI ? new UIDynamicInput(elm.GetType().Name) : new UIDynamicInput(elm.Id);
+                }
 
                 return new UIDynamicInput("none");
             }
@@ -60,7 +63,7 @@ namespace UIGenerator.UI.UIStates
 
             list = new UIList();
             list.Width.Set(0, 1f);
-            list.Height.Set(0, 0.9f);
+            list.Height.Set(0, 0.8f);
             list.Top.Set(0, 0.1f);
             list.ListPadding = 20f;
             list.SetScrollbar(scrollbar);
@@ -72,6 +75,11 @@ namespace UIGenerator.UI.UIStates
             Append(typeText);
 
             CreateList();
+
+            UIText branding = new UIText("made by NotLe0n#7696", 1, true);
+            branding.Left.Set(30, 0f);
+            branding.Top.Set(0, 0.92f);
+            Append(branding);
 
             base.OnInitialize();
         }

@@ -25,6 +25,8 @@ namespace UIGenerator.UI.UIElements
         {
             if (Focused)
             {
+                Main.typing = true;
+
                 if (first)
                 {
                     first = false;
