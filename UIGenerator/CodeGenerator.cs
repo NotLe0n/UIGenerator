@@ -49,7 +49,7 @@ namespace UIGenerator
         public static string BetterToString(this InteractableElement elm)
         {
             StringBuilder s = new StringBuilder();
-            s.AppendLine($"\t\t{elm.Name} {elm.Id} = new {elm.Name}{elm.constructor};");
+            s.AppendLine($"\t\t{elm.Name} {elm.Id} = new {elm.Name}{elm.Constructor};");
 
 
             var fields = elm.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);

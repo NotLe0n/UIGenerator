@@ -13,6 +13,7 @@ namespace UIGenerator.UI.UIElements.Interactable
         private Vector2 _textSize = Vector2.Zero;
         private bool _isLarge;
         private Color _color = Color.White;
+        private bool Focused { get; set; }
 
         public Color TextColor
         {
@@ -79,7 +80,7 @@ namespace UIGenerator.UI.UIElements.Interactable
         {
             base.Draw(spriteBatch);
 
-            if (Main.SelectedElement == this)
+            if (Focused)
             {
                 var dim = GetDimensions().ToRectangle();
 
@@ -97,10 +98,19 @@ namespace UIGenerator.UI.UIElements.Interactable
                 }
             }
         }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            if (!IsMouseHovering && Main.mouseLeft)
+            {
+                Focused = false;
+            }
+        }
 
         public override void KeyTyped(object sender, TextInputEventArgs args)
         {
-            if (Main.SelectedElement == this)
+            if (Focused)
             {
                 if (args.Key == Keys.Back)
                 {
@@ -125,6 +135,7 @@ namespace UIGenerator.UI.UIElements.Interactable
         {
             base.Click(evt);
             Main.typing = true;
+            Focused = true;
         }
     }
 }

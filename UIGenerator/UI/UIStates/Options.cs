@@ -179,6 +179,21 @@ namespace UIGenerator.UI.UIStates
             };
             Append(makeCodeBtn);
 
+            var keepElementsText = new UIText("Keep elements in bounds: ", 1.2f);
+            keepElementsText.Top.Set(0, 0.85f);
+            keepElementsText.HAlign = 0.2f;
+            panel.Append(keepElementsText);
+
+            var keepElements = new UIToggleImage(Main.toggle, 13, 13, new Point(17, 1), new Point(1, 1));
+            keepElements.SetState(Main.SceneUI.keepElementsInBounds);
+            keepElements.Left.Set(0, 0.8f);
+            keepElements.Top.Set(0, 0.85f);
+            keepElements.OnClick += (evt, elm) =>
+            {
+                Main.SceneUI.keepElementsInBounds = keepElements.IsOn;
+            };
+            panel.Append(keepElements);
+
             base.OnInitialize();
         }
     }

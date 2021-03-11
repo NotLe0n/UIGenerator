@@ -19,6 +19,7 @@ namespace UIGenerator.UI.UIStates
         public float[] snapIntervals;
         public int snapRange;
         public bool drawGrid;
+        public bool keepElementsInBounds;
 
         public Texture2D[] Backgrounds;
         public BackgroundID[] currentBackground = {

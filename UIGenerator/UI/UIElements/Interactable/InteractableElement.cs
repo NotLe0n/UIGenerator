@@ -21,7 +21,7 @@ namespace UIGenerator.UI.UIElements.Interactable
         }
 
         internal object clone;
-        internal string constructor => GetConstructor();
+        internal string Constructor => GetConstructor();
 
         public virtual string GetConstructor()
         {
@@ -106,6 +106,12 @@ namespace UIGenerator.UI.UIElements.Interactable
                 Remove();
                 Main.SelectedElement = null;
                 Main.SidebarUserinterface.SetState(new UIStates.AddElements());
+            }
+
+            if (Main.SceneUI.keepElementsInBounds)
+            {
+                Left.Pixels = Math.Clamp(Left.Pixels, 0, Main.SceneUI.SceneWidth - Width.Pixels);
+                Top.Pixels = Math.Clamp(Top.Pixels, 0, Main.SceneUI.SceneHeight - Height.Pixels);
             }
         }
     }
