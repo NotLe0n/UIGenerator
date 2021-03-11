@@ -21,8 +21,6 @@ namespace UIGenerator.UI.UIElements.Interactable
         {
             Activate();
             SetPadding(CORNER_SIZE);
-
-            constructor = "()";
         }
 
         private void DrawPanel(SpriteBatch spriteBatch, Texture2D texture, Color color)

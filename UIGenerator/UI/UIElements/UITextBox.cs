@@ -36,7 +36,7 @@ namespace UIGenerator.UI.UIElements
         {
             if (cursor != 0)
             {
-                SetText(Text.Substring(0, Text.Length - 1));
+                SetText(Text[0..^1]);
             }
         }
 

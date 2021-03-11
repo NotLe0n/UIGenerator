@@ -1,6 +1,7 @@
 using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace UIGenerator.UI.UIElements.Interactable
 {
@@ -22,8 +23,10 @@ namespace UIGenerator.UI.UIElements.Interactable
         public UIInteractableText(string text, float textScale = 1f, bool large = false)
         {
             InternalSetText(text, textScale, large);
-
-            constructor = $"(\"{text}\", {textScale}, {large})";
+        }
+        public override string GetConstructor()
+        {
+            return $"(\"{_text}\", {_textScale}, {_isLarge})";
         }
 
         public override void Recalculate()
@@ -36,7 +39,6 @@ namespace UIGenerator.UI.UIElements.Interactable
         {
             InternalSetText(text, _textScale, _isLarge);
         }
-
 
         public void SetText(string text, float textScale, bool large)
         {
@@ -59,14 +61,7 @@ namespace UIGenerator.UI.UIElements.Interactable
             base.DrawSelf(spriteBatch);
             CalculatedStyle innerDimensions = GetInnerDimensions();
             Vector2 pos = innerDimensions.Position();
-            if (_isLarge)
-            {
-                pos.Y -= 10f * _textScale;
-            }
-            else
-            {
-                pos.Y -= 2f * _textScale;
-            }
+            pos.Y -= (_isLarge ? 10f : 2f) * _textScale;
             pos.X += (innerDimensions.Width - _textSize.X) * 0.5f;
 
             if (_isLarge)
@@ -77,6 +72,59 @@ namespace UIGenerator.UI.UIElements.Interactable
             }
             var smolFont = Main.fontSystem.GetFont((int)(Main.fontMouseText.FontSize * _textScale));
             spriteBatch.DrawString(smolFont, Text, pos, _color);
+        }
+
+        private int _frame;
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+
+            if (Main.SelectedElement == this)
+            {
+                var dim = GetDimensions().ToRectangle();
+
+                // Draw box
+                spriteBatch.Draw(Main.MagicPixel, new Rectangle(dim.Left, dim.Top, dim.Width, 2), Color.White * .5f);
+                spriteBatch.Draw(Main.MagicPixel, new Rectangle(dim.Left, dim.Bottom, dim.Width, 2), Color.White * .5f);
+                spriteBatch.Draw(Main.MagicPixel, new Rectangle(dim.Left, dim.Top, 2, dim.Height), Color.White * .5f);
+                spriteBatch.Draw(Main.MagicPixel, new Rectangle(dim.Right, dim.Top, 2, dim.Height), Color.White * .5f);
+
+                _frame++;
+                if ((_frame %= 40) <= 20)
+                {
+                    // Draw cursor
+                    spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(dim.X + _textSize.X + (dim.Width - _textSize.X) / 2), dim.Y, 2, dim.Height), Color.White);
+                }
+            }
+        }
+
+        public override void KeyTyped(object sender, TextInputEventArgs args)
+        {
+            if (Main.SelectedElement == this)
+            {
+                if (args.Key == Keys.Back)
+                {
+                    if (Main.keyboard.IsKeyDown(Keys.LeftControl) || Main.keyboard.IsKeyDown(Keys.RightControl))
+                    {
+                        string[] words = Text.Split(' ');
+                        SetText(string.Join(" ", words[0..^1]));
+                    }
+                    else if (Text.Length > 0)
+                    {
+                        SetText(Text[0..^1]);
+                    }
+                }
+                else
+                {
+                    SetText(_text + args.Character.ToString());
+                }
+            }
+            base.KeyTyped(sender, args);
+        }
+        public override void Click(UIMouseEvent evt)
+        {
+            base.Click(evt);
+            Main.typing = true;
         }
     }
 }

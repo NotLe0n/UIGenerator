@@ -43,8 +43,11 @@ namespace UIGenerator.UI.UIElements.Interactable
         public UIInteractableTextPanel(T text, float textScale = 1f, bool large = false)
         {
             SetText(text, textScale, large);
+        }
 
-            constructor = $"(\"{text}\", {textScale}, {large})";
+        public override string GetConstructor()
+        {
+            return $"(\"{_text}\", {_textScale}, {_isLarge})";
         }
 
         public override void Recalculate()

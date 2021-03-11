@@ -8,7 +8,8 @@ namespace UIGenerator.UI.UIElements.Interactable
     public class InteractableElement : UIElement
     {
         protected Action ValueChanged;
-        internal string Name {
+        internal string Name
+        {
             get
             {
                 var type = GetType();
@@ -20,7 +21,12 @@ namespace UIGenerator.UI.UIElements.Interactable
         }
 
         internal object clone;
-        internal string constructor = "()";
+        internal string constructor => GetConstructor();
+
+        public virtual string GetConstructor()
+        {
+            return "()";
+        }
 
         public override void Click(UIMouseEvent evt)
         {

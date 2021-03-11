@@ -11,8 +11,11 @@ namespace UIGenerator.UI.UIElements.Interactable
             _frame = frame;
             Width.Set(_frame.Width, 0f);
             Height.Set(_frame.Height, 0f);
+        }
 
-            constructor = $"(ModContent.GetTexture(\"{_texture.Name}\"), new Rectangle({frame.X}, {frame.Y}, {frame.Width}, {frame.Height}))";
+        public override string GetConstructor()
+        {
+            return $"(ModContent.GetTexture(\"{_texture.Name}\"), new Rectangle({_frame.X}, {_frame.Y}, {_frame.Width}, {_frame.Height}))";
         }
 
         public void SetImage(Texture2D texture, Rectangle frame)

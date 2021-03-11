@@ -41,7 +41,7 @@ namespace UIGenerator.UI.UIStates
                 var elm = (UIElement)value;
                 if (elm != null)
                 {
-                    return elm == Main.SceneUI ? new UIDynamicInput(elm.GetType().Name) : new UIDynamicInput(elm.Id);
+                    return new UIDynamicInput(elm);
                 }
 
                 return new UIDynamicInput("none");

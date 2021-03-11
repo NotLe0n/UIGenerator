@@ -10,7 +10,6 @@ namespace UIGenerator.UI.UIElements
         public delegate void changed(object value, UIElement elm);
         public event changed OnValueChanged;
         public object Value { get; set; }
-        public FieldInfo field;
 
         public UIInput<T> MakeInput<T>(T value)
         {
@@ -27,6 +26,9 @@ namespace UIGenerator.UI.UIElements
         {
             OnValueChanged?.Invoke(value, elm);
         }
+
+        #region constuctors
+        #region simple Types
         public UIDynamicInput(object value)
         {
             Value = value;
@@ -40,10 +42,15 @@ namespace UIGenerator.UI.UIElements
         {
             Value = value;
             var input = MakeInput(value);
+            input.OnKeyTyped += (evt, elm) =>
+            {
+                ValueChanged(input.Text, this);
+            };
         }
         public UIDynamicInput(bool value)
         {
             Value = value;
+            Height.Set(50, 0);
 
             var input = new UIToggleImage(Main.toggle, 13, 13, new Point(17, 1), new Point(1, 1));
             input.SetState(value);
@@ -186,6 +193,14 @@ namespace UIGenerator.UI.UIElements
                 ValueChanged((double)Value, this);
             };
         }
+        public UIDynamicInput(UIElement value)
+        {
+            Value = value;
+            var input = MakeInput(value.Id);
+        }
+        #endregion
+
+        #region complex Types
         public UIDynamicInput(Vector2 value)
         {
             Value = value;
@@ -445,5 +460,8 @@ namespace UIGenerator.UI.UIElements
                 list.Add(input);
             }
         }
+        #endregion
+
+        #endregion
     }
 }

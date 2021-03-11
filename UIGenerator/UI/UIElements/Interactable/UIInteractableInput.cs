@@ -38,9 +38,9 @@ namespace UIGenerator.UI.UIElements.Interactable
                         string[] words = Text.Split(' ');
                         SetText(string.Join(" ", words[0..^1]));
                     }
-                    else if (Text.Length > 0)
+                    else
                     {
-                        SetText(Text[0..^1]);
+                        Backspace();
                     }
                 }
                 else if (Text.Length < maxLength)

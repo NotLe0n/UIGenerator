@@ -17,8 +17,10 @@ namespace UIGenerator.UI.UIElements.Interactable
             _drawHeight = 13;
             Width.Set(13, 0f);
             Height.Set(13, 0f);
-
-            constructor = $"(ModContent.GetTexture(\"{(texture ?? Main.MagicPixel).Name}\"), 13, 13, new Point(17, 1), new Point(0, 0))";
+        }
+        public override string GetConstructor()
+        {
+            return $"(TextureManager.Load(\"Images/UI/{(_onTexture ?? Main.MagicPixel).Name}\"), 13, 13, new Point(17, 1), new Point(0, 0))";
         }
 
         protected override void DrawSelf(SpriteBatch spriteBatch)

@@ -13,9 +13,15 @@ namespace UIGenerator
         public static string Generate()
         {
             StringBuilder s = new StringBuilder();
-            s.AppendLine("class MyUIState");
+            s.AppendLine("using Terraria.GameContent.UI.Elements;");
+            s.AppendLine("using Terraria.UI;");
+            s.AppendLine("using Terraria.Graphics;");
+            s.AppendLine("using Terraria.ModLoader;");
+            s.AppendLine("using Microsoft.Xna.Framework;\n");
+
+            s.AppendLine("class MyUIState : UIState");
             s.AppendLine("{");
-            s.AppendLine("\tpublic override void OnInitalize()");
+            s.AppendLine("\tpublic override void OnInitialize()");
             s.AppendLine("\t{");
             s.BetterAppendJoin('\n', Main.SceneUI.Elements);
             s.AppendLine("\t}");
@@ -33,6 +39,10 @@ namespace UIGenerator
                     s.Append((values[i].Elements[k] as InteractableElement).BetterToString() + seperator);
                 }
             }
+            s.Replace("String", "string")
+             .Replace("True", "true")
+             .Replace("False", "false")
+             .Replace("UIInput<string>", "UITextBox");
             return s;
         }
 
@@ -74,8 +84,8 @@ namespace UIGenerator
                     }
                 }
             }
-            var parent = elm.Parent.GetType().Name == "SceneUIState" ? "MyUIState" : elm.Parent.Id;
-            s.AppendLine($"\t\t{parent}.Append({elm.Id});");
+            var parent = elm.Parent.GetType().Name == "SceneUIState" ? "" : elm.Parent.Id + ".";
+            s.AppendLine($"\t\t{parent}Append({elm.Id});");
             return s.ToString();
         }
     }
