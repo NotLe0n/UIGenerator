@@ -103,7 +103,11 @@ namespace UIGenerator
             toggle = Content.Load<Texture2D>("Settings_Toggle");
 
             fontSystem = FontSystemFactory.Create(GraphicsDevice);
+#if DEBUG
             fontSystem.AddFont(File.ReadAllBytes(CurrentDirectory + @"/Fonts/Andy Bold.ttf"));
+#else
+            fontSystem.AddFont(File.ReadAllBytes(Environment.CurrentDirectory + "/Andy Bold.ttf"));
+#endif
 
             fontMouseText = fontSystem.GetFont(20);
             fontDeathText = fontSystem.GetFont(40);

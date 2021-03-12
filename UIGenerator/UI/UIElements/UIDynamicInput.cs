@@ -61,7 +61,7 @@ namespace UIGenerator.UI.UIElements
             input.OnClick += (evt, elm) =>
             {
                 text.SetText(input.IsOn.ToString());
-                ValueChanged(Value, this);
+                ValueChanged(input.IsOn, this);
             };
             Append(text);
         }
