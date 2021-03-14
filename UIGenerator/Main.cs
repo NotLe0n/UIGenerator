@@ -67,6 +67,7 @@ namespace UIGenerator
         public static bool mouseMoved;
         public static Vector2 mousedelta;
         public static Vector2 MouseWorld => InvertTranslate(mouse.Position);
+        public static Vector2 MouseWorldPercent => Helper.GetPrecent(MouseWorld, SceneUI.SceneRect.VectorSize());
         #endregion
 
         public static InteractableElement? SelectedElement = null;

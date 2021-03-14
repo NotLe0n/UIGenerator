@@ -84,12 +84,6 @@ namespace UIGenerator.UI.UIElements.Interactable
             {
                 var dim = GetDimensions().ToRectangle();
 
-                // Draw box
-                spriteBatch.Draw(Main.MagicPixel, new Rectangle(dim.Left, dim.Top, dim.Width, 2), Color.White * .5f);
-                spriteBatch.Draw(Main.MagicPixel, new Rectangle(dim.Left, dim.Bottom, dim.Width, 2), Color.White * .5f);
-                spriteBatch.Draw(Main.MagicPixel, new Rectangle(dim.Left, dim.Top, 2, dim.Height), Color.White * .5f);
-                spriteBatch.Draw(Main.MagicPixel, new Rectangle(dim.Right, dim.Top, 2, dim.Height), Color.White * .5f);
-
                 _frame++;
                 if ((_frame %= 40) <= 20)
                 {

@@ -15,11 +15,12 @@ namespace UIGenerator.UI.UIStates
         public int SceneHeight;
         public Rectangle SceneRect;
 
-        public (bool, bool) snapElements;
+        public (bool x, bool y) snapElements;
         public float[] snapIntervals;
         public int snapRange;
         public bool drawGrid;
         public bool keepElementsInBounds;
+        public bool usePrecent = true;
 
         public Texture2D[] Backgrounds;
         public BackgroundID[] currentBackground = {
@@ -133,12 +134,12 @@ namespace UIGenerator.UI.UIStates
             {
                 for (int i = 0; i < snapIntervals.Length; i++) 
                 {
-                    if (snapElements.Item1 == true)
+                    if (snapElements.x == true)
                     {
                         spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(SceneWidth * snapIntervals[i]), 0, 2, SceneHeight), Color.MediumPurple);
                         spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(SceneWidth * snapIntervals[i]), 0, snapRange, SceneHeight), Color.Purple * 0.1f);
                     }
-                    if (snapElements.Item2 == true)
+                    if (snapElements.y == true)
                     {
                         spriteBatch.Draw(Main.MagicPixel, new Rectangle(0, (int)(SceneHeight * snapIntervals[i]), SceneWidth, 2), Color.MediumPurple);
                         spriteBatch.Draw(Main.MagicPixel, new Rectangle(0, (int)(SceneHeight * snapIntervals[i]), SceneWidth, snapRange), Color.Purple * 0.1f);

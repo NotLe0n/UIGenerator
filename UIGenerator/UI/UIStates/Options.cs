@@ -104,12 +104,12 @@ namespace UIGenerator.UI.UIStates
             panel.Append(snapToggleTextX);
 
             var snapToggleX = new UIToggleImage(Main.toggle, 13, 13, new Point(17, 1), new Point(1, 1));
-            snapToggleX.SetState(Main.SceneUI.snapElements.Item1);
+            snapToggleX.SetState(Main.SceneUI.snapElements.x);
             snapToggleX.Left.Set(0, 0.5f);
             snapToggleX.Top.Set(0, 0.5f);
             snapToggleX.OnClick += (evt, elm) =>
             {
-                Main.SceneUI.snapElements.Item1 = snapToggleX.IsOn;
+                Main.SceneUI.snapElements.x = snapToggleX.IsOn;
             };
             panel.Append(snapToggleX);
 
@@ -119,12 +119,12 @@ namespace UIGenerator.UI.UIStates
             panel.Append(snapToggleTextY);
 
             var snapToggleY = new UIToggleImage(Main.toggle, 13, 13, new Point(17, 1), new Point(1, 1));
-            snapToggleY.SetState(Main.SceneUI.snapElements.Item2);
+            snapToggleY.SetState(Main.SceneUI.snapElements.y);
             snapToggleY.Left.Set(0, 0.7f);
             snapToggleY.Top.Set(0, 0.5f);
             snapToggleY.OnClick += (evt, elm) =>
             {
-                Main.SceneUI.snapElements.Item2 = snapToggleY.IsOn;
+                Main.SceneUI.snapElements.y = snapToggleY.IsOn;
             };
             panel.Append(snapToggleY);
 
@@ -193,6 +193,21 @@ namespace UIGenerator.UI.UIStates
                 Main.SceneUI.keepElementsInBounds = keepElements.IsOn;
             };
             panel.Append(keepElements);
+
+            var togglePrecentText = new UIText("Use Percent: ", 1.2f);
+            togglePrecentText.Top.Set(0, 0.9f);
+            togglePrecentText.HAlign = 0.1f;
+            panel.Append(togglePrecentText);
+
+            var togglePrecent = new UIToggleImage(Main.toggle, 13, 13, new Point(17, 1), new Point(1, 1));
+            togglePrecent.SetState(Main.SceneUI.usePrecent);
+            togglePrecent.Left.Set(0, 0.8f);
+            togglePrecent.Top.Set(0, 0.9f);
+            togglePrecent.OnClick += (evt, elm) =>
+            {
+                Main.SceneUI.usePrecent = togglePrecent.IsOn;
+            };
+            panel.Append(togglePrecent);
 
             base.OnInitialize();
         }

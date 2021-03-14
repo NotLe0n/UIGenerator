@@ -10,6 +10,15 @@ namespace UIGenerator
     {
         // for extention or helper methods
 
+        public static void DrawBoundary(this SpriteBatch spriteBatch, Texture2D texture, Rectangle rectangle, Color color, int lineWidth)
+        {
+            spriteBatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, rectangle.Width, lineWidth), color);
+            spriteBatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Bottom, rectangle.Width, lineWidth), color);
+            spriteBatch.Draw(texture, new Rectangle(rectangle.Left, rectangle.Top, lineWidth, rectangle.Height), color);
+            spriteBatch.Draw(texture, new Rectangle(rectangle.Right, rectangle.Top, lineWidth, rectangle.Height), color);
+        }
+
+        /// <returns>A copy of the object</returns>
         public static T Clone<T>(this T source)
         {
             var serialized = JsonConvert.SerializeObject(source);
@@ -56,6 +65,14 @@ namespace UIGenerator
         public static bool CheckAABBvAABBCollision(Vector2 position1, Vector2 dimensions1, Vector2 position2, Vector2 dimensions2)
         {
             return position1.X < position2.X + dimensions2.X && position1.Y < position2.Y + dimensions2.Y && position1.X + dimensions1.X > position2.X && position1.Y + dimensions1.Y > position2.Y;
+        }
+        public static float GetPrecent(float value, float containerSize)
+        {
+            return 1 / (containerSize / value);
+        }
+        public static Vector2 GetPrecent(Vector2 value, Vector2 containerSize)
+        {
+            return Vector2.One / (containerSize / value);
         }
     }
 }
