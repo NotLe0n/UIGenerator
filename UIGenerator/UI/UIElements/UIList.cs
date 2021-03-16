@@ -96,15 +96,15 @@ namespace UIGenerator.UI.UIElements
         public override void RecalculateChildren()
         {
             base.RecalculateChildren();
-            float num = 0f;
+            float innerheight = 0f;
             for (int i = 0; i < _items.Count; i++)
             {
-                _items[i].Top.Set(num, 0f);
+                _items[i].Top.Set(innerheight, 0f);
                 _items[i].Recalculate();
                 CalculatedStyle outerDimensions = _items[i].GetOuterDimensions();
-                num += outerDimensions.Height + ListPadding;
+                innerheight += outerDimensions.Height + ListPadding;
             }
-            _innerListHeight = num;
+            _innerListHeight = innerheight;
         }
 
         private void UpdateScrollbar()

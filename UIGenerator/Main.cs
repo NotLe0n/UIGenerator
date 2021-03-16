@@ -27,7 +27,9 @@ namespace UIGenerator
 
         // UI
         public static string? MouseText;
-        public static bool MouseOverScene => new Rectangle((int)(SceneUI.ScenePos.X * SceneUI.SceneScale), (int)(SceneUI.ScenePos.Y * SceneUI.SceneScale), (int)(SceneUI.SceneRect.Width * SceneUI.SceneScale), (int)(SceneUI.SceneRect.Height * SceneUI.SceneScale)).Contains(mouse.Position);
+        public static bool MouseOverScene =>
+            new Rectangle((int)(SceneUI.ScenePos.X * SceneUI.SceneScale), (int)(SceneUI.ScenePos.Y * SceneUI.SceneScale), (int)(SceneUI.SceneRect.Width * SceneUI.SceneScale), (int)(SceneUI.SceneRect.Height * SceneUI.SceneScale)).Contains(mouse.Position) && !SidebarArea.Contains(mouse.Position);
+
         public static bool MouseOverUI => SceneUI.Elements.Exists(x => x.IsMouseHovering) || SidebarUserinterface.CurrentState.Elements.Exists(x => x.IsMouseHovering) || OptionsUserinterface.CurrentState.Elements.Exists(x => x.IsMouseHovering);
         public static bool UIActive = true;
         public static float UIScale = 1f;

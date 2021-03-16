@@ -52,6 +52,7 @@ namespace UIGenerator.UI.UIStates
             }
         }
         UIList list;
+        public static float lastPos;
         public override void OnInitialize()
         {
             var scrollbar = new UIScrollbar();
@@ -136,7 +137,19 @@ namespace UIGenerator.UI.UIStates
         public override void Recalculate()
         {
             Width.Set(Main.SidebarArea.Width, 0);
+            if (list != null)
+            {
+                list.ViewPosition = lastPos;
+            }
             base.Recalculate();
+        }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (list != null)
+            {
+                lastPos = list.ViewPosition;
+            }
         }
     }
 }

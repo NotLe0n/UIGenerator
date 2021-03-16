@@ -81,8 +81,8 @@ namespace UIGenerator.UI.UIElements.Interactable
                 }
                 else
                 {
-                    Left.Set(evt.MousePosition.X - offset.X, 0f);
-                    Top.Set(evt.MousePosition.Y - offset.Y, 0f);
+                    Left.Set(evt.MousePosition.X - offset.X - 10, 0f);
+                    Top.Set(evt.MousePosition.Y - offset.Y - 10, 0f);
                 }
             }
 
@@ -90,24 +90,17 @@ namespace UIGenerator.UI.UIElements.Interactable
             if (resizing.w)
             {
                 if (Main.SceneUI.usePrecent)
-                {
                     Width.Set(0, Main.MouseWorldPercent.X - Left.Precent);
-                }
                 else
-                {
                     Width.Set(Main.MouseWorld.X - Left.Pixels, 0);
-                }
             }
             if (resizing.h)
             {
-                if (Main.SceneUI.usePrecent)
-                {
+                if (Main.SceneUI.usePrecent)            
                     Height.Set(0, Main.MouseWorldPercent.Y - Top.Percent);
-                }
-                else
-                {
+                else       
                     Height.Set(Main.MouseWorld.Y - Top.Pixels, 0f);
-                }
+                
             }
 
             // reset
@@ -162,24 +155,16 @@ namespace UIGenerator.UI.UIElements.Interactable
             if (resizing.w)
             {
                 if (Main.SceneUI.usePrecent)
-                {
                     Width.Set(0, Main.MouseWorldPercent.X - Left.Precent);
-                }
                 else
-                {
                     Width.Set(Main.MouseWorld.X - Left.Pixels, 0);
-                }
             }
             if (resizing.h)
             {
                 if (Main.SceneUI.usePrecent)
-                {
                     Height.Set(0, Main.MouseWorldPercent.Y - Top.Percent);
-                }
                 else
-                {
                     Height.Set(Main.MouseWorld.Y - Top.Pixels, 0f);
-                }
             }
 
             // Snapping
