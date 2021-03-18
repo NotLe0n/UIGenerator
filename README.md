@@ -1,4 +1,5 @@
-![UIGenerator-Banner](https://user-images.githubusercontent.com/26361108/111703583-27ae0d00-883e-11eb-9cf1-e6c7160f4a52.png)
+![UIGenerator-Banner](https://user-images.githubusercontent.com/26361108/111703832-81aed280-883e-11eb-95aa-70392dc7a35f.png)
+
 ___
 A tool to generate UI Code for tModLoader
 
