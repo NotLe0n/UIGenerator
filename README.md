@@ -1,4 +1,5 @@
-# UIGenerator
+![UIGenerator-Banner](https://user-images.githubusercontent.com/26361108/111703583-27ae0d00-883e-11eb-9cf1-e6c7160f4a52.png)
+
 A tool to generate UI Code for tModLoader
 
 This project is still not finished. See the milestone for what need to be done.
