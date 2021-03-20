@@ -1,8 +1,11 @@
-﻿using FontStashSharp;
+﻿using DiscordRPC;
+using DiscordRPC.Logging;
+using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Diagnostics;
 using System.IO;
 using UIGenerator.UI;
 using UIGenerator.UI.UIElements.Interactable;
@@ -24,6 +27,7 @@ namespace UIGenerator
         public static Viewport ViewPort => graphics.GraphicsDevice.Viewport;
         public static float DeltaTime { get; private set; }
         public static string CurrentDirectory => Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+        public DiscordRpcClient client;
 
         // UI
         public static string? MouseText;
@@ -96,6 +100,21 @@ namespace UIGenerator
             SceneUserinterface.SetState(SceneUI);
             SidebarUserinterface.SetState(new AddElements());
             OptionsUserinterface.SetState(new Options());
+
+            client = new DiscordRpcClient("822869370543013888")
+            {
+                Logger = new ConsoleLogger() { Level = LogLevel.Warning }
+            };
+
+            //Connect to the RPC
+            client.Initialize();
+
+            client.SetPresence(new RichPresence()
+            {
+                Details = "Editing UIState0.cs", // instead of "UIState0.cs" replace it with the current selected File in the future
+                Timestamps = Timestamps.Now,
+                Assets = new Assets() { LargeImageKey = "rpcimg" }
+            });
         }
 
         public static FontSystem fontSystem;
@@ -162,9 +181,14 @@ namespace UIGenerator
                 }
             }
 
+            client.Invoke();
             base.Update(gameTime);
         }
-
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+            client.Dispose();
+            base.OnExiting(sender, args);
+        }
         public Color sexyGray = new Color(33, 33, 33);
         protected override void Draw(GameTime gameTime)
         {
