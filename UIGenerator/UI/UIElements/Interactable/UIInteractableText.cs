@@ -9,9 +9,9 @@ namespace UIGenerator.UI.UIElements.Interactable
     {
         public string Text => _text.ToString();
         private string _text = "";
-        private float _textScale = 1f;
+        public float textScale = 1f;
         private Vector2 _textSize = Vector2.Zero;
-        private bool _isLarge;
+        public bool isLarge;
         private Color _color = Color.White;
         private bool Focused { get; set; }
 
@@ -27,18 +27,18 @@ namespace UIGenerator.UI.UIElements.Interactable
         }
         public override string GetConstructor()
         {
-            return $"(\"{_text}\", {_textScale}, {_isLarge})";
+            return $"(\"{_text}\", {textScale}, {isLarge})";
         }
 
         public override void Recalculate()
         {
-            InternalSetText(_text, _textScale, _isLarge);
+            InternalSetText(_text, textScale, isLarge);
             base.Recalculate();
         }
 
         public void SetText(string text)
         {
-            InternalSetText(text, _textScale, _isLarge);
+            InternalSetText(text, textScale, isLarge);
         }
 
         public void SetText(string text, float textScale, bool large)
@@ -50,9 +50,9 @@ namespace UIGenerator.UI.UIElements.Interactable
         {
             Vector2 textSize = new Vector2((large ? Main.fontDeathText : Main.fontMouseText).MeasureString(text).X, large ? 32f : 16f) * textScale;
             _text = text;
-            _textScale = textScale;
+            this.textScale = textScale;
             _textSize = textSize;
-            _isLarge = large;
+            isLarge = large;
             MinWidth.Set(textSize.X + PaddingLeft + PaddingRight, 0f);
             MinHeight.Set(textSize.Y + PaddingTop + PaddingBottom, 0f);
         }
@@ -62,16 +62,16 @@ namespace UIGenerator.UI.UIElements.Interactable
             base.DrawSelf(spriteBatch);
             CalculatedStyle innerDimensions = GetInnerDimensions();
             Vector2 pos = innerDimensions.Position();
-            pos.Y -= (_isLarge ? 10f : 2f) * _textScale;
+            pos.Y -= (isLarge ? 10f : 2f) * textScale;
             pos.X += (innerDimensions.Width - _textSize.X) * 0.5f;
 
-            if (_isLarge)
+            if (isLarge)
             {
-                var bigFont = Main.fontSystem.GetFont((int)(Main.fontDeathText.FontSize * _textScale));
+                var bigFont = Main.fontSystem.GetFont((int)(Main.fontDeathText.FontSize * textScale));
                 spriteBatch.DrawString(bigFont, Text, pos, _color);
                 return;
             }
-            var smolFont = Main.fontSystem.GetFont((int)(Main.fontMouseText.FontSize * _textScale));
+            var smolFont = Main.fontSystem.GetFont((int)(Main.fontMouseText.FontSize * textScale));
             spriteBatch.DrawString(smolFont, Text, pos, _color);
         }
 
@@ -125,9 +125,11 @@ namespace UIGenerator.UI.UIElements.Interactable
             }
             base.KeyTyped(sender, args);
         }
+
         public override void Click(UIMouseEvent evt)
         {
             base.Click(evt);
+
             Main.typing = true;
             Focused = true;
         }

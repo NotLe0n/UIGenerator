@@ -7,7 +7,7 @@ namespace UIGenerator.UI.UIElements
     class UIInput<T> : UITextBox
     {
         private bool first = true;
-        public bool Focused { get; set; }
+        private bool Focused { get; set; }
         private string _previewText;
 
         public UIInput(T previewText, float textScale = 1, bool large = false) : base(previewText.ToString(), textScale, large)

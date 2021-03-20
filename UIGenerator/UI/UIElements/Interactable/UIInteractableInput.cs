@@ -7,7 +7,7 @@ namespace UIGenerator.UI.UIElements.Interactable
     class UIInteractableInput<T> : UIInteractableTextBox
     {
         private bool first = true;
-        public bool Focused { get; set; }
+        private bool Focused { get; set; }
         private string _previewText;
 
         public UIInteractableInput(T previewText, float textScale = 1, bool large = false) : base(((object)previewText ?? "").ToString(), textScale, large)

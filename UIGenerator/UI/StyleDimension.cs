@@ -1,4 +1,6 @@
-﻿namespace UIGenerator.UI
+﻿using System;
+
+namespace UIGenerator.UI
 {
     public struct StyleDimension
     {
@@ -31,7 +33,7 @@
         }
         public override string ToString()
         {
-            return $"{Pixels}, {Precent}";
+            return $"{MathF.Round(Pixels, 3)}, {MathF.Round(Precent, 3)}";
         }
         public static bool operator ==(StyleDimension s1, StyleDimension s2)
         {

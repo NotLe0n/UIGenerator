@@ -23,7 +23,8 @@ namespace UIGenerator.UI.UIStates
         public bool usePrecent = true;
 
         public Texture2D[] Backgrounds;
-        public BackgroundID[] currentBackground = {
+        public BackgroundID[] currentBackground = 
+        {
             BackgroundID.Default,
             BackgroundID.Hotbar,
             BackgroundID.Minimap,
@@ -81,9 +82,9 @@ namespace UIGenerator.UI.UIStates
                 Main.ViewPort.Bounds.VectorSize() / 2 / SceneScale);
 
             // Update Camera
-            SceneMatrix = Matrix.Identity
-                  * Matrix.CreateTranslation(ScenePos.X, ScenePos.Y, 0)
-                  * Matrix.CreateScale(SceneScale);
+            SceneMatrix =
+                Matrix.CreateTranslation(new Vector3(ScenePos.X, ScenePos.Y, 0)) *
+                Matrix.CreateScale(SceneScale);
 
             Width.Set(SceneWidth, 0);
             Height.Set(SceneHeight, 0);

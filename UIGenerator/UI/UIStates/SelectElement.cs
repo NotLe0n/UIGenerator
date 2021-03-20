@@ -90,8 +90,14 @@ namespace UIGenerator.UI.UIStates
 
             var type = Main.SelectedElement.GetType();
             var fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
-            var properties = type.GetProperties(BindingFlags.SetProperty);
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
+            AddProperties(properties);
+            AddFields(fields);
+        }
+
+        private void AddFields(FieldInfo[] fields)
+        {
             for (int i = 0; i < fields.Length; i++)
             {
                 var fieldText = new UIText(fields[i].Name, 1.5f);
@@ -122,18 +128,45 @@ namespace UIGenerator.UI.UIStates
                 };
                 list.Add(fieldInput);
             }
+        }
+
+        private void AddProperties(PropertyInfo[] properties)
+        {
             for (int i = 0; i < properties.Length; i++)
             {
-                var propertyText = new UIText(properties[i].Name);
-                propertyText.HAlign = 0.3f;
-                list.Add(propertyText);
+                if (properties[i].SetMethod != null)
+                {
+                    var propertyText = new UIText(properties[i].Name);
+                    propertyText.HAlign = 0.3f;
+                    list.Add(propertyText);
 
-                var propertyInput = new UIInput<string>(properties[i].GetValue(Main.SelectedElement).ToString());
-                propertyInput.HAlign = 0.3f;
-                propertyInput.Width.Set(0, 0.5f);
-                list.Add(propertyInput);
+                    UIDynamicInput propertyInput = MakeElements(properties[i].PropertyType, properties[i].GetValue(Main.SelectedElement));
+                    propertyInput.HAlign = 0.3f;
+                    propertyInput.Width.Set(0, 0.5f);
+                    propertyInput.OnValueChanged += (val, elm) =>
+                    {
+                        if (Main.SelectedElement != null)
+                        {
+                            var type = Main.SelectedElement.GetType();
+                            var property = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty);
+
+                            for (int i = 0; i < list._items.Count; i++)
+                            {
+                                for (int k = 0; k < property.Length; k++)
+                                {
+                                    if (list._items[i] is UIText e && list._items[i + 1] == elm && property[k].Name == e.Text)
+                                    {
+                                        property[k].SetValue(Main.SelectedElement, val);
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    list.Add(propertyInput);
+                }
             }
         }
+
         public override void Recalculate()
         {
             Width.Set(Main.SidebarArea.Width, 0);

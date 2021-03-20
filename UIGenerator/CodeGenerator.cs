@@ -55,6 +55,9 @@ namespace UIGenerator
             var fields = elm.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
             var cloneFields = elm.clone.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
 
+            var properties = elm.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var cloneProperties = elm.clone.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
             for (int i = 0; i < fields.Length; i++)
             {
                 for (int j = 0; j < cloneFields.Length; j++)
@@ -62,8 +65,8 @@ namespace UIGenerator
                     var val1 = fields[i].GetValue(elm);
                     var val2 = cloneFields[j].GetValue(elm.clone);
 
-                    if (fields[i].Name == "Parent" || fields[i].Name == "Id")             
-                        break;
+                    if (fields[i].Name == "Parent" || fields[i].Name == "Id" || fields[i].Name == "textScale" || fields[i].Name == "isLarge")
+                        break;                 
 
                     if (fields[i].Name == cloneFields[j].Name && !val1.Equals(val2))
                     {
@@ -81,6 +84,39 @@ namespace UIGenerator
                             s.AppendLine($"\t\t{elm.Id}.{fields[i].Name} = {val1};");
                         }
                         break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < properties.Length; i++)
+            {
+                if (properties[i].SetMethod != null)
+                {
+                    for (int j = 0; j < cloneProperties.Length; j++)
+                    {
+                        var val1 = properties[i].GetValue(elm);
+                        var val2 = cloneProperties[j].GetValue(elm.clone);
+
+                        if (properties[i].Name == "TextScale")
+                            break;
+
+                        if (properties[i].Name == cloneProperties[j].Name && !val1.Equals(val2))
+                        {
+                            if (val1 is StyleDimension)
+                            {
+                                s.AppendLine($"\t\t{elm.Id}.{properties[i].Name}.Set({val1});");
+                            }
+                            else if (val1 is Color)
+                            {
+                                var col = (val1 as Color?).Value;
+                                s.AppendLine($"\t\t{elm.Id}.{properties[i].Name} = new Color({col.R}, {col.G}, {col.B}, {col.A});");
+                            }
+                            else
+                            {
+                                s.AppendLine($"\t\t{elm.Id}.{properties[i].Name} = {val1};");
+                            }
+                            break;
+                        }
                     }
                 }
             }
