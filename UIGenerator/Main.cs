@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.Diagnostics;
 using System.IO;
 using UIGenerator.UI;
 using UIGenerator.UI.UIElements.Interactable;
@@ -23,7 +22,6 @@ namespace UIGenerator
         public static Texture2D toggle;
         public static SpriteFontBase fontMouseText;
         public static SpriteFontBase fontDeathText;
-        public static Vector2 WindowPos => System.Windows.Forms.Control.FromHandle(instance.Window.Handle).Location.ToVector2();
         public static Viewport ViewPort => graphics.GraphicsDevice.Viewport;
         public static float DeltaTime { get; private set; }
         public static string CurrentDirectory => Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;

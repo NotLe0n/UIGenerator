@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace UIGenerator.UI.UIElements
 {
@@ -323,8 +322,8 @@ namespace UIGenerator.UI.UIElements
             Value = value;
             Width.Set(200, 0);
             Height.Set(200, 0);
-            const float leftOffset = 60;
-            const float size = 40;
+            const float size = 38;
+            const float leftOffset = 20;
 
             var xText = new UIText("X:");
             Append(xText);
@@ -332,55 +331,55 @@ namespace UIGenerator.UI.UIElements
             var xInput = new UIDynamicInput(value.X);
             xInput.Left.Set(leftOffset, 0);
             xInput.Width.Set(0, 1);
-            xInput.Height.Set(size, 0);
+            xInput.Height.Set(size, 0f);
             Append(xInput);
 
             var yText = new UIText("Y:");
-            yText.Top.Set(size * 2, 0);
+            yText.Top.Set(size, 0);
             Append(yText);
 
             var yInput = new UIDynamicInput(value.Y);
             yInput.Width.Set(0, 1);
-            yInput.Height.Set(size, 0);
-            yInput.Top.Set(size * 2, 0);
+            yInput.Height.Set(size, 0f);
+            yInput.Top.Set(size, 0);
             yInput.Left.Set(leftOffset, 0);
             Append(yInput);
 
-            var widthText = new UIText("Width:");
-            widthText.Top.Set(size * 3, 0);
+            var widthText = new UIText("W:");
+            widthText.Top.Set(size * 2, 0);
             Append(widthText);
 
             var widthInput = new UIDynamicInput(value.Width);
             widthInput.Width.Set(0, 1);
-            widthInput.Height.Set(size, 0);
-            widthInput.Top.Set(size * 3, 0);
+            widthInput.Height.Set(size, 0f);
+            widthInput.Top.Set(size * 2, 0);
             widthInput.Left.Set(leftOffset, 0);
             Append(widthInput);
 
-            var heightText = new UIText("Height:");
-            heightText.Top.Set(size * 4, 0);
+            var heightText = new UIText("H:");
+            heightText.Top.Set(size * 3, 0);
             Append(heightText);
 
             var heightInput = new UIDynamicInput(value.Height);
             heightInput.Width.Set(0, 1);
-            heightInput.Height.Set(size, 0);
-            heightInput.Top.Set(size * 4, 0);
+            heightInput.Height.Set(size, 0f);
+            heightInput.Top.Set(size * 3, 0);
             heightInput.Left.Set(leftOffset, 0);
             Append(heightInput);
 
-            xInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((byte)value, (byte)yInput.Value, (byte)widthInput.Value, (byte)heightInput.Value), this);
-            yInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((byte)xInput.Value, (byte)value, (byte)widthInput.Value, (byte)heightInput.Value), this);
+            xInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((float)value, (float)yInput.Value, (float)widthInput.Value, (float)heightInput.Value), this);
+            yInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((float)xInput.Value, (float)value, (float)widthInput.Value, (float)heightInput.Value), this);
 
-            widthInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((byte)xInput.Value, (byte)yInput.Value, (byte)value, (byte)heightInput.Value), this);
-            heightInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((byte)xInput.Value, (byte)yInput.Value, (byte)widthInput.Value, (byte)value), this);
+            widthInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((float)xInput.Value, (float)yInput.Value, (float)value, (float)heightInput.Value), this);
+            heightInput.OnValueChanged += (value, elm) => ValueChanged(new CalculatedStyle((float)xInput.Value, (float)yInput.Value, (float)widthInput.Value, (float)value), this);
         }
         public UIDynamicInput(Rectangle value)
         {
             Value = value;
             Width.Set(200, 0);
             Height.Set(200, 0);
-            const float leftOffset = 60;
-            const float size = 40;
+            const float size = 38;
+            const float leftOffset = 20;
 
             var xText = new UIText("X:");
             Append(xText);
@@ -388,47 +387,47 @@ namespace UIGenerator.UI.UIElements
             var xInput = new UIDynamicInput(value.X);
             xInput.Left.Set(leftOffset, 0);
             xInput.Width.Set(0, 1);
-            xInput.Height.Set(size, 0);
+            xInput.Height.Set(size, 0f);
             Append(xInput);
 
             var yText = new UIText("Y:");
-            yText.Top.Set(size * 2, 0);
+            yText.Top.Set(size, 0);
             Append(yText);
 
             var yInput = new UIDynamicInput(value.Y);
             yInput.Width.Set(0, 1);
-            yInput.Height.Set(size, 0);
-            yInput.Top.Set(size * 2, 0);
+            yInput.Height.Set(size, 0f);
+            yInput.Top.Set(size, 0);
             yInput.Left.Set(leftOffset, 0);
             Append(yInput);
 
-            var widthText = new UIText("Width:");
-            widthText.Top.Set(size * 3, 0);
+            var widthText = new UIText("W:");
+            widthText.Top.Set(size * 2, 0);
             Append(widthText);
 
             var widthInput = new UIDynamicInput(value.Width);
             widthInput.Width.Set(0, 1);
-            widthInput.Height.Set(size, 0);
-            widthInput.Top.Set(size * 3, 0);
+            widthInput.Height.Set(size, 0f);
+            widthInput.Top.Set(size * 2, 0);
             widthInput.Left.Set(leftOffset, 0);
             Append(widthInput);
 
-            var heightText = new UIText("Height:");
-            heightText.Top.Set(size * 4, 0);
+            var heightText = new UIText("H:");
+            heightText.Top.Set(size * 3, 0);
             Append(heightText);
 
             var heightInput = new UIDynamicInput(value.Height);
             heightInput.Width.Set(0, 1);
-            heightInput.Height.Set(size, 0);
-            heightInput.Top.Set(size * 4, 0);
+            heightInput.Height.Set(size, 0f);
+            heightInput.Top.Set(size * 3, 0);
             heightInput.Left.Set(leftOffset, 0);
             Append(heightInput);
 
-            xInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((byte)value, (byte)yInput.Value, (byte)widthInput.Value, (byte)heightInput.Value), this);
-            yInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((byte)xInput.Value, (byte)value, (byte)widthInput.Value, (byte)heightInput.Value), this);
+            xInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((int)value, (int)yInput.Value, (int)widthInput.Value, (int)heightInput.Value), this);
+            yInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((int)xInput.Value, (int)value, (int)widthInput.Value, (int)heightInput.Value), this);
 
-            widthInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((byte)xInput.Value, (byte)yInput.Value, (byte)value, (byte)heightInput.Value), this);
-            heightInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((byte)xInput.Value, (byte)yInput.Value, (byte)widthInput.Value, (byte)value), this);
+            widthInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((int)xInput.Value, (int)yInput.Value, (int)value, (int)heightInput.Value), this);
+            heightInput.OnValueChanged += (value, elm) => ValueChanged(new Rectangle((int)xInput.Value, (int)yInput.Value, (int)widthInput.Value, (int)value), this);
         }
         public UIDynamicInput(Array value)
         {
@@ -459,6 +458,31 @@ namespace UIGenerator.UI.UIElements
                 };
                 list.Add(input);
             }
+        }
+        public UIDynamicInput(Texture2D value)
+        {
+            Width.Set(value.Width, 0);
+            Height.Set(value.Height, 0);
+
+            var texture = new UIImage(value);
+            texture.OnClick += (evt, elm) =>
+            {
+                using System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog
+                {
+                    InitialDirectory = Main.instance.Content.RootDirectory,
+                    Filter = "image files (*.png)|*.png",
+                    RestoreDirectory = true
+                };
+
+                if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var img = Texture2D.FromStream(Main.graphics.GraphicsDevice, openFileDialog.OpenFile());
+                    img.Name = openFileDialog.SafeFileName.Replace(".png", "");
+                    texture.SetImage(img);
+                    ValueChanged(img, this);
+                }
+            };
+            Append(texture);
         }
         #endregion
 

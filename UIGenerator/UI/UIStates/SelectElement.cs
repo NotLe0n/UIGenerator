@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Reflection;
 using UIGenerator.UI.UIElements;
 
@@ -35,6 +36,14 @@ namespace UIGenerator.UI.UIStates
             else if (type == typeof(CalculatedStyle))
             {
                 return new UIDynamicInput((CalculatedStyle)value);
+            }
+            else if (type == typeof(Rectangle))
+            {
+                return new UIDynamicInput((Rectangle)value);
+            }
+            else if (type == typeof(Texture2D))
+            {
+                return new UIDynamicInput((Texture2D)value);
             }
             else if (type == typeof(UIElement))
             {
@@ -136,7 +145,7 @@ namespace UIGenerator.UI.UIStates
             {
                 if (properties[i].SetMethod != null)
                 {
-                    var propertyText = new UIText(properties[i].Name);
+                    var propertyText = new UIText(properties[i].Name, 1, true);
                     propertyText.HAlign = 0.3f;
                     list.Add(propertyText);
 

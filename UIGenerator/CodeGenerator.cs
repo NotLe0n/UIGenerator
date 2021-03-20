@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -34,7 +33,7 @@ namespace UIGenerator
             for (int i = 0; i < values.Count; i++)
             {
                 s.Append((values[i] as InteractableElement).BetterToString() + seperator);
-                for (int k = 0; k < values[i].Elements.Count; k++) 
+                for (int k = 0; k < values[i].Elements.Count; k++)
                 {
                     s.Append((values[i].Elements[k] as InteractableElement).BetterToString() + seperator);
                 }
@@ -66,7 +65,7 @@ namespace UIGenerator
                     var val2 = cloneFields[j].GetValue(elm.clone);
 
                     if (fields[i].Name == "Parent" || fields[i].Name == "Id" || fields[i].Name == "textScale" || fields[i].Name == "isLarge")
-                        break;                 
+                        break;
 
                     if (fields[i].Name == cloneFields[j].Name && !val1.Equals(val2))
                     {
@@ -97,7 +96,7 @@ namespace UIGenerator
                         var val1 = properties[i].GetValue(elm);
                         var val2 = cloneProperties[j].GetValue(elm.clone);
 
-                        if (properties[i].Name == "TextScale")
+                        if (properties[i].Name == "TextScale" || properties[i].Name == "Texture" || properties[i].Name == "Frame")
                             break;
 
                         if (properties[i].Name == cloneProperties[j].Name && !val1.Equals(val2))
@@ -110,6 +109,11 @@ namespace UIGenerator
                             {
                                 var col = (val1 as Color?).Value;
                                 s.AppendLine($"\t\t{elm.Id}.{properties[i].Name} = new Color({col.R}, {col.G}, {col.B}, {col.A});");
+                            }
+                            else if (val1 is Rectangle)
+                            {
+                                var rect = (val1 as Rectangle?).Value;
+                                s.AppendLine($"\t\t{elm.Id}.{properties[i].Name} = new Rectangle({rect.X}, {rect.Y}, {rect.Width}, {rect.Height});");
                             }
                             else
                             {

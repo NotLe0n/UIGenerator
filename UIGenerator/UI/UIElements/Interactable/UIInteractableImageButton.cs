@@ -1,10 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 
 namespace UIGenerator.UI.UIElements.Interactable
 {
     public class UIInteractableImageButton : InteractableElement
     {
+        [JsonIgnore]
+        public Texture2D Texture
+        {
+            get => _texture;
+            set => SetImage(value);
+        }
         private Texture2D _texture;
         private float _visibilityActive = 1f;
         private float _visibilityInactive = 0.4f;

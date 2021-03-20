@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Linq;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace UIGenerator.UI.UIElements.Interactable
 {
@@ -51,7 +51,7 @@ namespace UIGenerator.UI.UIElements.Interactable
 
             // resizing
             var dim = GetDimensions().ToRectangle();
-            if (Main.MouseWorld.X < dim.Right + TriggerArea.X && Main.MouseWorld.X > dim.Right - TriggerArea.X) 
+            if (Main.MouseWorld.X < dim.Right + TriggerArea.X && Main.MouseWorld.X > dim.Right - TriggerArea.X)
             {
                 resizing.w = true;
                 dragging = false;
@@ -96,11 +96,11 @@ namespace UIGenerator.UI.UIElements.Interactable
             }
             if (resizing.h)
             {
-                if (Main.SceneUI.usePrecent)            
+                if (Main.SceneUI.usePrecent)
                     Height.Set(0, Main.MouseWorldPercent.Y - Top.Percent);
-                else       
+                else
                     Height.Set(Main.MouseWorld.Y - Top.Pixels, 0f);
-                
+
             }
 
             // reset
@@ -172,13 +172,13 @@ namespace UIGenerator.UI.UIElements.Interactable
             {
                 for (int i = 0; i < Main.SceneUI.snapIntervals.Length; i++)
                 {
-                    if (Main.SceneUI.snapElements.x 
+                    if (Main.SceneUI.snapElements.x
                         && GetDimensions().X > (Main.SceneUI.SceneWidth * Main.SceneUI.snapIntervals[i]) - Main.SceneUI.snapRange
                         && GetDimensions().X < (Main.SceneUI.SceneWidth * Main.SceneUI.snapIntervals[i]) + Main.SceneUI.snapRange)
                     {
                         Left.Set(0, Main.SceneUI.snapIntervals[i]);
                     }
-                    if (Main.SceneUI.snapElements.y 
+                    if (Main.SceneUI.snapElements.y
                         && GetDimensions().Y > (Main.SceneUI.SceneHeight * Main.SceneUI.snapIntervals[i]) - Main.SceneUI.snapRange
                         && GetDimensions().Y < (Main.SceneUI.SceneHeight * Main.SceneUI.snapIntervals[i]) + Main.SceneUI.snapRange)
                     {

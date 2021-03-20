@@ -23,7 +23,7 @@ namespace UIGenerator.UI.UIStates
         public bool usePrecent = true;
 
         public Texture2D[] Backgrounds;
-        public BackgroundID[] currentBackground = 
+        public BackgroundID[] currentBackground =
         {
             BackgroundID.Default,
             BackgroundID.Hotbar,
@@ -133,7 +133,7 @@ namespace UIGenerator.UI.UIStates
 
             if (drawGrid)
             {
-                for (int i = 0; i < snapIntervals.Length; i++) 
+                for (int i = 0; i < snapIntervals.Length; i++)
                 {
                     if (snapElements.x == true)
                     {
