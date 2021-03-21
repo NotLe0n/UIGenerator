@@ -42,7 +42,7 @@ namespace UIGenerator.UI.UIElements.Interactable
         public override void MouseDown(UIMouseEvent evt)
         {
             offset = Main.SceneUI.usePrecent ?
-                Helper.GetPrecent(evt.MousePosition - GetDimensions().Position(), Main.SceneUI.SceneRect.VectorSize()) :
+                Helper.GetPrecent(evt.MousePosition - GetDimensions().Position(), new Vector2(Main.SceneUI.SceneWidth, Main.SceneUI.SceneHeight)) :
                 evt.MousePosition - GetDimensions().Position();
 
             dragging = true;

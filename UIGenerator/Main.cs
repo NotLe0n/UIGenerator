@@ -29,9 +29,7 @@ namespace UIGenerator
 
         // UI
         public static string? MouseText;
-        public static bool MouseOverScene =>
-            new Rectangle((int)(SceneUI.ScenePos.X * SceneUI.SceneScale), (int)(SceneUI.ScenePos.Y * SceneUI.SceneScale), (int)(SceneUI.SceneRect.Width * SceneUI.SceneScale), (int)(SceneUI.SceneRect.Height * SceneUI.SceneScale)).Contains(mouse.Position) && !SidebarArea.Contains(mouse.Position);
-
+        public static bool MouseOverScene => SceneUI.SceneRect.Contains(mouse.Position) && !SidebarArea.Contains(mouse.Position);
         public static bool MouseOverUI => SceneUI.Elements.Exists(x => x.IsMouseHovering) || SidebarUserinterface.CurrentState.Elements.Exists(x => x.IsMouseHovering) || OptionsUserinterface.CurrentState.Elements.Exists(x => x.IsMouseHovering);
         public static bool UIActive = true;
         public static float UIScale = 1f;
@@ -71,7 +69,7 @@ namespace UIGenerator
         public static bool mouseMoved;
         public static Vector2 mousedelta;
         public static Vector2 MouseWorld => InvertTranslate(mouse.Position);
-        public static Vector2 MouseWorldPercent => Helper.GetPrecent(MouseWorld, SceneUI.SceneRect.VectorSize());
+        public static Vector2 MouseWorldPercent => Helper.GetPrecent(MouseWorld, new Vector2(SceneUI.SceneWidth, SceneUI.SceneHeight));
         #endregion
 
         public static InteractableElement? SelectedElement = null;
