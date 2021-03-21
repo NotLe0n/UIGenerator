@@ -167,7 +167,7 @@ namespace UIGenerator.UI.UIStates
             panel.Append(gridToggle);
             #endregion
 
-            UITextPanel<string> makeCodeBtn = new UITextPanel<string>("Generate Code", 1, true);
+            UITextPanel<string> makeCodeBtn = new UITextPanel<string>("Generate Code", 2);
             makeCodeBtn.Left.Set(0, 0.8f);
             makeCodeBtn.Top.Set(0, 0.9f);
             makeCodeBtn.OnClick += (evt, elm) =>

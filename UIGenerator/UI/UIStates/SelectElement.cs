@@ -79,14 +79,14 @@ namespace UIGenerator.UI.UIStates
             list.SetScrollbar(scrollbar);
             Append(list);
 
-            var typeText = new UIText(Main.SelectedElement.Name, 1, true);
+            var typeText = new UIText(Main.SelectedElement.Name, 2);
             typeText.HAlign = 0.5f;
             typeText.VAlign = 0.05f;
             Append(typeText);
 
             CreateList();
 
-            UIText branding = new UIText("made by NotLe0n#7696", 1, true);
+            UIText branding = new UIText("made by NotLe0n#7696", 2);
             branding.Left.Set(30, 0f);
             branding.Top.Set(0, 0.92f);
             Append(branding);
@@ -145,7 +145,7 @@ namespace UIGenerator.UI.UIStates
             {
                 if (properties[i].SetMethod != null)
                 {
-                    var propertyText = new UIText(properties[i].Name, 1, true);
+                    var propertyText = new UIText(properties[i].Name, 2);
                     propertyText.HAlign = 0.3f;
                     list.Add(propertyText);
 

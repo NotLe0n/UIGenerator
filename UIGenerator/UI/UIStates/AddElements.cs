@@ -34,13 +34,13 @@ namespace UIGenerator.UI.UIStates
             panel.Height.Set(100, 0);
             AddElement(panel);
 
-            AddElement(new UIText("UIText", 1, true));
+            AddElement(new UIText("UIText", 2));
 
-            UITextPanel<string> textPanel = new UITextPanel<string>("UITextPanel", 1, true);
+            UITextPanel<string> textPanel = new UITextPanel<string>("UITextPanel", 2);
             textPanel.Width.Set(0, 0.8f);
             AddElement(textPanel);
 
-            UITextBox textBox = new UITextBox("UITextBox", 1, true);
+            UITextBox textBox = new UITextBox("UITextBox", 2);
             textBox.Width.Set(0, 0.8f);
             AddElement(textBox);
 
@@ -51,7 +51,7 @@ namespace UIGenerator.UI.UIStates
 
             /////////////////////////
 
-            UIText branding = new UIText("made by NotLe0n#7696", 1, true);
+            UIText branding = new UIText("made by NotLe0n#7696", 2);
             branding.Left.Set(30, 0f);
             branding.Top.Set(0, 0.92f);
             Append(branding);
@@ -70,15 +70,15 @@ namespace UIGenerator.UI.UIStates
                 }
                 else if (element.GetType() == typeof(UIText))
                 {
-                    NewInteractable(elm, new UIInteractableText("UIText", 1, true));
+                    NewInteractable(elm, new UIInteractableText("UIText", 2));
                 }
                 else if (element.GetType() == typeof(UITextPanel<string>))
                 {
-                    NewInteractable(elm, new UIInteractableTextPanel<string>("UITextPanel", 1, true));
+                    NewInteractable(elm, new UIInteractableTextPanel<string>("UITextPanel", 2));
                 }
                 else if (element.GetType() == typeof(UITextBox))
                 {
-                    NewInteractable(elm, new UIInteractableInput<string>("UITextBox", 1, true));
+                    NewInteractable(elm, new UIInteractableInput<string>("UITextBox", 2));
                 }
                 else if (element.GetType() == typeof(UIImage))
                 {

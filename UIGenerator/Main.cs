@@ -128,7 +128,7 @@ namespace UIGenerator
 #endif
 
             fontMouseText = fontSystem.GetFont(20);
-            fontDeathText = fontSystem.GetFont(40);
+            fontDeathText = fontSystem.GetFont(80);
 
             SceneUI.Backgrounds = new Texture2D[]
             {
