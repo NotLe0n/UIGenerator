@@ -1,37 +1,24 @@
 using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Globalization;
 
 namespace UIGenerator.UI.UIElements.Interactable
 {
     class UIInteractableTextPanel<T> : UIInteractablePanel
     {
-        public bool IsLarge => _isLarge;
+        public bool IsLarge => isLarge;
 
-        public bool DrawPanel
-        {
-            get => _drawPanel;
-            set => _drawPanel = value;
-        }
+        public bool DrawPanel { get; set; } = true;
 
-        public float TextScale
-        {
-            get => _textScale;
-            set => _textScale = value;
-        }
+        public float TextScale { get; set; } = 1f;
 
         public Vector2 TextSize => _textSize;
 
         public string Text
         {
-            get
-            {
-                if (_text != null)
-                {
-                    return _text.ToString();
-                }
-                return "";
-            }
+            get => _text;
+            set => SetText(value);
         }
 
         public Color TextColor
@@ -40,72 +27,71 @@ namespace UIGenerator.UI.UIElements.Interactable
             set => _color = value;
         }
 
+        private string _text;
+        private Vector2 _textSize = Vector2.Zero;
+        public bool isLarge;
+        private Color _color = Color.White;
+
         public UIInteractableTextPanel(T text, float textScale = 1f, bool large = false)
         {
-            SetText(text, textScale, large);
+            SetText(text.ToString(), textScale, large);
         }
 
         public override string GetConstructor()
         {
-            return $"(\"{_text}\", {_textScale}, {_isLarge})";
+            var ci = CultureInfo.CreateSpecificCulture("en-GB");
+            return $"(\"{Text}\", {TextScale.ToString(ci)}, {isLarge})";
         }
 
         public override void Recalculate()
         {
-            SetText(_text, _textScale, _isLarge);
+            SetText(_text, TextScale, isLarge);
             base.Recalculate();
         }
 
-        public void SetText(T text)
+        public void SetText(string text)
         {
-            SetText(text, _textScale, _isLarge);
+            SetText(text, TextScale, isLarge);
         }
 
-        public virtual void SetText(T text, float textScale, bool large)
+        public virtual void SetText(string text, float textScale, bool large)
         {
             Vector2 textSize = new Vector2((large ? Main.fontDeathText : Main.fontMouseText).MeasureString(text.ToString()).X, large ? 32f : 16f) * textScale;
             textSize.Y = (large ? 32f : 16f) * textScale;
             _text = text;
-            _textScale = textScale;
+            TextScale = textScale;
             _textSize = textSize;
-            _isLarge = large;
+            isLarge = large;
             MinWidth.Set(textSize.X + PaddingLeft + PaddingRight, 0f);
             MinHeight.Set(textSize.Y + PaddingTop + PaddingBottom, 0f);
         }
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
-            if (_drawPanel)
+            if (DrawPanel)
             {
                 base.DrawSelf(spriteBatch);
             }
             CalculatedStyle innerDimensions = GetInnerDimensions();
             Vector2 pos = innerDimensions.Position();
-            if (_isLarge)
+            if (isLarge)
             {
-                pos.Y -= 10f * _textScale * _textScale;
+                pos.Y -= 10f * TextScale * TextScale;
             }
             else
             {
-                pos.Y -= 2f * _textScale;
+                pos.Y -= 2f * TextScale;
             }
             pos.X += (innerDimensions.Width - _textSize.X) * 0.5f;
 
-            if (_isLarge)
+            if (isLarge)
             {
-                var bigFont = Main.fontSystem.GetFont((int)(Main.fontDeathText.FontSize * _textScale));
+                var bigFont = Main.fontSystem.GetFont((int)(Main.fontDeathText.FontSize * TextScale));
                 spriteBatch.DrawString(bigFont, Text, pos, _color);
                 return;
             }
-            var smolFont = Main.fontSystem.GetFont((int)(Main.fontMouseText.FontSize * _textScale));
+            var smolFont = Main.fontSystem.GetFont((int)(Main.fontMouseText.FontSize * TextScale));
             spriteBatch.DrawString(smolFont, Text, pos, _color);
         }
-
-        private T _text;
-        private float _textScale = 1f;
-        private Vector2 _textSize = Vector2.Zero;
-        private bool _isLarge;
-        private Color _color = Color.White;
-        private bool _drawPanel = true;
     }
 }

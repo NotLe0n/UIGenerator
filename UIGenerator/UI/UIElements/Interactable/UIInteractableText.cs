@@ -2,6 +2,7 @@ using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Globalization;
 
 namespace UIGenerator.UI.UIElements.Interactable
 {
@@ -27,7 +28,8 @@ namespace UIGenerator.UI.UIElements.Interactable
         }
         public override string GetConstructor()
         {
-            return $"(\"{_text}\", {textScale}, {isLarge})";
+            var ci = CultureInfo.CreateSpecificCulture("en-GB");
+            return $"(\"{_text}\", {textScale.ToString(ci)}, {isLarge})";
         }
 
         public override void Recalculate()

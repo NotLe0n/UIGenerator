@@ -43,7 +43,8 @@ namespace UIGenerator.UI.UIElements
             var input = MakeInput(value);
             input.OnKeyTyped += (evt, elm) =>
             {
-                ValueChanged(input.Text, this);
+                if(input.Focused)
+                    ValueChanged(input.Text, this);
             };
         }
         public UIDynamicInput(bool value)

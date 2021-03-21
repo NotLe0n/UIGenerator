@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace UIGenerator.UI
 {
@@ -33,7 +34,8 @@ namespace UIGenerator.UI
         }
         public override string ToString()
         {
-            return $"{MathF.Round(Pixels, 3)}, {MathF.Round(Precent, 3)}";
+            var ci = CultureInfo.CreateSpecificCulture("en-GB");
+            return $"{MathF.Round(Pixels, 3).ToString(ci)}f, {MathF.Round(Precent, 3).ToString(ci)}f";
         }
         public static bool operator ==(StyleDimension s1, StyleDimension s2)
         {

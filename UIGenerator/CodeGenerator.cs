@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using UIGenerator.UI;
@@ -47,9 +48,10 @@ namespace UIGenerator
 
         public static string BetterToString(this InteractableElement elm)
         {
+            var ci = CultureInfo.CreateSpecificCulture("en-GB");
+
             StringBuilder s = new StringBuilder();
             s.AppendLine($"\t\t{elm.Name} {elm.Id} = new {elm.Name}{elm.Constructor};");
-
 
             var fields = elm.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
             var cloneFields = elm.clone.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
@@ -73,10 +75,17 @@ namespace UIGenerator
                         {
                             s.AppendLine($"\t\t{elm.Id}.{fields[i].Name}.Set({val1});");
                         }
-                        else if (val1 is Color)
+                        else if (val1 is Color col)
                         {
-                            var col = (val1 as Color?).Value;
                             s.AppendLine($"\t\t{elm.Id}.{fields[i].Name} = new Color({col.R}, {col.G}, {col.B}, {col.A});");
+                        }
+                        else if (val1 is Rectangle rect)
+                        {
+                            s.AppendLine($"\t\t{elm.Id}.{fields[i].Name} = new Rectangle({rect.X}, {rect.Y}, {rect.Width}, {rect.Height});");
+                        }
+                        else if (val1 is float f)
+                        {
+                            s.AppendLine($"\t\t{elm.Id}.{fields[i].Name} = {f.ToString(ci)}f;");
                         }
                         else
                         {
@@ -105,15 +114,17 @@ namespace UIGenerator
                             {
                                 s.AppendLine($"\t\t{elm.Id}.{properties[i].Name}.Set({val1});");
                             }
-                            else if (val1 is Color)
+                            else if (val1 is Color col)
                             {
-                                var col = (val1 as Color?).Value;
                                 s.AppendLine($"\t\t{elm.Id}.{properties[i].Name} = new Color({col.R}, {col.G}, {col.B}, {col.A});");
                             }
-                            else if (val1 is Rectangle)
+                            else if (val1 is Rectangle rect)
                             {
-                                var rect = (val1 as Rectangle?).Value;
                                 s.AppendLine($"\t\t{elm.Id}.{properties[i].Name} = new Rectangle({rect.X}, {rect.Y}, {rect.Width}, {rect.Height});");
+                            }
+                            else if (val1 is float f)
+                            {
+                                s.AppendLine($"\t\t{elm.Id}.{properties[i].Name} = {f.ToString(ci)}f;");
                             }
                             else
                             {

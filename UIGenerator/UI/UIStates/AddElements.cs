@@ -49,7 +49,7 @@ namespace UIGenerator.UI.UIStates
             AddElement(new UIImageFramed(lets, new Rectangle(5, 20, 70, 70)));
             AddElement(new UIToggleImage(Main.toggle, 13, 13, new Point(17, 1), new Point(1, 1)));
 
-
+            /////////////////////////
 
             UIText branding = new UIText("made by NotLe0n#7696", 1, true);
             branding.Left.Set(30, 0f);
