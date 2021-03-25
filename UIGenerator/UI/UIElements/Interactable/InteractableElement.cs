@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Linq;
 
@@ -23,6 +22,11 @@ namespace UIGenerator.UI.UIElements.Interactable
 
         internal object clone;
         internal string Constructor => GetConstructor();
+
+        public InteractableElement()
+        {
+            Id = "element" + Main.SceneUI.ElementCount;
+        }
 
         public virtual string GetConstructor()
         {
@@ -51,12 +55,12 @@ namespace UIGenerator.UI.UIElements.Interactable
 
             // resizing
             var dim = GetDimensions().ToRectangle();
-            if (Main.MouseWorld.X < dim.Right + TriggerArea.X && Main.MouseWorld.X > dim.Right - TriggerArea.X)
+            if (Input.MouseWorld.X < dim.Right + TriggerArea.X && Input.MouseWorld.X > dim.Right - TriggerArea.X)
             {
                 resizing.w = true;
                 dragging = false;
             }
-            if (Main.MouseWorld.Y < dim.Bottom + TriggerArea.Y && Main.MouseWorld.Y > dim.Bottom - TriggerArea.Y)
+            if (Input.MouseWorld.Y < dim.Bottom + TriggerArea.Y && Input.MouseWorld.Y > dim.Bottom - TriggerArea.Y)
             {
                 resizing.h = true;
                 dragging = false;
@@ -76,8 +80,8 @@ namespace UIGenerator.UI.UIElements.Interactable
             {
                 if (Main.SceneUI.usePrecent)
                 {
-                    Left.Set(0, Main.MouseWorldPercent.X - offset.X);
-                    Top.Set(0, Main.MouseWorldPercent.Y - offset.Y);
+                    Left.Set(0, Input.MouseWorldPercent.X - offset.X);
+                    Top.Set(0, Input.MouseWorldPercent.Y - offset.Y);
                 }
                 else
                 {
@@ -90,16 +94,16 @@ namespace UIGenerator.UI.UIElements.Interactable
             if (resizing.w)
             {
                 if (Main.SceneUI.usePrecent)
-                    Width.Set(0, Main.MouseWorldPercent.X - Left.Precent);
+                    Width.Set(0, Input.MouseWorldPercent.X - Left.Precent);
                 else
-                    Width.Set(Main.MouseWorld.X - Left.Pixels, 0);
+                    Width.Set(Input.MouseWorld.X - Left.Pixels, 0);
             }
             if (resizing.h)
             {
                 if (Main.SceneUI.usePrecent)
-                    Height.Set(0, Main.MouseWorldPercent.Y - Top.Percent);
+                    Height.Set(0, Input.MouseWorldPercent.Y - Top.Percent);
                 else
-                    Height.Set(Main.MouseWorld.Y - Top.Pixels, 0f);
+                    Height.Set(Input.MouseWorld.Y - Top.Pixels, 0f);
 
             }
 
@@ -139,13 +143,13 @@ namespace UIGenerator.UI.UIElements.Interactable
             {
                 if (Main.SceneUI.usePrecent)
                 {
-                    Left.Set(0, Main.MouseWorldPercent.X - offset.X);
-                    Top.Set(0, Main.MouseWorldPercent.Y - offset.Y);
+                    Left.Set(0, Input.MouseWorldPercent.X - offset.X);
+                    Top.Set(0, Input.MouseWorldPercent.Y - offset.Y);
                 }
                 else
                 {
-                    Left.Set(Main.MouseWorld.X - offset.X, 0f);
-                    Top.Set(Main.MouseWorld.Y - offset.Y, 0f);
+                    Left.Set(Input.MouseWorld.X - offset.X, 0f);
+                    Top.Set(Input.MouseWorld.Y - offset.Y, 0f);
                 }
                 Recalculate();
                 ValueChanged?.Invoke();
@@ -155,16 +159,16 @@ namespace UIGenerator.UI.UIElements.Interactable
             if (resizing.w)
             {
                 if (Main.SceneUI.usePrecent)
-                    Width.Set(0, Main.MouseWorldPercent.X - Left.Precent);
+                    Width.Set(0, Input.MouseWorldPercent.X - Left.Precent);
                 else
-                    Width.Set(Main.MouseWorld.X - Left.Pixels, 0);
+                    Width.Set(Input.MouseWorld.X - Left.Pixels, 0);
             }
             if (resizing.h)
             {
                 if (Main.SceneUI.usePrecent)
-                    Height.Set(0, Main.MouseWorldPercent.Y - Top.Percent);
+                    Height.Set(0, Input.MouseWorldPercent.Y - Top.Percent);
                 else
-                    Height.Set(Main.MouseWorld.Y - Top.Pixels, 0f);
+                    Height.Set(Input.MouseWorld.Y - Top.Pixels, 0f);
             }
 
             // Snapping
@@ -185,17 +189,6 @@ namespace UIGenerator.UI.UIElements.Interactable
                         Top.Set(0, Main.SceneUI.snapIntervals[i]);
                     }
                 }
-            }
-
-            // Deleting Elements
-            if (Main.SelectedElement == this && (Main.keyboard.IsKeyDown(Keys.Delete) || Main.keyboard.IsKeyDown(Keys.Back)))
-            {
-                if (Main.keyboard.IsKeyDown(Keys.Back) && Main.typing)
-                    return;
-
-                Remove();
-                Main.SelectedElement = null;
-                Main.SidebarUserinterface.SetState(new UIStates.AddElements());
             }
 
             // Keep element in bounds
@@ -220,21 +213,26 @@ namespace UIGenerator.UI.UIElements.Interactable
                 // change cursor
                 if (IsMouseHovering)
                 {
-                    if (Main.MouseWorld.X < dim.Right + TriggerArea.X && Main.MouseWorld.X > dim.Right - TriggerArea.X)
+                    if (Input.MouseWorld.X < dim.Right + TriggerArea.X && Input.MouseWorld.X > dim.Right - TriggerArea.X)
                     {
                         System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.SizeWE;
                     }
-                    if (Main.MouseWorld.Y < dim.Bottom + TriggerArea.Y && Main.MouseWorld.Y > dim.Bottom - TriggerArea.Y)
+                    if (Input.MouseWorld.Y < dim.Bottom + TriggerArea.Y && Input.MouseWorld.Y > dim.Bottom - TriggerArea.Y)
                     {
                         System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.SizeNS;
                     }
-                    if (Main.MouseWorld.X < dim.Right + TriggerArea.X && Main.MouseWorld.X > dim.Right - TriggerArea.X
-                        && Main.MouseWorld.Y < dim.Bottom + TriggerArea.Y && Main.MouseWorld.Y > dim.Bottom - TriggerArea.Y)
+                    if (Input.MouseWorld.X < dim.Right + TriggerArea.X && Input.MouseWorld.X > dim.Right - TriggerArea.X
+                        && Input.MouseWorld.Y < dim.Bottom + TriggerArea.Y && Input.MouseWorld.Y > dim.Bottom - TriggerArea.Y)
                     {
                         System.Windows.Forms.Cursor.Current = System.Windows.Forms.Cursors.SizeNWSE;
                     }
                 }
             }
+        }
+
+        public UIElement ToElement(string text)
+        {
+            return null;
         }
     }
 }

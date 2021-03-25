@@ -18,10 +18,13 @@ namespace UIGenerator.UI.UIStates
 
         public override void OnInitialize()
         {
+            Left.Set(0, 0.8f);
+            Width.Set(0, 0.2f);
+            Height.Set(0, 0.7f);
+
             UIPanel panel = new UIPanel();
-            panel.Left.Set(0, 0.8f);
-            panel.Width.Set(0, 0.2f);
-            panel.Height.Set(0, 0.7f);
+            panel.Width.Set(0, 1f);
+            panel.Height.Set(0, 1f);
             Append(panel);
 
             #region backgroundToggles
@@ -168,8 +171,7 @@ namespace UIGenerator.UI.UIStates
             #endregion
 
             UITextPanel<string> makeCodeBtn = new UITextPanel<string>("Generate Code", 2);
-            makeCodeBtn.Left.Set(0, 0.8f);
-            makeCodeBtn.Top.Set(0, 0.9f);
+            makeCodeBtn.Top.Set(0, 1.2f);
             makeCodeBtn.OnClick += (evt, elm) =>
             {
                 string str = CodeGenerator.Generate();

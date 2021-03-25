@@ -28,7 +28,7 @@ namespace UIGenerator
         /// <returns><b>true</b> if the key has just been pressed</returns>
         public static bool JustPressed(this KeyboardState s, Keys key)
         {
-            return Main.lastKeyboard.IsKeyUp(key) && Main.keyboard.IsKeyDown(key);
+            return Input.lastKeyboard.IsKeyUp(key) && Input.keyboard.IsKeyDown(key);
         }
 
         /// <returns>The X and Y components of a <b>Vector3</b> as a <b>Vector2</b></returns>
@@ -73,6 +73,16 @@ namespace UIGenerator
         public static Vector2 GetPrecent(Vector2 value, Vector2 containerSize)
         {
             return Vector2.One / (containerSize / value);
+        }
+        public static Vector2 InvertTranslate(Vector2 vector)
+        {
+            Matrix invMatrix = Matrix.Invert(Main.SceneUI.SceneMatrix);
+            return Vector2.Transform(vector / Main.SceneUI.SceneScale, invMatrix);
+        }
+        public static Vector2 InvertTranslate(Point point)
+        {
+            Matrix invMatrix = Matrix.Invert(Main.SceneUI.SceneMatrix);
+            return Vector2.Transform(point.ToVector2(), invMatrix);
         }
     }
 }

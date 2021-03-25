@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Newtonsoft.Json;
 using System;
 
 namespace UIGenerator.UI.UIStates
@@ -23,7 +24,9 @@ namespace UIGenerator.UI.UIStates
         public bool drawGrid;
         public bool keepElementsInBounds;
         public bool usePrecent = true;
+        public int ElementCount => CountChildren(this);
 
+        [JsonIgnore]
         public Texture2D[] Backgrounds;
         public BackgroundID[] currentBackground =
         {
@@ -68,17 +71,17 @@ namespace UIGenerator.UI.UIStates
         public override void Update(GameTime gameTime)
         {
             // Zooming
-            if (Main.scrollwheel != 0 && Main.MouseOverScene)
+            if (Input.scrollwheel != 0 && Main.MouseOverScene)
             {
-                SceneScale -= Main.scrollwheel * SceneScale;
-                AnchorPoint = Main.mouse.Position.ToVector2();
+                SceneScale -= Input.scrollwheel * SceneScale;
+                AnchorPoint = Input.mouse.Position.ToVector2();
             }
             SceneScale = Math.Clamp(SceneScale, 0.1f, 10);
 
             // Moving the scene
-            if (Main.mouse.MiddleButton == ButtonState.Pressed)
+            if (Input.mouse.MiddleButton == ButtonState.Pressed)
             {
-                _scenePos -= Main.mousedelta / SceneScale;
+                _scenePos -= Input.mousedelta / SceneScale;
             }
             _scenePos = Vector2.Clamp(_scenePos, Vector2.Zero, Main.ViewPort.Bounds.VectorSize());
 
@@ -99,7 +102,17 @@ namespace UIGenerator.UI.UIStates
             _sceneRect = new Rectangle(0, 0, SceneWidth, SceneHeight);
             SceneRect = new Rectangle((int)SceneMatrix.Translation.X, (int)SceneMatrix.Translation.Y, (int)(_sceneRect.Width * SceneScale), (int)(_sceneRect.Height * SceneScale));
 
-            // Draw Background elements
+            // Draw Background
+            DrawBackground(spriteBatch);
+
+            if (drawGrid)
+            {
+                DrawGrid(spriteBatch);
+            }
+            base.Draw(spriteBatch);
+        }
+        public void DrawBackground(SpriteBatch spriteBatch)
+        {
             spriteBatch.Draw(Main.MagicPixel, _sceneRect, new Color(88, 88, 88));
             for (int i = 0; i < currentBackground.Length; i++)
             {
@@ -135,24 +148,23 @@ namespace UIGenerator.UI.UIStates
                         break;
                 }
             }
+        }
 
-            if (drawGrid)
+        public void DrawGrid(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < snapIntervals.Length; i++)
             {
-                for (int i = 0; i < snapIntervals.Length; i++)
+                if (snapElements.x == true)
                 {
-                    if (snapElements.x == true)
-                    {
-                        spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(SceneWidth * snapIntervals[i]), 0, 2, SceneHeight), Color.MediumPurple);
-                        spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(SceneWidth * snapIntervals[i]), 0, snapRange, SceneHeight), Color.Purple * 0.1f);
-                    }
-                    if (snapElements.y == true)
-                    {
-                        spriteBatch.Draw(Main.MagicPixel, new Rectangle(0, (int)(SceneHeight * snapIntervals[i]), SceneWidth, 2), Color.MediumPurple);
-                        spriteBatch.Draw(Main.MagicPixel, new Rectangle(0, (int)(SceneHeight * snapIntervals[i]), SceneWidth, snapRange), Color.Purple * 0.1f);
-                    }
+                    spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(SceneWidth * snapIntervals[i]), 0, 2, SceneHeight), Color.MediumPurple);
+                    spriteBatch.Draw(Main.MagicPixel, new Rectangle((int)(SceneWidth * snapIntervals[i]), 0, snapRange, SceneHeight), Color.Purple * 0.1f);
+                }
+                if (snapElements.y == true)
+                {
+                    spriteBatch.Draw(Main.MagicPixel, new Rectangle(0, (int)(SceneHeight * snapIntervals[i]), SceneWidth, 2), Color.MediumPurple);
+                    spriteBatch.Draw(Main.MagicPixel, new Rectangle(0, (int)(SceneHeight * snapIntervals[i]), SceneWidth, snapRange), Color.Purple * 0.1f);
                 }
             }
-            base.Draw(spriteBatch);
         }
     }
 }

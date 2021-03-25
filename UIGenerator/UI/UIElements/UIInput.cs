@@ -25,7 +25,7 @@ namespace UIGenerator.UI.UIElements
         {
             if (Focused)
             {
-                Main.typing = true;
+                Input.typing = true;
 
                 if (first)
                 {
@@ -35,7 +35,7 @@ namespace UIGenerator.UI.UIElements
 
                 if (args.Key == Keys.Back)
                 {
-                    if (Main.keyboard.IsKeyDown(Keys.LeftControl) || Main.keyboard.IsKeyDown(Keys.RightControl))
+                    if (Input.keyboard.IsKeyDown(Keys.LeftControl) || Input.keyboard.IsKeyDown(Keys.RightControl))
                     {
                         string[] words = Text.Split(' ');
                         SetText(string.Join(" ", words[0..^1]));
@@ -103,7 +103,7 @@ namespace UIGenerator.UI.UIElements
 
         public override void Update(GameTime gameTime)
         {
-            if (!IsMouseHovering && Main.mouseLeft)
+            if (!IsMouseHovering && Input.mouseLeft)
             {
                 Focused = false;
             }

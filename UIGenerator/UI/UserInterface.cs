@@ -72,12 +72,12 @@ namespace UIGenerator.UI
 
         private void ResetState()
         {
-            MousePosition = new Vector2(Main.mouse.X, Main.mouse.Y);
-            _wasMouseDown = Main.mouseLeft;
-            _wasMouseRightDown = Main.mouseRight;
-            _wasMouseMiddleDown = Main.mouseMiddle;
-            _wasMouseXButton1Down = Main.mouseXButton1;
-            _wasMouseXButton2Down = Main.mouseXButton2;
+            MousePosition = new Vector2(Input.mouse.X, Input.mouse.Y);
+            _wasMouseDown = Input.mouseLeft;
+            _wasMouseRightDown = Input.mouseRight;
+            _wasMouseMiddleDown = Input.mouseMiddle;
+            _wasMouseXButton1Down = Input.mouseXButton1;
+            _wasMouseXButton2Down = Input.mouseXButton2;
             _lastElementHover?.MouseOut(new UIMouseEvent(_lastElementHover, MousePosition));
             _lastElementHover = null;
             _lastElementDown = null;
@@ -99,18 +99,18 @@ namespace UIGenerator.UI
                 return;
             }
 
-            MousePosition = new Vector2(Main.mouse.X, Main.mouse.Y);
+            MousePosition = new Vector2(Input.mouse.X, Input.mouse.Y);
             if (this == Main.SceneUserinterface)
             {
-                MousePosition = Main.MouseWorld;
+                MousePosition = Input.MouseWorld;
             }
-            bool mouseLeftDown = Main.LeftHeld && Main.hasFocus;
-            bool mouseRightDown = Main.RightHeld && Main.hasFocus;
-            bool mouseMiddleDown = Main.mouseMiddle && Main.hasFocus;
-            bool mouseXButton1Down = Main.mouseXButton1 && Main.hasFocus;
-            bool mouseXButton2Down = Main.mouseXButton2 && Main.hasFocus;
+            bool mouseLeftDown = Input.LeftHeld && Input.hasFocus;
+            bool mouseRightDown = Input.RightHeld && Input.hasFocus;
+            bool mouseMiddleDown = Input.mouseMiddle && Input.hasFocus;
+            bool mouseXButton1Down = Input.mouseXButton1 && Input.hasFocus;
+            bool mouseXButton2Down = Input.mouseXButton2 && Input.hasFocus;
 
-            UIElement uIElement = Main.hasFocus ? _currentState.GetElementAt(MousePosition) : null;
+            UIElement uIElement = Input.hasFocus ? _currentState.GetElementAt(MousePosition) : null;
             _clickDisabledTimeRemaining = Math.Max(0.0, _clickDisabledTimeRemaining - time.ElapsedGameTime.TotalMilliseconds);
             bool clickAble = _clickDisabledTimeRemaining > 0.0;
 
@@ -242,9 +242,9 @@ namespace UIGenerator.UI
                 _lastElementXButton2Down = null;
             }
 
-            if (Main.scrollwheel != 0 && uIElement != null)
+            if (Input.scrollwheel != 0 && uIElement != null)
             {
-                uIElement.ScrollWheel(new UIScrollWheelEvent(uIElement, MousePosition, Main.scrollwheel));
+                uIElement.ScrollWheel(new UIScrollWheelEvent(uIElement, MousePosition, Input.scrollwheel));
             }
 
             _wasMouseDown = mouseLeftDown;

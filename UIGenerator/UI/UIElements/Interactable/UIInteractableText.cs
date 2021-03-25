@@ -98,7 +98,7 @@ namespace UIGenerator.UI.UIElements.Interactable
         {
             base.Update(gameTime);
 
-            if (!IsMouseHovering && Main.mouseLeft)
+            if (!IsMouseHovering && Input.mouseLeft)
             {
                 Focused = false;
             }
@@ -110,7 +110,7 @@ namespace UIGenerator.UI.UIElements.Interactable
             {
                 if (args.Key == Keys.Back)
                 {
-                    if (Main.keyboard.IsKeyDown(Keys.LeftControl) || Main.keyboard.IsKeyDown(Keys.RightControl))
+                    if (Input.keyboard.IsKeyDown(Keys.LeftControl) || Input.keyboard.IsKeyDown(Keys.RightControl))
                     {
                         string[] words = Text.Split(' ');
                         SetText(string.Join(" ", words[0..^1]));
@@ -132,7 +132,7 @@ namespace UIGenerator.UI.UIElements.Interactable
         {
             base.Click(evt);
 
-            Main.typing = true;
+            Input.typing = true;
             Focused = true;
         }
     }

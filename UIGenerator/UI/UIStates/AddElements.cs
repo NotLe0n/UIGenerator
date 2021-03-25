@@ -8,10 +8,12 @@ namespace UIGenerator.UI.UIStates
     class AddElements : UIState
     {
         public UIList list;
-        Texture2D lets = Main.instance.Content.Load<Texture2D>("LETSFUCKINGGOOOOO");
+        private readonly Texture2D lets = Main.instance.Content.Load<Texture2D>("LETSFUCKINGGOOOOO");
 
         public override void OnInitialize()
         {
+            Width.Set(Main.SidebarArea.Width, 0);
+
             list = new UIList();
             list.Width.Set(0, 1f);
             list.Height.Set(0, 1f);
@@ -108,13 +110,7 @@ namespace UIGenerator.UI.UIStates
             element.Height.Set(elm.GetDimensions().Height, 0);
 
             element.clone = element.Clone();
-            element.Id = "element" + Main.SceneUI.Elements.Count;
             Main.SceneUI.Append(element);
-        }
-        public override void Recalculate()
-        {
-            Width.Set(Main.SidebarArea.Width, 0);
-            base.Recalculate();
         }
     }
 }

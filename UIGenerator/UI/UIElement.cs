@@ -632,5 +632,16 @@ namespace UIGenerator.UI
         {
             return 0;
         }
+
+        public int CountChildren(UIElement master)
+        {
+            int count = master.Elements.Count;
+            foreach (UIElement child in master.Elements)
+            {
+                count += CountChildren(child);
+            }
+
+            return count;
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace UIGenerator.UI.UIElements
             var input = MakeInput(value);
             input.OnKeyTyped += (evt, elm) =>
             {
-                if(input.Focused)
+                if (input.Focused)
                     ValueChanged(input.Text, this);
             };
         }
@@ -150,6 +150,7 @@ namespace UIGenerator.UI.UIElements
                 ValueChanged((long)Value, this);
             };
         }
+
         public UIDynamicInput(float value)
         {
             Value = value;

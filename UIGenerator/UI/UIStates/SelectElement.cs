@@ -64,6 +64,8 @@ namespace UIGenerator.UI.UIStates
         public static float lastPos;
         public override void OnInitialize()
         {
+            Width.Set(Main.SidebarArea.Width, 0);
+
             var scrollbar = new UIScrollbar();
             scrollbar.Left.Set(0, 0.93f);
             scrollbar.Top.Set(0, 0.1f);
@@ -178,7 +180,6 @@ namespace UIGenerator.UI.UIStates
 
         public override void Recalculate()
         {
-            Width.Set(Main.SidebarArea.Width, 0);
             if (list != null)
             {
                 list.ViewPosition = lastPos;
