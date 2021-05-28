@@ -170,14 +170,24 @@ namespace UIGenerator.UI.UIStates
             panel.Append(gridToggle);
             #endregion
 
-            UITextPanel<string> makeCodeBtn = new UITextPanel<string>("Generate Code", 2);
-            makeCodeBtn.Top.Set(0, 1.2f);
-            makeCodeBtn.OnClick += (evt, elm) =>
+            UITextPanel<string> uiStateGenBtn = new UITextPanel<string>("Generate UIState");
+            uiStateGenBtn.Top.Set(0, 1.2f);
+            uiStateGenBtn.OnClick += (evt, elm) =>
             {
-                string str = CodeGenerator.Generate();
+                string str = CodeGenerator.GenerateUIState();
                 Clipboard.SetText(str);
             };
-            Append(makeCodeBtn);
+            Append(uiStateGenBtn);
+
+            UITextPanel<string> uiElementGenBtn = new UITextPanel<string>("Generate UIElement");
+            uiElementGenBtn.Top.Set(0, 1.2f);
+            uiElementGenBtn.Left.Set(0, 0.5f);
+            uiElementGenBtn.OnClick += (evt, elm) =>
+            {
+                string str = CodeGenerator.GenerateUIElement();
+                Clipboard.SetText(str);
+            };
+            Append(uiElementGenBtn);
 
             var keepElementsText = new UIText("Keep elements in bounds: ", 1.2f);
             keepElementsText.Top.Set(0, 0.85f);

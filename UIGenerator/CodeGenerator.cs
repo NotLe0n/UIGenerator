@@ -10,7 +10,7 @@ namespace UIGenerator
 {
     static class CodeGenerator
     {
-        public static string Generate()
+        public static string GenerateUIState()
         {
             StringBuilder s = new StringBuilder();
             s.AppendLine("using Terraria.GameContent.UI.Elements;");
@@ -20,6 +20,25 @@ namespace UIGenerator
             s.AppendLine("using Microsoft.Xna.Framework;\n");
 
             s.AppendLine("class MyUIState : UIState");
+            s.AppendLine("{");
+            s.AppendLine("\tpublic override void OnInitialize()");
+            s.AppendLine("\t{");
+            s.BetterAppendJoin('\n', Main.SceneUI.Elements);
+            s.AppendLine("\t}");
+            s.AppendLine("}");
+            return s.ToString();
+        }
+
+        public static string GenerateUIElement()
+        {
+            StringBuilder s = new StringBuilder();
+            s.AppendLine("using Terraria.GameContent.UI.Elements;");
+            s.AppendLine("using Terraria.UI;");
+            s.AppendLine("using Terraria.Graphics;");
+            s.AppendLine("using Terraria.ModLoader;");
+            s.AppendLine("using Microsoft.Xna.Framework;\n");
+
+            s.AppendLine("class MyUIElement : UIElement");
             s.AppendLine("{");
             s.AppendLine("\tpublic override void OnInitialize()");
             s.AppendLine("\t{");

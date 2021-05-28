@@ -71,7 +71,7 @@ namespace UIGenerator.UI.UIStates
         public override void Update(GameTime gameTime)
         {
             // Zooming
-            if (Input.scrollwheel != 0 && Main.MouseOverScene)
+            if (Input.scrollwheel != 0 && Main.SceneUI.SceneRect.Contains(Input.mouse.Position))
             {
                 SceneScale -= Input.scrollwheel * SceneScale;
                 AnchorPoint = Input.mouse.Position.ToVector2();

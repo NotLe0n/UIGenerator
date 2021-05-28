@@ -1,8 +1,12 @@
 ﻿using FontStashSharp;
+using Microsoft.CSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UIGenerator.UI;
 using UIGenerator.UI.UIElements.Interactable;
 using UIGenerator.UI.UIStates;
@@ -22,13 +26,13 @@ namespace UIGenerator
         public static Viewport ViewPort => graphics.GraphicsDevice.Viewport;
         public static string CurrentDirectory => Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
         public DiscordRichPresence rpc;
+        public static FontSystem fontSystem;
 
         // UI
         public static string? MouseText;
         public static bool MouseOverUI => SceneUI.Elements.Exists(x => x.IsMouseHovering) || SidebarUserinterface.CurrentState.IsMouseHovering || OptionsUserinterface.CurrentState.IsMouseHovering;
-        public static bool MouseOverScene => SceneUI.SceneRect.Contains(Input.mouse.Position) && !SidebarArea.Contains(Input.mouse.Position);
-        public static Matrix UIScaleMatrix;
         public static Rectangle SidebarArea => new Rectangle(0, 0, ViewPort.Width / 5, ViewPort.Height);
+        public static Matrix UIScaleMatrix = Matrix.CreateScale(1);
         public static SceneUIState SceneUI;
         public static UserInterface SceneUserinterface = new UserInterface();
         public static UserInterface SidebarUserinterface = new UserInterface();
@@ -47,12 +51,10 @@ namespace UIGenerator
             // Maximize Window
             graphics.IsFullScreen = false;
             Window.AllowUserResizing = true;
-            var form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(Window.Handle);
-            form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 30;
+            Maximize();
         }
+
         protected override void Initialize()
         {
             SceneUI = new SceneUIState();
@@ -62,11 +64,10 @@ namespace UIGenerator
             SidebarUserinterface.SetState(new AddElements());
             OptionsUserinterface.SetState(new Options());
 
-            // Discord Rich presence (doesn't work????)
+            // Discord Rich presence
             rpc = new DiscordRichPresence();
         }
 
-        public static FontSystem fontSystem;
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -131,7 +132,6 @@ namespace UIGenerator
             spriteBatch.End();
 
             // Draw UI
-            UIScaleMatrix = Matrix.CreateScale(1);
             spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: UIScaleMatrix);
 
             spriteBatch.Draw(MagicPixel, SidebarArea, new Color(33, 33, 33));
@@ -151,6 +151,15 @@ namespace UIGenerator
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public static void Maximize()
+        {
+            var form = (System.Windows.Forms.Form)System.Windows.Forms.Control.FromHandle(instance.Window.Handle);
+            form.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - 30;
         }
     }
 }

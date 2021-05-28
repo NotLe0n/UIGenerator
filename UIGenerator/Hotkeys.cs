@@ -61,7 +61,7 @@ namespace UIGenerator
             }
 
             // toggle selected Element
-            if (Input.mouseLeft && Main.MouseOverScene)
+            if (Input.mouseLeft && Main.SceneUI.SceneRect.Contains(Input.mouse.Position))
             {
                 if (!Main.MouseOverUI)
                 {

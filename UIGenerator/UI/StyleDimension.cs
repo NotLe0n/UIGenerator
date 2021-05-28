@@ -37,6 +37,17 @@ namespace UIGenerator.UI
             var ci = CultureInfo.CreateSpecificCulture("en-GB");
             return $"{MathF.Round(Pixels, 3).ToString(ci)}f, {MathF.Round(Precent, 3).ToString(ci)}f";
         }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public static bool operator ==(StyleDimension s1, StyleDimension s2)
         {
             if (s1.Pixels == s2.Pixels && s1.Precent == s2.Precent)
